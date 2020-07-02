@@ -62,7 +62,7 @@ input {
   /* dddd */
   padding-top: 8px;
   padding-bottom: 8px;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 textarea {
@@ -94,7 +94,7 @@ iframe {
 [ Table ]*/
 
 .limiter {
-  width: 100%;
+  /* width: 100%; */
   margin: 0 auto;
 }
 
@@ -109,20 +109,25 @@ iframe {
   display: -ms-flexbox;
   display: flex;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   flex-wrap: wrap;
   padding: 33px 30px;
+
+  /* 추가 */
+  max-width:100%;
+  overflow: scroll;
+  overflow-y:hidden
 }
 
 .wrap-table100 {
   /* width: 960px; */
-  width : 100%;
+  /* width : 100%; */
   border-radius: 10px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .table {
-  width: 100%;
+  /* width: 100%; */
   display: table;
   margin: 0;
 }
@@ -141,6 +146,7 @@ iframe {
 .row.header {
   color: #ffffff;
   background: #6c7ae0;
+  /* 추가 */
 }
 
 @media screen and (max-width: 768px) {
@@ -243,10 +249,6 @@ iframe {
     padding-top: 30px;
     padding-right: 15px;
     margin: 0;
-
-    /* 추가 */
-    /* vertical-align: middle; */
-    /* border-color: #6c7ae0; */
   }
   
   .row .cell {
@@ -257,22 +259,15 @@ iframe {
     /* padding-left: 30px; 
     padding-top: 16px; 
     padding-bottom: 16px; */
-
-    /* 추가 */
-    /* border-color: #6c7ae0; */
   }
-  /* .row .cell:nth-child(1) { */
-    /* padding-left: 30px; */
-    /* padding-left: 30%; */
-  /* } */
-  
+
   .row .cell {
     font-family: Poppins-Regular;
     font-size: 18px;
     color: #555555;
     line-height: 1.2;
     font-weight: unset !important;
-    /* border-color: #6c7ae0; */
+    border-color: #6c7ae0;
   }
 
   .table, .row, .cell {

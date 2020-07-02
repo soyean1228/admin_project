@@ -185,6 +185,86 @@
                 </script>
               </div>
           </div>
+
+          <div class="wrap-table100">
+            <input type="submit" value="저장" onclick="javascript: form.action='/product_check/';"/>
+            <div class="table">
+              <div class="row header">
+                <div class="cell">
+                  ProductNo
+                </div>
+                <div class="cell">
+                  대분류
+                </div>
+                <div class="cell">
+                  중분류
+                </div>
+                <div class="cell">
+                  소분류
+                </div>
+                <div class="cell">
+                  전문성수수료율
+                </div>
+                <div class="cell">
+                  잠재력수수료율
+                </div>
+                <div class="cell">
+                  추가수수료1
+                </div>
+                <div class="cell">
+                  추가수수료2
+                </div>
+                <div class="cell">
+                  추가수수료3
+                </div>
+              </div>
+              <script>
+                for(var f=0;f<5;f++){
+                var name = 'authority_name' + f; var authority = 'authority_authority' + f;
+                document.write('<div class="row">');
+
+                document.write('<div class="cell" data-title="Full Name">');
+                document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                document.write("</div>");
+
+                document.write('<div class="cell" data-title="Full Name">');
+                document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                document.write("</div>");
+
+                document.write('<div class="cell" data-title="Full Name">');
+                document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                document.write("</div>");
+
+                document.write('<div class="cell" data-title="Full Name">');
+                document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                document.write("</div>");
+
+                document.write('<div class="cell" data-title="Full Name">');
+                document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                document.write("</div>");
+
+                document.write('<div class="cell" data-title="Full Name">');
+                document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                document.write("</div>");
+
+                document.write('<div class="cell" data-title="Full Name">');
+                document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                document.write("</div>");
+
+                document.write('<div class="cell" data-title="Full Name">');
+                document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                document.write("</div>");
+
+                document.write('<div class="cell" data-title="Full Name">');
+                document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                document.write("</div>");
+                
+                document.write("</div>");
+                }
+              </script>
+            </div>
+        </div>
+
         </div>
       </div>
     </form>
@@ -206,15 +286,6 @@
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-
-  <script>
-    function TwoSubmit()
-      {
-        document.employee.submit();
-      }
-  </script>
-
-
 </body>
 
 </html>
