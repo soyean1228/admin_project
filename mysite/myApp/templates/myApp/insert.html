@@ -90,18 +90,17 @@
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
+      
       <!-- Page Heading -->
-      <!-- <form id='empoyee' name = 'employee' action="/insert_check/" method="post">{% csrf_token %}
-      <input type='submit' value='저장'> -->
       <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4"> -->
         <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
       <!-- </div> -->
-
+      
+      <form id='empoyee' name = 'employee' method="post">{% csrf_token %} 
       <div class="limiter">
         <div class="container-table100">
           <div class="wrap-table100">
-            <form id='empoyee' name = 'employee' action="/insert_check/" method="post">{% csrf_token %}
-              <input type='submit' value='저장'>
+              <input type="submit" value="저장" onclick="javascript: form.action='/employee_check/';"/>
               <div class="table">
                 <div class="row header">
                   <div class="cell">
@@ -156,31 +155,35 @@
                   document.write("</div>");
                   }
                 </script>
-                <!-- <div class="row">
-                  <div class="cell" data-title="Full Name">
-                    <input id='name' name ='name' type='text'/>
-                  </div>
-                  <div class="cell" data-title="Full Name">
-                    <input id='position' name ='position' type='text'/>
-                  </div>
-                  <div class="cell" data-title="Full Name">
-                    <input id='department' name ='department' type='text'/>
-                  </div> 
-                  <div class="cell" data-title="Full Name">
-                    <input id='phone_num' type='text'/> 
-                  </div>
-                  <div class="cell" data-title="Full Name">
-                    <input id='office_num' type='text'/>  
-                  </div>
-                  <div class="cell" data-title="Full Name">
-                    <input id='address' type='text'/> 
-                  </div>
-                  <div class="cell" data-title="Full Name">
-                    <input id='email' type='text'/> 
-                  </div>
-                </div>  -->
               </div>
               <!-- <button onclick="add_row()">행 추가하기</button> -->
+          </div> 
+
+          <div class="wrap-table100">
+              <input type="submit" value="저장" onclick="javascript: form.action='/authority_check/';"/>
+              <div class="table">
+                <div class="row header">
+                  <div class="cell">
+                    이름
+                  </div>
+                  <div class="cell">
+                    권한
+                  </div>
+                </div>
+                <script>
+                  for(var f=0;f<5;f++){
+                  var name = 'authority_name' + f; var authority = 'authority_authority' + f;
+                  document.write('<div class="row">');
+                  document.write('<div class="cell" data-title="Full Name">');
+                  document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                  document.write("</div>");
+                  document.write('<div class="cell" data-title="Full Name">');
+                  document.write("<input id= "+ authority +" name = " + authority + " type='text'/>");   
+                  document.write("</div>");
+                  document.write("</div>");
+                  }
+                </script>
+              </div>
           </div>
         </div>
       </div>
