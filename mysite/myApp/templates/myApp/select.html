@@ -3,7 +3,6 @@
 
 {% load static %}
 
-
 <head>
 
   <meta charset="utf-8">
@@ -14,17 +13,15 @@
 
   <title>Program</title>
 
-  <!-- Custom fonts for this template-->
+  <!-- Custom fonts for this template -->
   <link href="{% static '/myApp/assets/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-  <!-- Custom styles for this template-->
+  <!-- Custom styles for this template -->
   <link href="{% static '/myApp/assets/css/sb-admin-2.min.css' %}" rel="stylesheet">
 
-  <!--===============================================================================================-->
-  <!-- <link rel="stylesheet" type="text/css" href="{% static '/myApp/assets/css/util.css' %}"> -->
-  <link rel="stylesheet" type="text/css" href="{% static '/myApp/assets/css/main.css' %}">
-  <!--===============================================================================================-->
+  <!-- Custom styles for this page -->
+  <link href="{% static '/myApp/assets/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
 
 </head>
 
@@ -63,19 +60,28 @@
         menu
       </div>
 
-      <!-- Nav Item - Pages Collapse Menu -->
+      <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+          <i class="fas fa-fw fa-wrench"></i>
           <span>Insert</span>
         </a>
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">데이터 입력</h6>
+            <a class="collapse-item" href="/insert/employee/">Employee</a>
+            <a class="collapse-item" href="/insert/authority/">Authority</a>
+            <a class="collapse-item" href="/insert/product/">Product</a>
+            <a class="collapse-item" href="/insert/customer/">Customer</a>
+          </div>
+        </div>
       </li>
 
       <!-- Nav Item - Charts -->
       <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="/select/">
           <i class="fas fa-fw fa-chart-area"></i>
-          <span>Charts</span></a>
+          <span>Select</span></a>
       </li>
 
       <!-- Nav Item - Tables -->
@@ -90,64 +96,86 @@
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-      <div class="limiter">
-        <div class="container-table100">
-          <div class="wrap-table100">
-              <div class="table">
-    
-                <div class="row header">
-                  <div class="cell">
-                    이름
-                  </div>
-                  <div class="cell">
-                    직위
-                  </div>
-                  <div class="cell">
-                    부서
-                  </div>
-                  <div class="cell">
-                    휴대폰
-                  </div>
-                  <div class="cell">
-                    사무실 번호
-                  </div>
-                  <div class="cell">
-                    주소
-                  </div>
-                  <div class="cell">
-                    이메일
-                  </div>
-                </div>
 
-                {% for list in employee_data %}
-                  <div class="row">
-                    <div class="cell" data-title="Full Name">
-                      {{list.name}}
-                    </div>
-                    <div class="cell" data-title="Full Name">
-                      {{list.position}}
-                    </div>
-                    <div class="cell" data-title="Full Name">
-                      {{list.department}}
-                    </div> 
-                    <div class="cell" data-title="Full Name">
-                      {{list.phone_num}}
-                    </div>
-                    <div class="cell" data-title="Full Name">
-                      {{list.office_num}}
-                    </div>
-                    <div class="cell" data-title="Full Name">
-                      {{list.address}}
-                    </div>
-                    <div class="cell" data-title="Full Name">
-                      {{list.email}}
-                    </div>
-                  </div>
-                {% endfor %}
+      <!-- Main Content -->
+      <div id="content">
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <!-- <h1 class="h3 mb-2 text-gray-800">Tables</h1> -->
+          <h1 style='margin-top: 30px;'>Tables</h1>
+          <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
+          <form>
+            <p>
+            <span> 1. 기간 : </span>
+            <input type='date' id='oldDate'/>
+            <span>~</span>
+            <input type='date' id='currentDate'/>
+            </p>
+            <span> 2. 수요 구분 : </span>
+            </p>
+            <span> 3. 조건 추가 </span>
+            </p>
+            <input type="submit" value="Submit">
+          </form>
+          <script>
+            document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);
+            document.getElementById('oldDate').value = new Date(Date.parse(new Date()) - 30 * 1000 * 60 * 60 * 24).toISOString().substring(0, 10);;
+          </script>
+
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">DataTables Result</h6>
+            </div>
+
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Position</th>
+                      <th>Office</th>
+                      <th>Age</th>
+                      <th>Start date</th>
+                      <th>Salary</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Name</th>
+                      <th>Position</th>
+                      <th>Office</th>
+                      <th>Age</th>
+                      <th>Start date</th>
+                      <th>Salary</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    {% for list in employee_data %}
+                      <tr>
+                        <td>{{list.name}}</td>
+                        <td>System Architect</td>
+                        <td>Edinburgh</td>
+                        <td>61</td>
+                        <td>2011/04/25</td>
+                        <td>$320,800</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
               </div>
+            </div>
           </div>
+
         </div>
+        <!-- /.container-fluid -->
+
       </div>
+      <!-- End of Main Content -->
+
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
@@ -157,8 +185,10 @@
         </div>
       </footer>
       <!-- End of Footer -->
+
     </div>
     <!-- End of Content Wrapper -->
+
   </div>
   <!-- End of Page Wrapper -->
 
@@ -167,6 +197,41 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static '/myApp/assets/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static '/myApp/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static '/myApp/assets/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static '/myApp/assets/js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="{% static '/myApp/assets/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static '/myApp/assets/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{% static '/myApp/assets/js/demo/datatables-demo.js' %}"></script>
 
 </body>
 

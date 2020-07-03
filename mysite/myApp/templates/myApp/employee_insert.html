@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Program</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="{% static '/myApp/assets/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static '/myApp/assets/css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static '/myApp/assets/css/util.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/myApp/assets/css/main.css' %} ">
+  <!--===============================================================================================-->
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3"> Admin </div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="index.html">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a>
+      </li>
+
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        menu
+      </div>
+
+      <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+          <i class="fas fa-fw fa-wrench"></i>
+          <span>Insert</span>
+        </a>
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">데이터 입력</h6>
+            <a class="collapse-item" href="/insert/employee/">직원</a>
+            <a class="collapse-item" href="/insert/authority/">권한</a>
+            <a class="collapse-item" href="/insert/product/">품목</a>
+            <a class="collapse-item" href="/insert/customer/">거래업체</a>
+            <a class="collapse-item" href="/insert/customer_purchasing/">업체 구매 담당</a>
+            <a class="collapse-item" href="/insert/customer_settlement/">업체 정산 담당</a>
+            <a class="collapse-item" href="/insert/co_salesman/">상담사</a>
+            <a class="collapse-item" href="/insert/broker/">중개사</a>
+            <a class="collapse-item" href="/insert/sales/">계약</a>
+            <a class="collapse-item" href="/insert/sales_content/">거래 내용</a>
+            <a class="collapse-item" href="/insert/approval/">승인</a>
+            <a class="collapse-item" href="/insert/order/">주문</a>
+            <a class="collapse-item" href="/insert/deposit/">입금</a>
+            <a class="collapse-item" href="/insert/delivery/">배송 처리</a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Charts -->
+      <li class="nav-item">
+        <a class="nav-link" href="charts.html">
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>Select</span></a>
+      </li>
+
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link" href="tables.html">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Tables</span></a>
+      </li>
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        
+      <!-- Begin Page Content -->
+      <div class="container-fluid" >
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >Insert</h1>
+        </div>
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">직원 테이블 입력</h6>
+          </div>
+          <div class="card-body">
+            <!-- The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS! -->
+            <form id='empoyee' name = 'employee' method="post">{% csrf_token %} 
+              <div class="limiter">
+                <div class="container-table100">
+                  <div class="wrap-table100">
+                      <input type="submit" value="저장" onclick="javascript: form.action='/insert_check/employee/';"/>
+                      <div class="table">
+                        <div class="row header">
+                          <div class="cell">
+                            이름
+                          </div>
+                          <div class="cell">
+                            직위
+                          </div>
+                          <div class="cell">
+                            부서
+                          </div>
+                          <div class="cell">
+                            휴대폰
+                          </div>
+                          <div class="cell">
+                            사무실 번호
+                          </div>
+                          <div class="cell">
+                            주소
+                          </div>
+                          <div class="cell">
+                            이메일
+                          </div>
+                        </div>
+                        <script>
+                          for(var f=0;f<5;f++){
+                          var name = 'name' + f; var position = 'position' + f; var department = 'department' + f; 
+                          var phone_num = 'phone_num' + f; var office_num = 'office_num' + f; 
+                          var address = 'address' + f; var email = 'email' + f;
+                          document.write('<div class="row">');
+                          document.write('<div class="cell" data-title="Full Name">');
+                          document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="Full Name">');
+                          document.write("<input id= "+ position +" name = " + position + " type='text'/>");   
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="Full Name">');
+                          document.write("<input id= "+ department +" name = " + department + " type='text'/>");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="Full Name">');
+                          document.write("<input id= "+ phone_num +" name = " + phone_num + " type='text'/>");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="Full Name">');
+                          document.write("<input id= "+ office_num +" name = " + office_num + " type='text'/>");   
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="Full Name">');
+                          document.write("<input id= "+ address +" name = " + address + " type='text'/>");    
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="Full Name">');
+                          document.write("<input id= "+ email +" name = " + email + " type='text'/>");    
+                          document.write("</div>");
+                          document.write("</div>");
+                          }
+                        </script>
+                      </div>
+                      <!-- <button onclick="add_row()">행 추가하기</button> -->
+                  </div> 
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2020</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+    </div>
+    <!-- End of Content Wrapper -->
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <script language="javascript">
+    var isSave = '{{isSave}}'
+    // alert(isSave)
+    if (isSave){
+      alert("저장되었습니다.");
+    }
+  </script>
+  
+  <!-- Bootstrap core JavaScript-->
+  <!-- "{% static '/myApp/assets/css/util.css' %}"> -->
+  <script src="{% static '/myApp/assets/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static '/myApp/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static '/myApp/assets/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static '/myApp/assets/js/sb-admin-2.min.js' %}"></script>
+
+  <!-- Page level plugins -->
+  <script src="{% static '/myApp/assets/vendor/chart.js/Chart.min.js' %}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{% static '/myApp/assets/js/demo/chart-area-demo.js' %}"></script>
+  <script src="{% static '/myApp/assets/js/demo/chart-pie-demo.js' %}"></script>
+
+</body>
+
+</html>
