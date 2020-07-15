@@ -26,8 +26,8 @@ class Product(models.Model):
     main_category = models.CharField(max_length=20, blank=True, null=True)
     middle_category = models.CharField(max_length=20, blank=True, null=True)
     sub_category = models.CharField(max_length=20, blank=True, null=True)
-    professionalism_fee_rate = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True)
-    potential_fee_rate = models.DecimalField(max_digits=20, decimal_places=0, blank=True, null=True)
+    professionalism_fee_rate = models.CharField(max_length=20, blank=True, null=True)
+    potential_fee_rate = models.CharField(max_length=20, blank=True, null=True)
     additional_fee1 = models.IntegerField(blank=True, null=True)
     additional_fee2 = models.IntegerField(blank=True, null=True)
     additional_fee3 = models.IntegerField(blank=True, null=True)
@@ -50,7 +50,7 @@ class CoSalesman(models.Model):
 
 class Customer(models.Model):
     customer_name = models.CharField(primary_key=True, max_length=20)
-    company_registration_number = models.IntegerField(blank=True, null=True)
+    company_registration_number = models.CharField(max_length=20, blank=True, null=True)
     representative = models.CharField(max_length=20, blank=True, null=True)
     address = models.CharField(max_length=100, blank=True, null=True)
     opening_date = models.DateTimeField(blank=True, null=True)
@@ -65,10 +65,9 @@ class Customer(models.Model):
         managed = False
         db_table = 'customer'
 
-
 class CustomerPurchasing(models.Model):
     customer_purchasing_manager = models.CharField(primary_key=True, max_length=20)
-    company_registration_number = models.IntegerField(blank=True, null=True)
+    company_registration_number = models.CharField(max_length=20, blank=True, null=True)
     contact_number1 = models.CharField(max_length=20, blank=True, null=True)
     contact_number2 = models.CharField(max_length=20, blank=True, null=True)
     email = models.CharField(max_length=20, blank=True, null=True)
@@ -80,7 +79,7 @@ class CustomerPurchasing(models.Model):
 
 class CustomerSettlement(models.Model):
     customer_settlement_manager = models.CharField(primary_key=True, max_length=20)
-    company_registration_number = models.IntegerField(blank=True, null=True)
+    company_registration_number = models.CharField(max_length=20, blank=True, null=True)
     contact_number = models.CharField(max_length=20, blank=True, null=True)
     email = models.CharField(max_length=20, blank=True, null=True)
 
@@ -99,14 +98,14 @@ class Broker(models.Model):
         managed = False
         db_table = 'broker'
 
-class SalesContact(models.Model):
+class SalesContent(models.Model):
     sales_num = models.AutoField(primary_key=True)
     product_model_name = models.CharField(max_length=20, blank=True, null=True)
     decision_quantity = models.IntegerField(blank=True, null=True)
     decision_price = models.IntegerField(blank=True, null=True)
     sales_price = models.IntegerField(blank=True, null=True)
-    beginning_purchase = models.IntegerField(blank=True, null=True)
-    scheduled_delivery_date = models.DateTimeField(blank=True, null=True)
+    beginning_purchase = models.CharField(max_length=20, blank=True, null=True)
+    delivery_request_date = models.DateTimeField(blank=True, null=True)
     recipient = models.CharField(max_length=20, blank=True, null=True)
     recipient_phone = models.CharField(max_length=20, blank=True, null=True)
     delivery_address = models.CharField(max_length=100, blank=True, null=True)
@@ -114,7 +113,14 @@ class SalesContact(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'sales_contact'
+        db_table = 'sales_content'
+    
+    def number():
+        num = SalesContent.objects.count()
+        if num == None:
+            return 1
+        else:
+            return num + 1
 
 class Sales(models.Model):
     sales_num = models.IntegerField(primary_key=True)
@@ -203,8 +209,8 @@ class CustomerSettlement(models.Model):
 class Delivery(models.Model):
     order_num = models.IntegerField(primary_key=True)
     quantity = models.IntegerField(blank=True, null=True)
-    delivery_date = models.IntegerField(blank=True, null=True)
-    return_date = models.IntegerField(blank=True, null=True)
+    delivery_date = models.DateTimeField(blank=True, null=True)
+    return_date = models.DateTimeField(blank=True, null=True)
     balance = models.IntegerField(blank=True, null=True)
 
     class Meta:
@@ -236,3 +242,22 @@ class Approval(models.Model):
     class Meta:
         managed = False
         db_table = 'approval'
+        
+class OrderData(models.Model):
+    order_num = models.IntegerField(primary_key=True)
+    sales_num = models.IntegerField(blank=True, null=True)
+    product_model_name = models.CharField(max_length=20, blank=True, null=True)
+    order_quantity = models.IntegerField(blank=True, null=True)
+    order_date = models.DateTimeField(blank=True, null=True)
+    quote_num = models.IntegerField(blank=True, null=True)
+    scheduled_delivery_date = models.DateTimeField(blank=True, null=True)
+    assignment = models.CharField(max_length=20, blank=True, null=True)
+    recipient = models.CharField(max_length=20, blank=True, null=True)
+    recipient_phone = models.CharField(max_length=20, blank=True, null=True)
+    delivery_address = models.CharField(max_length=100, blank=True, null=True)
+    balance = models.IntegerField(blank=True, null=True)
+    order_close = models.CharField(max_length=20, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'order_data'

@@ -23,6 +23,11 @@
   <!-- Custom styles for this page -->
   <link href="{% static '/myApp/assets/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
 
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static '/myApp/assets/css/util.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/myApp/assets/css/main.css' %} ">
+  <!--===============================================================================================-->
+
 </head>
 
 <body id="page-top">
@@ -46,7 +51,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="/index/">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -69,10 +74,20 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">데이터 입력</h6>
-            <a class="collapse-item" href="/insert/employee/">Employee</a>
-            <a class="collapse-item" href="/insert/authority/">Authority</a>
-            <a class="collapse-item" href="/insert/product/">Product</a>
-            <a class="collapse-item" href="/insert/customer/">Customer</a>
+            <a class="collapse-item" href="/insert/employee/">직원</a>
+            <a class="collapse-item" href="/insert/authority/">권한</a>
+            <a class="collapse-item" href="/insert/product/">품목</a>
+            <a class="collapse-item" href="/insert/customer/">거래업체</a>
+            <a class="collapse-item" href="/insert/customer_purchasing/">업체 구매 담당</a>
+            <a class="collapse-item" href="/insert/customer_settlement/">업체 정산 담당</a>
+            <a class="collapse-item" href="/insert/co_salesman/">상담사</a>
+            <a class="collapse-item" href="/insert/broker/">중개사</a>
+            <a class="collapse-item" href="/insert/sales/">계약</a>
+            <a class="collapse-item" href="/insert/sales_content/">거래 내용</a>
+            <a class="collapse-item" href="/insert/approval/">승인</a>
+            <a class="collapse-item" href="/insert/order/">주문</a>
+            <a class="collapse-item" href="/insert/deposit/">입금</a>
+            <a class="collapse-item" href="/insert/delivery/">배송 처리</a>
           </div>
         </div>
       </li>
@@ -97,83 +112,223 @@
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
-      <!-- Main Content -->
-      <div id="content">
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
+      <!-- Begin Page Content -->
+      <div class="container-fluid" >
 
-          <!-- Page Heading -->
-          <!-- <h1 class="h3 mb-2 text-gray-800">Tables</h1> -->
-          <h1 style='margin-top: 30px;'>Tables</h1>
-          <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
-          <form>
-            <p>
-            <span> 1. 기간 : </span>
-            <input type='date' id='oldDate'/>
-            <span>~</span>
-            <input type='date' id='currentDate'/>
-            </p>
-            <span> 2. 수요 구분 : </span>
-            </p>
-            <span> 3. 조건 추가 </span>
-            </p>
-            <input type="submit" value="Submit">
-          </form>
-          <script>
-            document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);
-            document.getElementById('oldDate').value = new Date(Date.parse(new Date()) - 30 * 1000 * 60 * 60 * 24).toISOString().substring(0, 10);;
-          </script>
-
-          <!-- DataTales Example -->
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">DataTables Result</h6>
-            </div>
-
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Position</th>
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Start date</th>
-                      <th>Salary</th>
-                    </tr>
-                  </thead>
-                  <tfoot>
-                    <tr>
-                      <th>Name</th>
-                      <th>Position</th>
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Start date</th>
-                      <th>Salary</th>
-                    </tr>
-                  </tfoot>
-                  <tbody>
-                    {% for list in employee_data %}
-                      <tr>
-                        <td>{{list.name}}</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>$320,800</td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >Select</h1>
         </div>
-        <!-- /.container-fluid -->
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">조회 조건 입력</h6>
+          </div>
+          <div class="card-body">
+            <form id='select' name = 'select' method="post">{% csrf_token %} 
+              <div class="limiter">
+                <div class="container-table100">
+                  <div class="wrap-table100">
+                      
+                      <!-- <input type="submit" value="저장" onclick="javascript: form.action='/insert_check/approval/';"/> -->
+                      <p style="margin-bottom: 10px;"> 
+                      <span> 1. 기간 : </span>
+                      <input type='date' id='oldDate' style="max-width: 150px; margin: 0px;"/>
+                      <span>~</span>
+                      <input type='date' id='currentDate'style="max-width: 150px;  margin: 0px;"/>
+                      </p>
+                      <p style="margin-bottom: 10px;"> 
+                      <span> 2. 수요 구분 : </span>
+                      </p>
+                      <p style="margin-bottom: 10px;"> 
+                      <span> 3. 조건 추가 </span>
+                      <p style="margin-bottom: 20px;"></p>
+                      <div class="table">
 
+                        <div class="row header">
+                          <div class="cell">
+                            삼성코드
+                          </div>
+                          <div class="cell">
+                            삼성담당
+                          </div>
+                          <div class="cell">
+                            영업담당
+                          </div>
+                          <div class="cell">
+                            SCM담당
+                          </div>
+                          <div class="cell">
+                            업체명
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="cell" data-title="samsung_code">
+                            <input id= "+ samsung_code +" name = " + samsung_code + " type='text'/>
+                          </div>
+                          <div class="cell" data-title="samsung_manager">
+                            <input id= "+ samsung_manager +" name = " + samsung_manager + " type='text'/>
+                          </div>
+                          <div class="cell" data-title="sales_manager">
+                            <input id= "+ sales_manager +" name = " + sales_manager + " type='text'/>
+                          </div>
+                          <div class="cell" data-title="scm_manager">
+                            <input id= "+ scm_manager +" name = " + scm_manager + " type='text'/>
+                          </div>
+                          <div class="cell" data-title="customer_name">
+                            <input id= "+ customer_name +" name = " + customer_name + " type='text'/>
+                          </div>
+                        </div>
+                        <div class="row header">
+                          <div class="cell">
+                            인도처명
+                          </div>
+                          <div class="cell">
+                            배송주소
+                          </div>
+                          <div class="cell">
+                            연락처
+                          </div>
+                          <div class="cell">
+                            모델명
+                          </div>
+                          <div class="cell">
+                            매입처
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="cell" data-title="recipient">
+                            <input id= "+ recipient +" name = " + recipient + " type='text'/>
+                          </div>
+                          <div class="cell" data-title="delivery_address">
+                            <input id= "+ delivery_address +" name = " + delivery_address + " type='text'/>
+                          </div>
+                          <div class="cell" data-title="recipient_phone">
+                            <input id= "+ recipient_phone +" name = " + recipient_phone + " type='text'/>
+                          </div>
+                          <div class="cell" data-title="product_model_name">
+                            <input id= "+ product_model_name +" name = " + product_model_name + " type='text'/>
+                          </div>
+                          <!-- 매입처가 뭐지? -->
+                          <div class="cell" data-title="product_model_name">
+                            <input id= "+ product_model_name +" name = " + product_model_name + " type='text'/>
+                          </div>
+                        </div>
+
+                        <div class="row header">
+                          <div class="cell">
+                            수량
+                          </div>
+                          <div class="cell">
+                            승인단가
+                          </div>
+                          <div class="cell">
+                            승인액
+                          </div>
+                          <div class="cell">
+                            매출가
+                          </div>
+                          <div class="cell">
+                            매출액
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="cell" data-title="quantity">
+                            <input id= "+ quantity +" name = " + quantity + " type='number'/>
+                          </div>
+                          <div class="cell" data-title="approval_price">
+                            <input id= "+ approval_price +" name = " + approval_price + " type='number'/>
+                          </div>
+                          <div class="cell" data-title="product_model_name">
+                            <input id= "+ product_model_name +" name = " + product_model_name + " type='text'/>
+                          </div>
+                          <div class="cell" data-title="sales_price">
+                            <input id= "+ sales_price +" name = " + sales_price + " type='number'/>
+                          </div>
+                          <div class="cell" data-title="product_model_name">
+                            <input id= "+ product_model_name +" name = " + product_model_name + " type='text'/>
+                          </div>
+                        </div>
+
+                        <div class="row header">
+                          <div class="cell">
+                            OPPTY번호
+                          </div>
+                          <div class="cell">
+                            견적번호
+                          </div>
+                          <div class="cell">
+                            주문일
+                          </div>
+                          <div class="cell">
+                            주문번호
+                          </div>
+                          <div class="cell">
+                            납품요청일
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="cell" data-title="oppty_num">
+                            <input id= "+ oppty_num +" name = " + oppty_num + " type='number'/>
+                          </div>
+                          <div class="cell" data-title="quote_num ">
+                            <input id= "+ quote_num  +" name = " + quote_num  + " type='number'/>
+                          </div>
+                          <div class="cell" data-title="order_date">
+                            <input id= "+ order_date +" name = " + order_date + " type='date'/>
+                          </div>
+                          <div class="cell" data-title="order_num">
+                            <input id= "+ order_num +" name = " + order_num + " type='number'/>
+                          </div>
+                          <div class="cell" data-title="delivery_request_date">
+                            <input id= "+ delivery_request_date +" name = " + delivery_request_date + " type='date'/>
+                          </div>
+                        </div>
+
+                        <div class="row header">
+                          <div class="cell">
+                            납품예정일
+                          </div>
+                          <div class="cell">
+                            할당
+                          </div>
+                          <div class="cell">
+                            입금일
+                          </div>
+                          <div class="cell">
+                            입금액
+                          </div>
+                          <div class="cell">
+                            계산서발행업체명
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="cell" data-title="scheduled_delivery_date">
+                            <input id= "+ scheduled_delivery_date +" name = " + scheduled_delivery_date + " type='text'/>
+                          </div>
+                          <div class="cell" data-title="assignment">
+                            <input id= "+ assignment +" name = " + assignment + " type='text'/>
+                          </div>
+                          <div class="cell" data-title="deposit_date">
+                            <input id= "+ deposit_date +" name = " + deposit_date + " type='date'/>
+                          </div>
+                          <div class="cell" data-title="deposit_amount">
+                            <input id= "+ deposit_amount +" name = " + deposit_amount + " type='number'/>
+                          </div>
+                          <div class="cell" data-title="billing_place">
+                            <input id= "+ billing_place +" name = " + billing_place + " type='text'/>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- <button onclick="add_row()">행 추가하기</button> -->
+                      <input class = "sub" type="submit" value="저장" onclick="javascript: form.action='/select_result/';"/>
+                  </div> 
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
+      <!-- /.container-fluid -->
       <!-- End of Main Content -->
 
       <!-- Footer -->

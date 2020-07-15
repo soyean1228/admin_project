@@ -9741,7 +9741,7 @@ a.text-dark:hover, a.text-dark:focus {
   }
   .table-bordered th,
   .table-bordered td {
-    border: 1px solid #dddfeb !important;
+    /* border: 1px solid #dddfeb !important; */
   }
   .table-dark {
     color: inherit;

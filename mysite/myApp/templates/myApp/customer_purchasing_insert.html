@@ -49,7 +49,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="/index/">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -92,7 +92,7 @@
 
       <!-- Nav Item - Charts -->
       <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="/select/">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Select</span></a>
       </li>
@@ -109,44 +109,79 @@
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-      
-      <!-- Page Heading -->
-      <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4"> -->
-        <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
-      <!-- </div> -->
-      
-      <form id='empoyee' name = 'employee' method="post">{% csrf_token %} 
-      <div class="limiter">
-        <div class="container-table100">
-          <div class="wrap-table100">
-            <input type="submit" value="저장" onclick="javascript: form.action='/insert_check/authority/';"/>
-            <div class="table">
-              <div class="row header">
-                <div class="cell">
-                  이름
-                </div>
-                <div class="cell">
-                  권한
+        
+      <!-- Begin Page Content -->
+      <div class="container-fluid" >
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >Insert</h1>
+        </div>
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">업체 구매 담당 테이블 입력</h6>
+          </div>
+          <div class="card-body">
+            <!-- The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS! -->
+            <form id='empoyee' name = 'employee' method="post">{% csrf_token %} 
+              <div class="limiter">
+                <div class="container-table100">
+                  <div class="wrap-table100">
+                      <!-- <input type="submit" value="저장" onclick="javascript: form.action='/insert_check/customer_purchasing/';"/> -->
+                      <div class="table">
+                        <div class="row header">
+                          <div class="cell">
+                            담당자
+                          </div>
+                          <div class="cell">
+                            사업자등록번호
+                          </div>
+                          <div class="cell">
+                            연락처1
+                          </div>
+                          <div class="cell">
+                            연락처2
+                          </div>
+                          <div class="cell">
+                            이메일
+                          </div>
+                        </div>
+                        <script>
+                          for(var f=0;f<5;f++){
+                          var customer_purchasing_manager = 'customer_purchasing_manager' + f; var company_registration_number = 'company_registration_number' + f; 
+                          var contact_number1 = 'contact_number1' + f; var contact_number2 = 'contact_number2' + f; var email = 'email' + f; 
+
+                          document.write('<div class="row">');
+                          document.write('<div class="cell" data-title="customer_purchasing_manager">');
+                          document.write("<input id= "+ customer_purchasing_manager +" name = " + customer_purchasing_manager + " type='text'/>");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="company_registration_number">');
+                          document.write("<input id= "+ company_registration_number +" name = " + company_registration_number + " type='text'/>");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="contact_number1">');
+                          document.write("<input id= "+ contact_number1 +" name = " + contact_number1 + " type='text'/>");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="contact_number2">');
+                          document.write("<input id= "+ contact_number2 +" name = " + contact_number2 + " type='text'/>");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="email">');
+                          document.write("<input id= "+ email +" name = " + email + " type='text'/>");   
+                          document.write("</div>");
+                          document.write("</div>");
+                          }
+                        </script>
+                      </div>
+                      <!-- <button onclick="add_row()">행 추가하기</button> -->
+                      <input type="submit" class = 'sub' value="저장" onclick="javascript: form.action='/insert_check/customer_purchasing/';"/>
+                      
+                  </div> 
                 </div>
               </div>
-              <script>
-                for(var f=0;f<5;f++){
-                var name = 'authority_name' + f; var authority = 'authority_authority' + f;
-                document.write('<div class="row">');
-                document.write('<div class="cell" data-title="Full Name">');
-                document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
-                document.write("</div>");
-                document.write('<div class="cell" data-title="Full Name">');
-                document.write("<input id= "+ authority +" name = " + authority + " type='text'/>");   
-                document.write("</div>");
-                document.write("</div>");
-                }
-              </script>
-            </div>
+            </form>
           </div>
         </div>
       </div>
-    </form>
+      <!-- /.container-fluid -->
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">

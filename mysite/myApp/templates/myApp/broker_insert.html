@@ -54,7 +54,6 @@
           <span>Dashboard</span></a>
       </li>
 
-
       <!-- Divider -->
       <hr class="sidebar-divider">
 
@@ -119,97 +118,60 @@
         </div>
         <div class="card shadow mb-4">
           <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">거래 업체 테이블 입력</h6>
+            <h6 class="m-0 font-weight-bold text-primary">중개사 테이블 입력</h6>
           </div>
           <div class="card-body">
             <!-- The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS! -->
-            <form id='empoyee' name = 'employee' method="post">{% csrf_token %} 
+            <form id='broker' name = 'broker' method="post">{% csrf_token %} 
               <div class="limiter">
                 <div class="container-table100">
                   <div class="wrap-table100">
-                      <!-- <input type="submit" value="저장" onclick="javascript: form.action='/insert_check/customer/';"/> -->
+                      <!-- <input type="submit" value="저장" onclick="javascript: form.action='/insert_check/broker/';"/> -->
                       <div class="table">
                         <div class="row header">
                           <div class="cell">
-                            업체명
+                            성명(회사명)
                           </div>
                           <div class="cell">
-                            사업자등록번호
-                          </div>
-                          <div class="cell">
-                            대표자
+                            주민(사업)번호
                           </div>
                           <div class="cell">
                             주소
                           </div>
                           <div class="cell">
-                            개업연월일
+                            연락처
                           </div>
                           <div class="cell">
-                            업종1
-                          </div>
-                          <div class="cell">
-                            업종2
-                          </div>
-                          <div class="cell">
-                            업종3
-                          </div>
-                          <div class="cell">
-                            영업 담당
-                          </div>
-                          <div class="cell">
-                            SCM 담당
-                          </div>
-                          <div class="cell">
-                            등급
+                            수수료
                           </div>
                         </div>
                         <script>
                           for(var f=0;f<5;f++){
-                          var customer_name = 'customer_name' + f; var company_registration_number = 'company_registration_number' + f; var representative = 'representative' + f; 
-                          var opening_date = 'opening_date' + f; var field1 = 'field1' + f; var field2 = 'field2' + f; var field3 = 'field3' + f; 
-                          var address = 'address' + f; var sales_manager = 'sales_manager' + f; var scm_manager = 'scm_manager' + f; var sales_manager = 'sales_manager' + f;
-                          var rate = 'rate' + f;
+                          var name = 'name' + f; var resident_registration_number = 'resident_registration_number' + f; 
+                          var addresss = 'addresss' + f; var contact_number = 'contact_number' + f; var fee = 'fee' + f; 
+
                           document.write('<div class="row">');
-                          document.write('<div class="cell" data-title="customer_name">');
-                          document.write("<input id= "+ customer_name +" name = " + customer_name + " type='text'/>");  
+                          document.write('<div class="cell" data-title="name">');
+                          document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
                           document.write("</div>");
-                          document.write('<div class="cell" data-title="company_registration_number">');
-                          document.write("<input id= "+ company_registration_number +" name = " + company_registration_number + " type='text'/>");  
+                          document.write('<div class="cell" data-title="resident_registration_number">');
+                          document.write("<input id= "+ resident_registration_number +" name = " + resident_registration_number + " type='text'/>");  
                           document.write("</div>");
-                          document.write('<div class="cell" data-title="representative">');
-                          document.write("<input id= "+ representative +" name = " + representative + " type='text'/>");  
+                          document.write('<div class="cell" data-title="addresss">');
+                          document.write("<input id= "+ addresss +" name = " + addresss + " type='text'/>");  
                           document.write("</div>");
-                          document.write('<div class="cell" data-title="address">');
-                          document.write("<input id= "+ address +" name = " + address + " type='text'/>");  
+                          document.write('<div class="cell" data-title="contact_number">');
+                          document.write("<input id= "+ contact_number +" name = " + contact_number + " type='text'/>");  
                           document.write("</div>");
-                          document.write('<div class="cell" data-title="opening_date">');
-                          document.write("<input id= "+ opening_date +" name = " + opening_date + " type='date'/>");   
-                          document.write("</div>");
-                          document.write('<div class="cell" data-title="field1">');
-                          document.write("<input id= "+ field1 +" name = " + field1 + " type='text'/>");    
-                          document.write("</div>");
-                          document.write('<div class="cell" data-title="field2">');
-                          document.write("<input id= "+ field2 +" name = " + field2 + " type='text'/>");    
-                          document.write("</div>");
-                          document.write('<div class="cell" data-title="field3">');
-                          document.write("<input id= "+ field3 +" name = " + field3 + " type='text'/>");    
-                          document.write("</div>");
-                          document.write('<div class="cell" data-title="sales_manager">');
-                          document.write("<input id= "+ sales_manager +" name = " + sales_manager + " type='text'/>");    
-                          document.write("</div>");
-                          document.write('<div class="cell" data-title="scm_manager">');
-                          document.write("<input id= "+ scm_manager +" name = " + scm_manager + " type='text'/>");    
-                          document.write("</div>");
-                          document.write('<div class="cell" data-title="rate">');
-                          document.write("<input id= "+ rate +" name = " + rate + " type='number'/>");    
+                          document.write('<div class="cell" data-title="fee">');
+                          document.write("<input id= "+ fee +" name = " + fee + " type='number'/>");   
                           document.write("</div>");
                           document.write("</div>");
                           }
                         </script>
                       </div>
                       <!-- <button onclick="add_row()">행 추가하기</button> -->
-                      <input type="submit" class = 'sub' value="저장" onclick="javascript: form.action='/insert_check/customer/';"/>
+                      <input type="submit" class = 'sub' value="저장" onclick="javascript: form.action='/insert_check/broker/';"/>
                       
                   </div> 
                 </div>

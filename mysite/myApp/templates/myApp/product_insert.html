@@ -49,7 +49,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="/index/">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -92,7 +92,7 @@
 
       <!-- Nav Item - Charts -->
       <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="/select/">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Select</span></a>
       </li>
@@ -123,11 +123,11 @@
           </div>
           <div class="card-body">
             <!-- The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS! -->
-            <form id='product' name = 'employee' method="post">{% csrf_token %} 
+            <form id='product' name = 'product' method="post">{% csrf_token %} 
               <div class="limiter">
                 <div class="container-table100">
                   <div class="wrap-table100">
-                    <input type="submit" value="저장" onclick="javascript: form.action='/insert_check/product/';"/>
+                    <!-- <input type="submit" value="저장" onclick="javascript: form.action='/insert_check/product/';"/> -->
                     <div class="table">
                       <div class="row header">
                         <div class="cell">
@@ -160,49 +160,53 @@
                       </div>
                       <script>
                         for(var f=0;f<5;f++){
-                        var name = 'authority_name' + f; var authority = 'authority_authority' + f;
+                        var productno = 'productno' + f; var main_category = 'main_category' + f; var middle_category = 'middle_category' + f;
+                        var sub_category = 'sub_category' + f; var professionalism_fee_rate = 'professionalism_fee_rate' + f; var potential_fee_rate = 'potential_fee_rate' + f;
+                        var additional_fee1 = 'additional_fee1' + f; var additional_fee2 = 'additional_fee2' + f; var additional_fee3 = 'additional_fee3' + f;
                         document.write('<div class="row">');
         
-                        document.write('<div class="cell" data-title="Full Name">');
-                        document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                        document.write('<div class="cell" data-title="productno">');
+                        document.write("<input id= "+ productno +" name = " + productno + " type='text'/>");  
                         document.write("</div>");
         
-                        document.write('<div class="cell" data-title="Full Name">');
-                        document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                        document.write('<div class="cell" data-title=" main_category">');
+                        document.write("<input id= "+ main_category +" name = " + main_category + " type='text'/>");  
                         document.write("</div>");
         
-                        document.write('<div class="cell" data-title="Full Name">');
-                        document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                        document.write('<div class="cell" data-title="middle_category">');
+                        document.write("<input id= "+ middle_category +" name = " + middle_category + " type='text'/>");  
                         document.write("</div>");
         
-                        document.write('<div class="cell" data-title="Full Name">');
-                        document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                        document.write('<div class="cell" data-title="sub_category">');
+                        document.write("<input id= "+ sub_category +" name = " + sub_category + " type='text'/>");  
                         document.write("</div>");
         
-                        document.write('<div class="cell" data-title="Full Name">');
-                        document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                        document.write('<div class="cell" data-title="professionalism_fee_rate">');
+                        document.write("<input id= "+ professionalism_fee_rate +" name = " + professionalism_fee_rate + " type='text'/>");  
                         document.write("</div>");
         
-                        document.write('<div class="cell" data-title="Full Name">');
-                        document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                        document.write('<div class="cell" data-title="potential_fee_rate">');
+                        document.write("<input id= "+ potential_fee_rate +" name = " + potential_fee_rate + " type='text'/>");  
                         document.write("</div>");
         
-                        document.write('<div class="cell" data-title="Full Name">');
-                        document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                        document.write('<div class="cell" data-title="additional_fee1">');
+                        document.write("<input id= "+ additional_fee1 +" name = " + additional_fee1 + " type='number'/>");  
                         document.write("</div>");
         
-                        document.write('<div class="cell" data-title="Full Name">');
-                        document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                        document.write('<div class="cell" data-title="additional_fee1">');
+                        document.write("<input id= "+ additional_fee2 +" name = " + additional_fee2 + " type='number'/>");  
                         document.write("</div>");
         
-                        document.write('<div class="cell" data-title="Full Name">');
-                        document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
+                        document.write('<div class="cell" data-title="additional_fee3">');
+                        document.write("<input id= "+ additional_fee3 +" name = " + additional_fee3 + " type='number'/>");  
                         document.write("</div>");
                         
                         document.write("</div>");
                         }
                       </script>
                     </div>
+                    <input type="submit" class = 'sub' value="저장" onclick="javascript: form.action='/insert_check/product/';"/>
+                    
                   </div>
         
                 </div>

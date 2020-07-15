@@ -60,8 +60,8 @@ input {
   border: none !important;
   /* dddd */
   font-size: 16px;
-  padding : 5px 5px 0px 0px;
-  margin : 2px 2px 2px 2px;
+  margin : 6px 0px;
+  max-width: 170px;
 }
 
 textarea {
@@ -111,7 +111,7 @@ iframe {
   /* justify-content: center; */
   flex-wrap: wrap;
   /* padding: 33px 30px 0px 300px ; */
-  padding: 33px 30px;
+  padding: 20px 20px;
 
   /* 추가 */
   max-width:100%;
@@ -125,7 +125,7 @@ iframe {
   /* width : 100%; */
   border-radius: 10px;
   /* overflow: hidden; */
-  padding-right : 30px;
+  padding-right : 20px;
 }
 
 .table {
@@ -167,7 +167,7 @@ iframe {
 
   .row .cell:before {
     font-family: Poppins-Bold;
-    font-size: 12px;
+    font-size: 10px;
     color: #808080;
     line-height: 1.2;
     text-transform: uppercase;
@@ -259,9 +259,9 @@ iframe {
   
   .row .cell {
     border: none;
-    padding-left: 30%;
+    /* padding-left: 30%;
     padding-top: 16%;
-    padding-bottom: 16%;
+    padding-bottom: 16%; */
     /* padding-left: 30px; 
     padding-top: 160px; 
     padding-bottom: 160px; */
@@ -274,12 +274,43 @@ iframe {
     line-height: 1.2;
     font-weight: unset !important;
     border-color: #6c7ae0;
-
-    /* */
   }
 
   .table, .row, .cell {
     width: 100% !important;
   }
 
+}
+
+.wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input.sub {
+  margin-top : 20px;
+  width: 140px;
+  height: 45px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+input.sub:hover {
+  background-color: #2EE59D;
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
 }
