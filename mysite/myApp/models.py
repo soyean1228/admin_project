@@ -184,7 +184,7 @@ class Customer(models.Model):
 
 class CustomerPurchasing(models.Model):
     customer_purchasing_manager = models.CharField(primary_key=True, max_length=20)
-    company_registration_number = models.IntegerField(blank=True, null=True)
+    company_registration_number = models.CharField(max_length=20, blank=True, null=True)
     contact_number1 = models.CharField(max_length=20, blank=True, null=True)
     contact_number2 = models.CharField(max_length=20, blank=True, null=True)
     email = models.CharField(max_length=20, blank=True, null=True)
@@ -193,10 +193,9 @@ class CustomerPurchasing(models.Model):
         managed = False
         db_table = 'customer_purchasing'
 
-
 class CustomerSettlement(models.Model):
     customer_settlement_manager = models.CharField(primary_key=True, max_length=20)
-    company_registration_number = models.IntegerField(blank=True, null=True)
+    company_registration_number = models.CharField(max_length=20, blank=True, null=True)
     contact_number = models.CharField(max_length=20, blank=True, null=True)
     email = models.CharField(max_length=20, blank=True, null=True)
 

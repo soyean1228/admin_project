@@ -89,15 +89,20 @@ def select_table(request, table_name):
         customer_purchasing_data = CustomerPurchasing.objects.all()
         return render(request, 'myApp/customer_purchasing_select.html', { "customer_purchasing_data" : customer_purchasing_data })
     if(table_name == 'customer_settlement'):
-        return render(request, 'myApp/customer_settlement_select.html')
+        customer_settlement_data = CustomerSettlement.objects.all()
+        return render(request, 'myApp/customer_settlement_select.html', { "customer_settlement_data" : customer_settlement_data })
     if(table_name == 'co_salesman'):
-        return render(request, 'myApp/co_salesman_select.html')
+        co_salesman_data = CoSalesman.objects.all()
+        return render(request, 'myApp/co_salesman_select.html', { "co_salesman_data" : co_salesman_data })
     if(table_name == 'broker'):
-        return render(request, 'myApp/broker_select.html')
+        broker_data = Broker.objects.all()
+        return render(request, 'myApp/broker_select.html', { "broker_data" : broker_data })
     if(table_name == 'sales'):
-        return render(request, 'myApp/sales_select.html')
+        sales_data = Sales.objects.all()
+        return render(request, 'myApp/sales_select.html', { "sales_data" : sales_data })
     if(table_name == 'sales_content'):
-        return render(request, 'myApp/sales_content_select.html')
+        sales_content_data = SalesContent.objects.all()
+        return render(request, 'myApp/sales_content_select.html', { "sales_content_data" : sales_content_data })
     if(table_name == 'approval'):
         return render(request, 'myApp/approval_select.html')
     if(table_name == 'order'):
