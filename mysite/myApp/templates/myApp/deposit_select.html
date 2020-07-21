@@ -92,29 +92,30 @@
         </div>
       </li>
 
-      <!-- Nav Item - Charts -->
+      <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="/select/">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Select</span>
         </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">데이터 조회</h6>
-            <a class="collapse-item" href="/insert/employee/">직원</a>
-            <a class="collapse-item" href="/insert/authority/">권한</a>
-            <a class="collapse-item" href="/insert/product/">품목</a>
-            <a class="collapse-item" href="/insert/customer/">거래업체</a>
-            <a class="collapse-item" href="/insert/customer_purchasing/">업체 구매 담당</a>
-            <a class="collapse-item" href="/insert/customer_settlement/">업체 정산 담당</a>
-            <a class="collapse-item" href="/insert/co_salesman/">상담사</a>
-            <a class="collapse-item" href="/insert/broker/">중개사</a>
-            <a class="collapse-item" href="/insert/sales/">계약</a>
-            <a class="collapse-item" href="/insert/sales_content/">거래 내용</a>
-            <a class="collapse-item" href="/insert/approval/">승인</a>
-            <a class="collapse-item" href="/insert/order/">주문</a>
-            <a class="collapse-item" href="/insert/deposit/">입금</a>
-            <a class="collapse-item" href="/insert/delivery/">배송 처리</a>
+            <a class="collapse-item" href="/select/">SCM</a>
+            <a class="collapse-item" href="/select/employee/">직원</a>
+            <a class="collapse-item" href="/select/authority/">권한</a>
+            <a class="collapse-item" href="/select/product/">품목</a>
+            <a class="collapse-item" href="/select/customer/">거래업체</a>
+            <a class="collapse-item" href="/select/customer_purchasing/">업체 구매 담당</a>
+            <a class="collapse-item" href="/select/customer_settlement/">업체 정산 담당</a>
+            <a class="collapse-item" href="/select/co_salesman/">상담사</a>
+            <a class="collapse-item" href="/select/broker/">중개사</a>
+            <a class="collapse-item" href="/select/sales/">계약</a>
+            <a class="collapse-item" href="/select/sales_content/">거래 내용</a>
+            <a class="collapse-item" href="/select/approval/">승인</a>
+            <a class="collapse-item" href="/select/order/">주문</a>
+            <a class="collapse-item" href="/select/deposit/">입금</a>
+            <a class="collapse-item" href="/select/delivery/">배송 처리</a>
           </div>
         </div>
       </li>
@@ -138,17 +139,15 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <!-- <h1 class="h3 mb-2 text-gray-800">Tables</h1> -->
-          <!-- <h1 style='margin-top: 30px;'>Tables</h1> -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800" style="font-size : 35px; margin-top: 40px; margin-left: 10px;" >Tables</h1>
+            <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >Select</h1>
           </div>
           <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">주문 테이블</h6>
+              <h6 class="m-0 font-weight-bold text-primary"> 입금 테이블</h6>
             </div>
 
             <div class="card-body">
@@ -156,55 +155,37 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
+                      <th>거래처명</th>
+                      <th>입금 금액</th>
+                      <th>잔액</th>
+                      <th>결제방식</th>
+                      <th>입금일</th>
                       <th>주문번호</th>
-                      <th>거래일련번호</th>
-                      <th>제품모델명</th>
-                      <th>주문수량</th>
-                      <th>주문일자</th>
-                      <th>견적번호</th>
-                      <th>납품예정일</th>
-                      <th>할당여부</th>
-                      <th>인수자</th>
-                      <th>인수자전화번호</th>
-                      <th>배송주소</th>
-                      <th>잔량</th>
-                      <th>주문종결</th>
+                      <th>배송예정일</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
+                      <th>거래처명</th>
+                      <th>입금 금액</th>
+                      <th>잔액</th>
+                      <th>결제방식</th>
+                      <th>입금일</th>
                       <th>주문번호</th>
-                      <th>거래일련번호</th>
-                      <th>제품모델명</th>
-                      <th>주문수량</th>
-                      <th>주문일자</th>
-                      <th>견적번호</th>
-                      <th>납품예정일</th>
-                      <th>할당여부</th>
-                      <th>인수자</th>
-                      <th>인수자전화번호</th>
-                      <th>배송주소</th>
-                      <th>잔량</th>
-                      <th>주문종결</th>
+                      <th>배송예정일</th>
                     </tr>
                   </tfoot>
                   <tbody>
-                    {% for list in order_data %}
+                    {% for list in deposit_data %}
                       <tr>
                         <style>td{font-size: 14px;};</style>
-                        <td>{{list.order_num}}</td>
-                        <td>{{list.sales_num}}</td>
-                        <td>{{list.product_model_name}}</td>
-                        <td>{{list.order_quantity}}</td>
-                        <td>{{list.order_date}}</td>
-                        <td>{{list.quote_num}}</td>
-                        <td>{{list.scheduled_delivery_date}}</td>
-                        <td>{{list.assignment}}</td>
-                        <td>{{list.recipient}}</td>
-                        <td>{{list.recipient_phone}}</td>
-                        <td>{{list.delivery_address}}</td>
-                        <td>{{list.balance}}</td>
-                        <td>{{list.order_close}}</td>
+                        <td>{{list.customer_name|default_if_none:"" }}</td>
+                        <td>{{list.deposit_amount|default_if_none:"" }}</td>
+                        <td>{{list.balance|default_if_none:"" }}</td>
+                        <td>{{list.payment_method|default_if_none:"" }}</td>
+                        <td>{{list.deposit_date|default_if_none:"" |date:"Y-m-d"}}</td>
+                        <td>{{list.order_num.order_num|default_if_none:"" }}</td>
+                        <td>{{list.scheduled_shipping_date|default_if_none:"" |date:"Y-m-d"}}</td>
                       </tr>
                     {% endfor %}
                   </tbody>
@@ -278,8 +259,17 @@
 
   <style>
     th{
-      font-size: 15px;
+      font-size: 13px;
     }
+    div.row{
+      all : unset;
+      justify-content: center;
+    }
+    .pagination{
+      width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+    } 
     .col-sm-12{
       all: unset;
     }
@@ -300,9 +290,7 @@
       padding: 0px;
       margin-top: 1px;
     }
-
   </style>
-
 </body>
 
 </html>

@@ -147,7 +147,7 @@
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary"> 거래 업체 테이블</h6>
+              <h6 class="m-0 font-weight-bold text-primary"> 배송 처리 테이블</h6>
             </div>
 
             <div class="card-body">
@@ -155,49 +155,31 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>업체명</th>
-                      <th>사업자등록번호</th>
-                      <th>대표자</th>
-                      <th>주소</th>
-                      <th>개업연월일</th>
-                      <th>업종1</th>
-                      <th>업종2</th>
-                      <th>업종3</th>
-                      <th>영업담당</th>
-                      <th>SCM담당</th>
-                      <th>등급</th>
+                      <th>주문번호</th>
+                      <th>수량</th>
+                      <th>납품일</th>
+                      <th>반품일</th>
+                      <th>잔량</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>업체명</th>
-                      <th>사업자등록번호</th>
-                      <th>대표자</th>
-                      <th>주소</th>
-                      <th>개업연월일</th>
-                      <th>업종1</th>
-                      <th>업종2</th>
-                      <th>업종3</th>
-                      <th>영업담당</th>
-                      <th>SCM담당</th>
-                      <th>등급</th>
+                      <th>주문번호</th>
+                      <th>수량</th>
+                      <th>납품일</th>
+                      <th>반품일</th>
+                      <th>잔량</th>
                     </tr>
                   </tfoot>
                   <tbody>
-                    {% for list in customer_data %}
+                    {% for list in delivery_data %}
                       <tr>
                         <style>td{font-size: 14px;};</style>
-                        <td>{{list.customer_name|default_if_none:"" }}</td>
-                        <td>{{list.company_registration_number|default_if_none:"" }}</td>
-                        <td>{{list.representative|default_if_none:"" }}</td>
-                        <td>{{list.opening_date|default_if_none:"" |date:"Y-m-d"}}</td>
-                        <td>{{list.field1|default_if_none:"" }}</td>
-                        <td>{{list.field2|default_if_none:"" }}</td>
-                        <td>{{list.field3|default_if_none:"" }}</td>
-                        <td>{{list.address|default_if_none:"" }}</td>
-                        <td>{{list.sales_manager|default_if_none:"" }}</td>
-                        <td>{{list.scm_manager|default_if_none:"" }}</td>
-                        <td>{{list.rate|default_if_none:"" }}</td>
+                        <td>{{list.order_num.order_num|default_if_none:"" }}</td>
+                        <td>{{list.quantity|default_if_none:"" }}</td>
+                        <td>{{list.delivery_date|default_if_none:"" | date:"Y-m-d"}}</td>
+                        <td>{{list.return_date|default_if_none:"" | date:"Y-m-d"}}</td>
+                        <td>{{list.balance|default_if_none:"" }}</td>
                       </tr>
                     {% endfor %}
                   </tbody>

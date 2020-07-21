@@ -191,19 +191,19 @@
                     {% for list in order_data %}
                       <tr>
                         <style>td{font-size: 14px;};</style>
-                        <td>{{list.order_num}}</td>
-                        <td>{{list.sales_num}}</td>
-                        <td>{{list.product_model_name}}</td>
-                        <td>{{list.order_quantity}}</td>
-                        <td>{{list.order_date}}</td>
-                        <td>{{list.quote_num}}</td>
-                        <td>{{list.scheduled_delivery_date}}</td>
-                        <td>{{list.assignment}}</td>
-                        <td>{{list.recipient}}</td>
-                        <td>{{list.recipient_phone}}</td>
-                        <td>{{list.delivery_address}}</td>
-                        <td>{{list.balance}}</td>
-                        <td>{{list.order_close}}</td>
+                        <td>{{list.order_num|default_if_none:"" }}</td>
+                        <td>{{list.sales_num|default_if_none:"" }}</td>
+                        <td>{{list.product_model_name|default_if_none:"" }}</td>
+                        <td>{{list.order_quantity|default_if_none:"" }}</td>
+                        <td>{{list.order_date|default_if_none:"" |date:"Y-m-d"}}</td>
+                        <td>{{list.quote_num|default_if_none:"" }}</td>
+                        <td>{{list.scheduled_delivery_date|default_if_none:"" |date:"Y-m-d"}}</td>
+                        <td>{{list.assignment|default_if_none:"" }}</td>
+                        <td>{{list.recipient|default_if_none:"" }}</td>
+                        <td>{{list.recipient_phone|default_if_none:"" }}</td>
+                        <td>{{list.delivery_address|default_if_none:"" }}</td>
+                        <td>{{list.balance|default_if_none:"" }}</td>
+                        <td>{{list.order_close|default_if_none:"" }}</td>
                       </tr>
                     {% endfor %}
                   </tbody>

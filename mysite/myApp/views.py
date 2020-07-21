@@ -104,14 +104,17 @@ def select_table(request, table_name):
         sales_content_data = SalesContent.objects.all()
         return render(request, 'myApp/sales_content_select.html', { "sales_content_data" : sales_content_data })
     if(table_name == 'approval'):
-        return render(request, 'myApp/approval_select.html')
+        approval_data = Approval.objects.all()
+        return render(request, 'myApp/approval_select.html', { "approval_data" : approval_data })
     if(table_name == 'order'):
         order_data = OrderData.objects.all() 
         return render(request, 'myApp/order_select.html', { "order_data" : order_data })
     if(table_name == 'deposit'):
-        return render(request, 'myApp/deposit_select.html')
+        deposit_data = Deposit.objects.all()
+        return render(request, 'myApp/deposit_select.html', { "deposit_data" : deposit_data })
     if(table_name == 'delivery'):
-        return render(request, 'myApp/delivery_select.html')
+        delivery_data = Delivery.objects.all()
+        return render(request, 'myApp/delivery_select.html', { "delivery_data" : delivery_data })
 
 def insert_check(request, table_name):
     print(table_name)

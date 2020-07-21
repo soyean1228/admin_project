@@ -187,17 +187,17 @@
                     {% for list in sales_content_data %}
                       <tr>
                         <style>td{font-size: 14px;};</style>
-                        <td>{{list.oppty_num|default_if_none:"" }}</td>
+                        <td>{{list.oppty_num.oppty_num}}</td>
                         <td>{{list.product_model_name|default_if_none:"" }}</td>
                         <td>{{list.decision_quantity|default_if_none:"" }}</td>
                         <td>{{list.decision_price|default_if_none:"" }}</td>
                         <td>{{list.sales_price|default_if_none:"" }}</td>
                         <td>{{list.beginning_purchase|default_if_none:"" }}</td>
-                        <td>{{list.delivery_request_date|default_if_none:"" }}</td>
+                        <td>{{list.delivery_request_date|default_if_none:"" |date:"Y-m-d"}}</td>
                         <td>{{list.recipient|default_if_none:"" }}</td>
                         <td>{{list.recipient_phone|default_if_none:"" }}</td>
                         <td>{{list.delivery_address|default_if_none:"" }}</td>
-                        <td>{{list.contact_conclusion_date|default_if_none:"" }}</td>
+                        <td>{{list.contact_conclusion_date|default_if_none:"" |date:"Y-m-d"}}</td>
                       </tr>
                     {% endfor %}
                   </tbody>
