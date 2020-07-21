@@ -144,7 +144,7 @@
             <h6 class="m-0 font-weight-bold text-primary">조회 조건 입력</h6>
           </div>
           <div class="card-body">
-            <form id='select' name = 'select' method="post">{% csrf_token %} 
+            <form id='select_result' name = 'select_result' method="post">{% csrf_token %} 
               <div class="limiter">
                 <div class="container-table100">
                   <div class="wrap-table100">
@@ -156,14 +156,16 @@
                       <span>~</span>
                       <input type='date' id='currentDate'style="max-width: 150px;  margin: 0px;"/>
                       </p>
+
                       <p style="margin-bottom: 10px;"> 
                       <span> 2. 수요 구분 : </span>
                       </p>
+
                       <p style="margin-bottom: 10px;"> 
                       <span> 3. 조건 추가 </span>
                       <p style="margin-bottom: 20px;"></p>
-                      <div class="table">
 
+                      <div class="table">
                         <div class="row header">
                           <div class="cell">
                             삼성코드
@@ -183,19 +185,19 @@
                         </div>
                         <div class="row">
                           <div class="cell" data-title="samsung_code">
-                            <input id= "+ samsung_code +" name = " + samsung_code + " type='text'/>
+                            <input id= "samsung_code" name = "samsung_code" type='text'/>
                           </div>
                           <div class="cell" data-title="samsung_manager">
-                            <input id= "+ samsung_manager +" name = " + samsung_manager + " type='text'/>
+                            <input id= "samsung_manager" name = "samsung_manager" type='text'/>
                           </div>
                           <div class="cell" data-title="sales_manager">
-                            <input id= "+ sales_manager +" name = " + sales_manager + " type='text'/>
+                            <input id= "sales_manager" name = "sales_manager" type='text'/>
                           </div>
                           <div class="cell" data-title="scm_manager">
-                            <input id= "+ scm_manager +" name = " + scm_manager + " type='text'/>
+                            <input id= "scm_manager" name = "scm_manager" type='text'/>
                           </div>
                           <div class="cell" data-title="customer_name">
-                            <input id= "+ customer_name +" name = " + customer_name + " type='text'/>
+                            <input id= "customer_name" name = "customer_name" type='text'/>
                           </div>
                         </div>
                         <div class="row header">
@@ -217,19 +219,19 @@
                         </div>
                         <div class="row">
                           <div class="cell" data-title="recipient">
-                            <input id= "+ recipient +" name = " + recipient + " type='text'/>
+                            <input id= "recipient" name = "recipient" type='text'/>
                           </div>
                           <div class="cell" data-title="delivery_address">
-                            <input id= "+ delivery_address +" name = " + delivery_address + " type='text'/>
+                            <input id= "delivery_address" name = "delivery_address" type='text'/>
                           </div>
                           <div class="cell" data-title="recipient_phone">
-                            <input id= "+ recipient_phone +" name = " + recipient_phone + " type='text'/>
+                            <input id= "recipient_phone" name = "recipient_phone" type='text'/>
                           </div>
                           <div class="cell" data-title="product_model_name">
-                            <input id= "+ product_model_name +" name = " + product_model_name + " type='text'/>
+                            <input id= "product_model_name" name = "product_model_name" type='text'/>
                           </div>
                           <div class="cell" data-title="beginning_purchase">
-                            <input id= "+ beginning_purchase +" name = " + beginning_purchase + " type='text'/>
+                            <input id= "beginning_purchase" name = "beginning_purchase" type='text'/>
                           </div>
                         </div>
 
@@ -252,19 +254,19 @@
                         </div>
                         <div class="row">
                           <div class="cell" data-title="order_quantity">
-                            <input id= "+ order_quantity +" name = " + order_quantity + " type='number'/>
+                            <input id= "order_quantity" name = "order_quantity" type='number'/>
                           </div>
                           <div class="cell" data-title="approval_price">
-                            <input id= "+ approval_price +" name = " + approval_price + " type='number'/>
+                            <input id= "approval_price" name = "approval_price" type='number'/>
                           </div>
                           <div class="cell" data-title="approval_total_price">
-                            <input id= "+ approval_total_price" name = " + approval_total_price + " type='number'/>
+                            <input id= "approval_total_price" name = "approval_total_price" type='number'/>
                           </div>
                           <div class="cell" data-title="sales_price">
-                            <input id= "+ sales_price +" name = " + sales_price + " type='number'/>
+                            <input id= "sales_price" name = "sales_price" type='number'/>
                           </div>
                           <div class="cell" data-title="sales_total_price">
-                            <input id= "+ sales_total_price +" name = " + sales_total_price + " type='number'/>
+                            <input id= "sales_total_price" name = "sales_total_price" type='number'/>
                           </div>
                         </div>
 
@@ -287,19 +289,19 @@
                         </div>
                         <div class="row">
                           <div class="cell" data-title="oppty_num">
-                            <input id= "+ oppty_num +" name = " + oppty_num + " type='number'/>
+                            <input id= "oppty_num" name = "oppty_num" type='number'/>
                           </div>
                           <div class="cell" data-title="quote_num ">
-                            <input id= "+ quote_num  +" name = " + quote_num  + " type='number'/>
+                            <input id= "quote_num" name = "quote_num" type='number'/>
                           </div>
                           <div class="cell" data-title="order_date">
-                            <input id= "+ order_date +" name = " + order_date + " type='date'/>
+                            <input id= "order_date" name = "order_date" type='date'/>
                           </div>
                           <div class="cell" data-title="order_num">
-                            <input id= "+ order_num +" name = " + order_num + " type='number'/>
+                            <input id= "order_num" name = "order_num" type='number'/>
                           </div>
                           <div class="cell" data-title="delivery_request_date">
-                            <input id= "+ delivery_request_date +" name = " + delivery_request_date + " type='date'/>
+                            <input id= "delivery_request_date" name = "delivery_request_date" type='date'/>
                           </div>
                         </div>
 
@@ -322,24 +324,25 @@
                         </div>
                         <div class="row">
                           <div class="cell" data-title="scheduled_delivery_date">
-                            <input id= "+ scheduled_delivery_date +" name = " + scheduled_delivery_date + " type='text'/>
+                            <input id= "scheduled_delivery_date" name = "scheduled_delivery_date" type='date'/>
                           </div>
                           <div class="cell" data-title="assignment">
-                            <input id= "+ assignment +" name = " + assignment + " type='text'/>
+                            <input id= "assignment" name = "assignment" type='text'/>
                           </div>
                           <div class="cell" data-title="deposit_date">
-                            <input id= "+ deposit_date +" name = " + deposit_date + " type='date'/>
+                            <input id= "deposit_date" name = "deposit_date" type='date'/>
                           </div>
                           <div class="cell" data-title="deposit_amount">
-                            <input id= "+ deposit_amount +" name = " + deposit_amount + " type='number'/>
+                            <input id= "deposit_amount" name = "deposit_amount" type='number'/>
                           </div>
                           <div class="cell" data-title="billing_place">
-                            <input id= "+ billing_place +" name = " + billing_place + " type='text'/>
+                            <input id= "billing_place" name = "billing_place" type='text'/>
                           </div>
                         </div>
                       </div>
                       <!-- <button onclick="add_row()">행 추가하기</button> -->
                       <input class = "sub" type="submit" value="저장" onclick="javascript: form.action='/select_result/';"/>
+
                   </div> 
                 </div>
               </div>

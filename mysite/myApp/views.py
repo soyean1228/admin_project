@@ -37,7 +37,7 @@ from . import delivery_save
 from . import deposit_save
 from . import order_save
 from . import approval_save
-from . import select_result
+from . import scm_select
 
 def index(request):
     return render(request, 'myApp/main.html')
@@ -180,13 +180,8 @@ def select(request):
     return render(request, 'myApp/select.html')
 
 def select_result(request):
-    print(request)
-    # employee_data = Employee.objects.all() 
-    # authority_data = Authority.objects.all() 
-    # product_data = Product.objects.all() 
-    # customer_data = Customer.objects.all() 
-    # data = Sales.objects.raw('select * from sales_content left outer join sales on sales.sales_num = sales_content.sales_num left outer join order_data on sales_content.sales_num = order_data.sales_num')
-    data = Sales.objects.raw('select * from sales_content')
+    print(request.POST.get('oppty_num'))
+    data = scm_select.select(request)
     return render(request, 'myApp/select_result.html', { "data" : data })
 
 def order_upload(request):

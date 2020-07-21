@@ -187,7 +187,7 @@
                     {% for list in sales_content_data %}
                       <tr>
                         <style>td{font-size: 14px;};</style>
-                        <td>{{list.oppty_num.oppty_num}}</td>
+                        <td>{{list.oppty_num.oppty_num|default_if_none:"" }}</td>
                         <td>{{list.product_model_name|default_if_none:"" }}</td>
                         <td>{{list.decision_quantity|default_if_none:"" }}</td>
                         <td>{{list.decision_price|default_if_none:"" }}</td>

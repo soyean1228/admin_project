@@ -138,10 +138,8 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <!-- <h1 class="h3 mb-2 text-gray-800">Tables</h1> -->
-          <h1 style='margin-top: 30px;'>Tables</h1>
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >Tables</h1>
+            <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >Select</h1>
           </div>
           <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
 
@@ -216,31 +214,35 @@
                     {% for list in data %}
                       <tr>
                         <style>td{font-size: 12px;};</style>
-                        <td>{{list.samsung_code}}</td>
-                        <td>{{list.samsung_manager}}</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>$320,800</td>
-                        <td>{{list.name}}</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>$320,800</td>
-                        <td>{{list.name}}</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>$320,800</td>
-                        <td>{{list.name}}</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>$320,800</td>
-                        <td>$320,800</td>
+                        <td>{{list.samsung_code|default_if_none:"" }}</td>
+                        <td>{{list.samsung_manager|default_if_none:"" }}</td>
+                        <td>{{list.sales_manager|default_if_none:"" }}</td>
+                        <td>{{list.scm_manager|default_if_none:"" }}</td>
+                        <td>{{list.customer_name|default_if_none:"" }}</td>
+
+                        <td>{{list.recipient|default_if_none:"" }}</td>
+                        <td>{{list.delivery_address|default_if_none:"" }}</td>
+                        <td>{{list.recipient_phone|default_if_none:"" }}</td>
+                        <td>{{list.product_model_name|default_if_none:"" }}</td>
+                        <td>{{list.beginning_purchase|default_if_none:"" }}</td>
+                        
+                        <td>{{list.order_quantity|default_if_none:"" }}</td>
+                        <td>{{list.approval_price|default_if_none:"" }}</td>
+                        <td>{{list.approval_total_price|default_if_none:"" }}</td>
+                        <td>{{list.sales_price|default_if_none:"" }}</td>
+                        <td>{{list.sales_total_price|default_if_none:"" }}</td>
+                        
+                        <td>{{list.oppty_num|default_if_none:"" }}</td>
+                        <td>{{list.quote_num|default_if_none:"" }}</td>
+                        <td>{{list.order_date|default_if_none:""|date:"Y-m-d"}}</td>
+                        <td>{{list.order_num|default_if_none:"" }}</td>
+                        <td>{{list.delivery_request_date|default_if_none:""|date:"Y-m-d"}}</td>
+                        
+                        <td>{{list.scheduled_delivery_date|default_if_none:"" |date:"Y-m-d"}}</td>
+                        <td>{{list.assignment|default_if_none:"" }}</td>
+                        <td>{{list.deposit_date|default_if_none:"" |date:"Y-m-d"}}</td>
+                        <td>{{list.deposit_amount|default_if_none:"" }}</td>
+                        <td>{{list.billing_place|default_if_none:"" }}</td>
                       </tr>
                     {% endfor %}
                   </tbody>
