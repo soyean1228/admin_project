@@ -49,9 +49,9 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="/index/">
+        <a class="nav-link" href="/select/">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
+          <span>SCM 조회</span></a>
       </li>
 
 
@@ -90,11 +90,32 @@
         </div>
       </li>
 
-      <!-- Nav Item - Charts -->
+      <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="/select/">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-chart-area"></i>
-          <span>Select</span></a>
+          <span>Select</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">데이터 조회</h6>
+            <a class="collapse-item" href="/select/">SCM</a>
+            <a class="collapse-item" href="/select/employee/">직원</a>
+            <a class="collapse-item" href="/select/authority/">권한</a>
+            <a class="collapse-item" href="/select/product/">품목</a>
+            <a class="collapse-item" href="/select/customer/">거래업체</a>
+            <a class="collapse-item" href="/select/customer_purchasing/">업체 구매 담당</a>
+            <a class="collapse-item" href="/select/customer_settlement/">업체 정산 담당</a>
+            <a class="collapse-item" href="/select/co_salesman/">상담사</a>
+            <a class="collapse-item" href="/select/broker/">중개사</a>
+            <a class="collapse-item" href="/select/sales/">계약</a>
+            <a class="collapse-item" href="/select/sales_content/">거래 내용</a>
+            <a class="collapse-item" href="/select/approval/">승인</a>
+            <a class="collapse-item" href="/select/order/">주문</a>
+            <a class="collapse-item" href="/select/deposit/">입금</a>
+            <a class="collapse-item" href="/select/delivery/">배송 처리</a>
+          </div>
+        </div>
       </li>
 
       <!-- Nav Item - Tables -->
@@ -122,6 +143,14 @@
             <h6 class="m-0 font-weight-bold text-primary">주문 테이블 입력</h6>
           </div>
           <div class="card-body">
+
+            <!-- 파일업로드 -->
+            <!-- <form action="/order_upload/" method="post" enctype="multipart/form-data" style="margin-left: 20px;" novalidate> {% csrf_token %} 
+              File : 
+              <input type="file" name="file" id="id_file" style="margin-right: 5px;"/>
+              <input type="submit" value="업로드" /> 
+            </form>  -->
+
             <!-- The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS! -->
             <form id='order' name = 'order' method="post">{% csrf_token %} 
               <div class="limiter">
@@ -134,7 +163,7 @@
                             주문번호
                           </div>
                           <div class="cell">
-                            거래일련번호
+                            OPPTY번호
                           </div>
                           <div class="cell">
                             제품모델명
@@ -172,20 +201,20 @@
                         </div>
                         <script>
                           for(var f=0;f<5;f++){
-                          var order_num = 'order_num' + f; var sales_num = 'sales_num' + f; 
+                          var order_num = 'order_num' + f; var oppty_num = 'oppty_num' + f;
                           var product_model_name = 'product_model_name' + f; var order_quantity = 'order_quantity' + f; 
                           var order_date = 'order_date' + f; var quote_num = 'quote_num' + f;  
                           var scheduled_delivery_date = 'scheduled_delivery_date' + f; 
                           var assignment = 'assignment' + f; var recipient = 'recipient' + f;  
                           var recipient_phone = 'recipient_phone' + f; var delivery_address = 'delivery_address' + f;  
-                          var balance = 'balance' + f; var order_close = 'order_close' + f;  
+                          var balance = 'balance' + f; var order_close = 'order_close' + f;   
 
                           document.write('<div class="row">');
                           document.write('<div class="cell" data-title="order_num">');
                           document.write("<input id= "+ order_num +" name = " + order_num + " type='number'/>");  
                           document.write("</div>");
-                          document.write('<div class="cell" data-title="sales_num">');
-                          document.write("<input id= "+ sales_num +" name = " + sales_num + " type='number'/>");  
+                          document.write('<div class="cell" data-title="oppty_num">');
+                          document.write("<input id= "+ oppty_num +" name = " + oppty_num + " type='text'/>");  
                           document.write("</div>");
                           document.write('<div class="cell" data-title="product_model_name">');
                           document.write("<input id= "+ product_model_name +" name = " + product_model_name + " type='text'/>");  
@@ -256,9 +285,12 @@
 
   <script language="javascript">
     var isSave = '{{isSave}}'
-    // alert(isSave)
     if (isSave){
       alert("저장되었습니다.");
+    }
+    var isIntegrity = '{{isIntegrity}}'
+    if (isIntegrity){
+      alert("해당하는 oppty의 계약 정보가 없습니다.");
     }
   </script>
   

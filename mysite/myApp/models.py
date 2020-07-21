@@ -36,6 +36,24 @@ class Product(models.Model):
         managed = False
         db_table = 'product'
 
+class Sales(models.Model):
+    samsung_code = models.IntegerField(blank=True, null=True)
+    samsung_manager = models.CharField(max_length=20, blank=True, null=True)
+    point = models.CharField(max_length=20, blank=True, null=True)
+    sales_manager = models.CharField(max_length=20, blank=True, null=True)
+    broker_name = models.CharField(max_length=20, blank=True, null=True)
+    scm_manager = models.CharField(max_length=20, blank=True, null=True)
+    customer_name = models.CharField(max_length=20, blank=True, null=True)
+    payment_method = models.CharField(max_length=20, blank=True, null=True)
+    sales_type = models.CharField(max_length=20, blank=True, null=True)
+    demand = models.CharField(max_length=20, blank=True, null=True)
+    billing_place = models.CharField(max_length=20, blank=True, null=True)
+    oppty_num = models.CharField(primary_key=True, max_length=20)
+
+    class Meta:
+        managed = False
+        db_table = 'sales'
+
 class CoSalesman(models.Model):
     name = models.CharField(primary_key=True, max_length=20)
     resident_registration_number = models.CharField(max_length=20, blank=True, null=True)
@@ -99,7 +117,7 @@ class Broker(models.Model):
         db_table = 'broker'
 
 class SalesContent(models.Model):
-    sales_num = models.AutoField(primary_key=True)
+    oppty_num = models.OneToOneField(Sales, models.DO_NOTHING, db_column='oppty_num', primary_key=True)
     product_model_name = models.CharField(max_length=20, blank=True, null=True)
     decision_quantity = models.IntegerField(blank=True, null=True)
     decision_price = models.IntegerField(blank=True, null=True)
@@ -115,31 +133,12 @@ class SalesContent(models.Model):
         managed = False
         db_table = 'sales_content'
     
-    def number():
-        num = SalesContent.objects.count()
-        if num == None:
-            return 1
-        else:
-            return num + 1
-
-class Sales(models.Model):
-    sales_num = models.IntegerField(primary_key=True)
-    samsung_code = models.IntegerField(blank=True, null=True)
-    samsung_manager = models.CharField(max_length=20, blank=True, null=True)
-    point = models.CharField(max_length=20, blank=True, null=True)
-    sales_manager = models.CharField(max_length=20, blank=True, null=True)
-    broker_name = models.CharField(max_length=20, blank=True, null=True)
-    scm_manager = models.CharField(max_length=20, blank=True, null=True)
-    customer_name = models.CharField(max_length=20, blank=True, null=True)
-    payment_method = models.CharField(max_length=20, blank=True, null=True)
-    sales_type = models.CharField(max_length=20, blank=True, null=True)
-    demand = models.CharField(max_length=20, blank=True, null=True)
-    billing_place = models.CharField(max_length=20, blank=True, null=True)
-    oppty_num = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'sales'
+    # def number():
+    #     num = SalesContent.objects.count()
+    #     if num == None:
+    #         return 1
+    #     else:
+    #         return num + 1
 
 class Broker(models.Model):
     name = models.CharField(primary_key=True, max_length=20)
@@ -207,7 +206,7 @@ class CustomerSettlement(models.Model):
 
 
 class Delivery(models.Model):
-    order_num = models.IntegerField(primary_key=True)
+    order_num = models.OneToOneField('OrderData', models.DO_NOTHING, db_column='order_num', primary_key=True)
     quantity = models.IntegerField(blank=True, null=True)
     delivery_date = models.DateTimeField(blank=True, null=True)
     return_date = models.DateTimeField(blank=True, null=True)
@@ -219,12 +218,12 @@ class Delivery(models.Model):
 
 
 class Deposit(models.Model):
-    customer_name = models.CharField(primary_key=True, max_length=20)
+    customer_name = models.CharField(max_length=20, blank=True, null=True)
     deposit_amount = models.IntegerField(blank=True, null=True)
     balance = models.IntegerField(blank=True, null=True)
     payment_method = models.CharField(max_length=20, blank=True, null=True)
     deposit_date = models.DateTimeField(blank=True, null=True)
-    order_num = models.IntegerField(blank=True, null=True)
+    order_num = models.OneToOneField('OrderData', models.DO_NOTHING, db_column='order_num', primary_key=True)
     scheduled_shipping_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
@@ -232,11 +231,11 @@ class Deposit(models.Model):
         db_table = 'deposit'
 
 class Approval(models.Model):
-    sales_num = models.IntegerField(primary_key=True)
+    quote_num = models.IntegerField(primary_key=True)
+    oppty_num = models.ForeignKey('Sales', models.DO_NOTHING, db_column='oppty_num', blank=True, null=True)
     product_model_name = models.CharField(max_length=20, blank=True, null=True)
     approval_quantity = models.IntegerField(blank=True, null=True)
     approval_price = models.IntegerField(blank=True, null=True)
-    quote_num = models.IntegerField(blank=True, null=True)
     balance = models.IntegerField(blank=True, null=True)
 
     class Meta:
@@ -245,7 +244,7 @@ class Approval(models.Model):
         
 class OrderData(models.Model):
     order_num = models.IntegerField(primary_key=True)
-    sales_num = models.IntegerField(blank=True, null=True)
+    oppty_num = models.ForeignKey('Sales', models.DO_NOTHING, db_column='oppty_num', blank=True, null=True)
     product_model_name = models.CharField(max_length=20, blank=True, null=True)
     order_quantity = models.IntegerField(blank=True, null=True)
     order_date = models.DateTimeField(blank=True, null=True)
@@ -261,3 +260,7 @@ class OrderData(models.Model):
     class Meta:
         managed = False
         db_table = 'order_data'
+
+class UploadOrderFileModel(models.Model):
+    title = models.TextField(default='')
+    file = models.FileField(null=True)

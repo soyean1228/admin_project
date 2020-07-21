@@ -31,7 +31,7 @@ def save(request):
                 try :
                     row = OrderData.objects.get(order_num=order_num)
                     if quantity != None and row.order_quantity != None:  
-                        balance = row.order_quantity - quantity
+                        balance = row.order_quantity - int(quantity)
                     elif row.order_quantity != None and quantity == None:
                         balance = row.order_quantity
                     else:

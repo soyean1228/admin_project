@@ -49,9 +49,9 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="/index/">
+        <a class="nav-link" href="/select/">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
+          <span>SCM 조회</span></a>
       </li>
 
 
@@ -90,11 +90,32 @@
         </div>
       </li>
 
-      <!-- Nav Item - Charts -->
+      <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="/select/">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-chart-area"></i>
-          <span>Select</span></a>
+          <span>Select</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">데이터 조회</h6>
+            <a class="collapse-item" href="/select/">SCM</a>
+            <a class="collapse-item" href="/select/employee/">직원</a>
+            <a class="collapse-item" href="/select/authority/">권한</a>
+            <a class="collapse-item" href="/select/product/">품목</a>
+            <a class="collapse-item" href="/select/customer/">거래업체</a>
+            <a class="collapse-item" href="/select/customer_purchasing/">업체 구매 담당</a>
+            <a class="collapse-item" href="/select/customer_settlement/">업체 정산 담당</a>
+            <a class="collapse-item" href="/select/co_salesman/">상담사</a>
+            <a class="collapse-item" href="/select/broker/">중개사</a>
+            <a class="collapse-item" href="/select/sales/">계약</a>
+            <a class="collapse-item" href="/select/sales_content/">거래 내용</a>
+            <a class="collapse-item" href="/select/approval/">승인</a>
+            <a class="collapse-item" href="/select/order/">주문</a>
+            <a class="collapse-item" href="/select/deposit/">입금</a>
+            <a class="collapse-item" href="/select/delivery/">배송 처리</a>
+          </div>
+        </div>
       </li>
 
       <!-- Nav Item - Tables -->
@@ -166,7 +187,7 @@
                         document.write('<div class="row">');
         
                         document.write('<div class="cell" data-title="productno">');
-                        document.write("<input id= "+ productno +" name = " + productno + " type='text'/>");  
+                        document.write("<input id= "+ productno +" name = " + productno + " type='number'/>");  
                         document.write("</div>");
         
                         document.write('<div class="cell" data-title=" main_category">');

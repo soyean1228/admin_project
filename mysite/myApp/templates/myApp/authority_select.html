@@ -3,7 +3,6 @@
 
 {% load static %}
 
-
 <head>
 
   <meta charset="utf-8">
@@ -14,12 +13,15 @@
 
   <title>Program</title>
 
-  <!-- Custom fonts for this template-->
+  <!-- Custom fonts for this template -->
   <link href="{% static '/myApp/assets/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-  <!-- Custom styles for this template-->
+  <!-- Custom styles for this template -->
   <link href="{% static '/myApp/assets/css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this page -->
+  <link href="{% static '/myApp/assets/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
 
   <!--===============================================================================================-->
   <link rel="stylesheet" type="text/css" href="{% static '/myApp/assets/css/util.css' %}">
@@ -53,7 +55,6 @@
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>SCM 조회</span></a>
       </li>
-
 
       <!-- Divider -->
       <hr class="sidebar-divider">
@@ -91,7 +92,7 @@
       </li>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
+       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Select</span>
@@ -130,85 +131,59 @@
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-        
-      <!-- Begin Page Content -->
-      <div class="container-fluid" >
 
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >Insert</h1>
-        </div>
-        <div class="card shadow mb-4">
-          <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">승인 테이블 입력</h6>
+      <!-- Main Content -->
+      <div id="content">
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >Select</h1>
           </div>
-          <div class="card-body">
-            <!-- The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS! -->
-            <form id='approval' name = 'approval' method="post">{% csrf_token %} 
-              <div class="limiter">
-                <div class="container-table100">
-                  <div class="wrap-table100">
-                      <!-- <input type="submit" value="저장" onclick="javascript: form.action='/insert_check/approval/';"/> -->
-                      <div class="table">
-                        <div class="row header">
-                          <div class="cell">
-                            견적번호
-                          </div>
-                          <div class="cell">
-                            OPPTY번호
-                          </div>
-                          <div class="cell">
-                            제품모델명
-                          </div>
-                          <div class="cell">
-                            승인수량
-                          </div>
-                          <div class="cell">
-                            승인단가
-                          </div>
-                          <div class="cell">
-                            잔량
-                          </div>
-                        </div>
-                        <script>
-                          for(var f=0;f<5;f++){
-                          var oppty_num = 'oppty_num' + f; var product_model_name = 'product_model_name' + f; 
-                          var approval_quantity = 'approval_quantity' + f; var quote_num = 'quote_num' + f; 
-                          var balance = 'balance' + f; var approval_price = 'approval_price' + f;  
+          <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
 
-                          document.write('<div class="row">');
-                          document.write('<div class="cell" data-title="quote_num">');
-                          document.write("<input id= "+ quote_num +" name = " + quote_num + " type='number'/>");  
-                          document.write("</div>");
-                          document.write('<div class="cell" data-title="oppty_num">');
-                          document.write("<input id= "+ oppty_num +" name = " + oppty_num + " type='text'/>");   
-                          document.write("</div>");
-                          document.write('<div class="cell" data-title="product_model_name">');
-                          document.write("<input id= "+ product_model_name +" name = " + product_model_name + " type='text'/>");  
-                          document.write("</div>");
-                          document.write('<div class="cell" data-title="approval_quantity">');
-                          document.write("<input id= "+ approval_quantity +" name = " + approval_quantity + " type='number'/>");  
-                          document.write("</div>");
-                          document.write('<div class="cell" data-title="approval_price">');
-                          document.write("<input id= "+ approval_price +" name = " + approval_price + " type='number'/>");   
-                          document.write("</div>");
-                          document.write('<div class="cell" data-title="balance">');
-                          document.write("<input id= "+ balance +" name = " + balance + " type='number'/>");   
-                          document.write("</div>");
-                          document.write("</div>");
-                          }
-                        </script>
-                      </div>
-                      <!-- <button onclick="add_row()">행 추가하기</button> -->
-                      <input type="submit" class='sub' value="저장" onclick="javascript: form.action='/insert_check/approval/';"/>
-                  </div> 
-                </div>
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">권한 테이블</h6>
+            </div>
+
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>이름</th>
+                      <th>권한</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>이름</th>
+                      <th>권한</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    {% for list in authority_data %}
+                      <tr>
+                        <style>td{font-size: 12px;};</style>
+                        <td>{{list.name|default_if_none:"" }}</td>
+                        <td>{{list.authority|default_if_none:"" }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
               </div>
-            </form>
+            </div>
           </div>
+
         </div>
+        <!-- /.container-fluid -->
+
       </div>
-      <!-- /.container-fluid -->
+      <!-- End of Main Content -->
+
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
@@ -218,8 +193,10 @@
         </div>
       </footer>
       <!-- End of Footer -->
+
     </div>
     <!-- End of Content Wrapper -->
+
   </div>
   <!-- End of Page Wrapper -->
 
@@ -228,19 +205,26 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <script language="javascript">
-    var isSave = '{{isSave}}'
-    if (isSave){
-      alert("저장되었습니다.");
-    }
-    var isIntegrity = '{{isIntegrity}}'
-    if (isIntegrity){
-      alert("해당하는 oppty의 계약 정보가 없습니다.");
-    }
-  </script>
-  
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap core JavaScript-->
-  <!-- "{% static '/myApp/assets/css/util.css' %}"> -->
   <script src="{% static '/myApp/assets/vendor/jquery/jquery.min.js' %}"></script>
   <script src="{% static '/myApp/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
@@ -248,14 +232,49 @@
   <script src="{% static '/myApp/assets/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="{% static '/myApp/assets/js/sb-admin-2.min.js' %}"></script>
+  <script src="{% static '/myApp/assets/js/sb-admin-2.min.js"></script>
 
   <!-- Page level plugins -->
-  <script src="{% static '/myApp/assets/vendor/chart.js/Chart.min.js' %}"></script>
+  <script src="{% static '/myApp/assets/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static '/myApp/assets/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
 
   <!-- Page level custom scripts -->
-  <script src="{% static '/myApp/assets/js/demo/chart-area-demo.js' %}"></script>
-  <script src="{% static '/myApp/assets/js/demo/chart-pie-demo.js' %}"></script>
+  <script src="{% static '/myApp/assets/js/demo/datatables-demo.js' %}"></script>
+
+  <style>
+    th{
+      font-size: 13px;
+    }
+    div.row{
+      all : unset;
+      justify-content: center;
+    }
+    .pagination{
+      width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+    } 
+    .col-sm-12{
+      all: unset;
+    }
+    .dataTables_length{
+      all: unset;
+      margin-top: 2px;
+    }
+    .dataTables_filter{
+      all: unset;
+      float: right;
+      margin-right: 10px;
+    } 
+    .form-control{
+      border-color: black;
+    }
+    input.form-control.form-control-sm{
+      outline-style: auto;
+      padding: 0px;
+      margin-top: 1px;
+    }
+  </style>
 
 </body>
 

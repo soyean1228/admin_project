@@ -4,12 +4,12 @@ def save(request):
     print("sales_content_save")
 
     for i in range(0,5):
-        sales_num = None; product_model_name =None; decision_quantity = None; 
+        oppty_num = None; product_model_name =None; decision_quantity = None; 
         decision_price = None; sales_price = None; beginning_purchase = None; 
         delivery_request_date = None; recipient =  None; recipient_phone = None; 
         delivery_address = None; contact_conclusion_date = None; 
 
-        # sales_num = request.POST.get('sales_num' + str(i),None)
+        oppty_num = request.POST.get('oppty_num' + str(i),None)
         product_model_name = request.POST.get('product_model_name' + str(i),None)
         if product_model_name == '' : 
             product_model_name = None
@@ -41,11 +41,8 @@ def save(request):
         if contact_conclusion_date == '' : 
             contact_conclusion_date = None
 
-        print(sales_num)
-
-        if product_model_name != None or decision_quantity != None or decision_price != None or sales_price != None or beginning_purchase != None or delivery_request_date != None or recipient != None or recipient_phone != None or delivery_address != None or contact_conclusion_date != None :
-            sales_num = SalesContent.number()
-            sales_content_data = SalesContent( sales_num, product_model_name, decision_quantity, decision_price, sales_price, beginning_purchase, delivery_request_date, recipient, recipient_phone, delivery_address, contact_conclusion_date ) 
+        if oppty_num != '' :
+            sales_content_data = SalesContent( oppty_num, product_model_name, decision_quantity, decision_price, sales_price, beginning_purchase, delivery_request_date, recipient, recipient_phone, delivery_address, contact_conclusion_date ) 
             sales_content_data.save()
 
     print("완료")

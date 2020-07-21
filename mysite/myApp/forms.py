@@ -1,8 +1,11 @@
 from django import forms
-from .models import Employee
+from .models import UploadOrderFileModel
 
-# Model Form (모델 폼)
-class EmployeeForm(forms.ModelForm):
-	class Meta:
-		model = Employee
-		fields = '__all__'
+class UploadOrderFileModel(forms.ModelForm):
+    class Meta:
+        model = UploadOrderFileModel
+        fields = ('title', 'file')
+
+    def __init__(self, *args, **kwargs):
+        super(PostForm, self).__init__(*args, **kwargs)
+        self.fields['file'].required = False

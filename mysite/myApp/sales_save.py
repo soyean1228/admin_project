@@ -4,12 +4,12 @@ def save(request):
     print("sales_save")
 
     for i in range(0,5):
-        sales_num = ''; samsung_code =''; samsung_manager = ''; point = ''; 
+        samsung_code =''; samsung_manager = ''; point = ''; 
         sales_manager = ''; broker_name =''; scm_manager = ''; 
         customer_name = ''; payment_method =''; sales_type = ''; 
         demand = ''; billing_place =''; oppty_num = ''; 
 
-        sales_num = request.POST.get('sales_num' + str(i), None)
+        oppty_num = request.POST.get('oppty_num' + str(i), None)
         samsung_code = request.POST.get('samsung_code' + str(i), None)
         if samsung_code == '' : 
             samsung_code = None
@@ -43,13 +43,10 @@ def save(request):
         billing_place = request.POST.get('billing_place' + str(i), None)
         if billing_place == '' : 
             billing_place = None
-        oppty_num = request.POST.get('oppty_num' + str(i), None)
-        if oppty_num == '' : 
-            oppty_num = None
 
-        if sales_num != '' :
-            print(sales_num)
-            sales_data = Sales(sales_num, samsung_code, samsung_manager, point, 
+        if oppty_num != '' :
+            print(oppty_num)
+            sales_data = Sales(samsung_code, samsung_manager, point, 
                             sales_manager, broker_name, scm_manager, 
                             customer_name, payment_method, sales_type, 
                             demand, billing_place, oppty_num ) 
