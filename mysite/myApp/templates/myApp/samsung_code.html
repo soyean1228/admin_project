@@ -3,6 +3,7 @@
 
 {% load static %}
 
+
 <head>
 
   <meta charset="utf-8">
@@ -74,80 +75,122 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">데이터 입력</h6>
-            <a class="collapse-item" href="/insert/employee/">직원</a>
-            <a class="collapse-item" href="/insert/authority/">권한</a>
-            <a class="collapse-item" href="/insert/product/">품목</a>
-            <a class="collapse-item" href="/insert/customer/">거래업체</a>
-            <a class="collapse-item" href="/insert/customer_purchasing/">업체 구매 담당</a>
-            <a class="collapse-item" href="/insert/customer_settlement/">업체 정산 담당</a>
-            <a class="collapse-item" href="/insert/co_salesman/">상담사</a>
-            <a class="collapse-item" href="/insert/broker/">중개사</a>
-            <a class="collapse-item" href="/insert/sales/">계약</a>
-            <a class="collapse-item" href="/insert/sales_content/">거래 내용</a>
-            <a class="collapse-item" href="/insert/approval/">승인</a>
-            <a class="collapse-item" href="/insert/order/">주문</a>
+            <a class="collapse-item" href="/insert/employee/">임직원 등록</a>
+            <a class="collapse-item" href="/insert/samsung_code/">삼성코드 및 담당자 등록</a>
+            <a class="collapse-item" href="/insert/product/">제품 등록</a>
+            <a class="collapse-item" href="/insert/broker/">알선사 등록</a>
+            <a class="collapse-item" href="/insert/customer/">업체 등록</a>
+            <a class="collapse-item" href="/insert/proposal/">품의 등록</a>
+            <a class="collapse-item" href="/insert/approval_order/">승인 및 주문 등록</a>
             <a class="collapse-item" href="/insert/deposit/">입금</a>
             <a class="collapse-item" href="/insert/delivery/">배송 처리</a>
           </div>
         </div>
       </li>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Select</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">데이터 조회</h6>
-            <a class="collapse-item" href="/select/">SCM</a>
-            <a class="collapse-item" href="/select/employee/">직원</a>
-            <a class="collapse-item" href="/select/authority/">권한</a>
-            <a class="collapse-item" href="/select/product/">품목</a>
-            <a class="collapse-item" href="/select/customer/">거래업체</a>
-            <a class="collapse-item" href="/select/customer_purchasing/">업체 구매 담당</a>
-            <a class="collapse-item" href="/select/customer_settlement/">업체 정산 담당</a>
-            <a class="collapse-item" href="/select/co_salesman/">상담사</a>
-            <a class="collapse-item" href="/select/broker/">중개사</a>
-            <a class="collapse-item" href="/select/sales/">계약</a>
-            <a class="collapse-item" href="/select/sales_content/">거래 내용</a>
-            <a class="collapse-item" href="/select/approval/">승인</a>
-            <a class="collapse-item" href="/select/order/">주문</a>
-            <a class="collapse-item" href="/select/deposit/">입금</a>
-            <a class="collapse-item" href="/select/delivery/">배송 처리</a>
-          </div>
-        </div>
-      </li>
-
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Tables</span></a>
-      </li>
-
     </ul>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
-      <!-- Main Content -->
+      <!-- Topbar -->
+      <!-- <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"></nav> -->
+        
+      <!-- Begin Page Content -->
+      <div class="container-fluid" >
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >입력</h1>
+        </div>
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">삼성코드 및 담당자 등록</h6>
+          </div>
+          <div class="card-body">
+
+            <!-- 파일업로드 --> 
+            <form action="/order_upload/" method="post" enctype="multipart/form-data" style="margin-left: 20px;" novalidate> {% csrf_token %} 
+              File : 
+              <input type="file" name="file" id="id_file" style="margin-right: 5px;"/>
+              <input type="submit" value="업로드" /> 
+            </form> 
+
+            <!-- The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS! -->
+            <form id='samsung_code' name = 'samsung_code' method="post">{% csrf_token %} 
+              <div class="limiter">
+                <div class="container-table100">
+                  <div class="wrap-table100">
+                      <!-- <input type="submit" value="저장" onclick="javascript: form.action='/insert_check/employee/';"/> -->
+                      <div class="table">
+                        <div class="row header">
+                          <div class="cell">
+                            삼성코드
+                          </div>
+                          <div class="cell">
+                            담당자
+                          </div>
+                          <div class="cell">
+                            부서명
+                          </div>
+                          <div class="cell">
+                            연락처
+                          </div>
+                          <div class="cell">
+                            이메일
+                          </div>
+                        </div>
+                        <script>
+                          for(var f=0;f<1;f++){
+                          var samsung_code = 'samsung_code' + f; var manager = 'manager' + f;
+                          var department = 'department' + f; var phone_num = 'phone_num' + f; var email = 'email' + f;
+                          
+                          document.write('<div class="row">');
+                          document.write('<div class="cell" data-title="삼성코드">');
+                          document.write("<input id= "+ samsung_code +" name = " + samsung_code + " type='number'/>");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="담당자">');
+                          document.write("<input id= "+ manager +" name = " + manager + " type='text'/>");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="부서명">');
+                          document.write("<input id= "+ department +" name = " + department + " type='text'/>");   
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="연락처">');
+                          document.write("<input id= "+ phone_num +" name = " + phone_num + " type='text'/>");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="이메일">');
+                          document.write("<input id= "+ email +" name = " + email + " type='text'/>");  
+                          document.write("</div>");
+                          document.write("</div>");
+                          }
+                        </script>
+                      </div>
+                      <!-- <button onclick="add_row()">행 추가하기</button> -->
+                      <input type="submit" class = 'sub' value="저장" onclick="javascript: form.action='/insert_check/samsung_code/';"/>
+                      
+                  </div> 
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+      <!-- Main Content  -->
       <div id="content">
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >Select</h1>
+            <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >조회</h1>
           </div>
           <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary"> 입금 테이블</h6>
+              <h6 class="m-0 font-weight-bold text-primary">삼성코드 및 담당자 조회</h6>
             </div>
 
             <div class="card-body">
@@ -155,37 +198,31 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>거래처명</th>
-                      <th>입금 금액</th>
-                      <th>잔액</th>
-                      <th>결제방식</th>
-                      <th>입금일</th>
-                      <th>주문번호</th>
-                      <th>배송예정일</th>
+                        <th>삼성코드</th>
+                        <th>담당자</th>
+                        <th>부서명</th>
+                        <th>연락처</th>
+                        <th>이메일</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>거래처명</th>
-                      <th>입금 금액</th>
-                      <th>잔액</th>
-                      <th>결제방식</th>
-                      <th>입금일</th>
-                      <th>주문번호</th>
-                      <th>배송예정일</th>
+                        <th>삼성코드</th>
+                        <th>담당자</th>
+                        <th>부서명</th>
+                        <th>연락처</th>
+                        <th>이메일</th>
                     </tr>
                   </tfoot>
                   <tbody>
-                    {% for list in deposit_data %}
+                    {% for list in samsung_code_data %}
                       <tr>
                         <style>td{font-size: 14px;};</style>
-                        <td>{{list.customer_name|default_if_none:"" }}</td>
-                        <td>{{list.deposit_amount|default_if_none:"" }}</td>
-                        <td>{{list.balance|default_if_none:"" }}</td>
-                        <td>{{list.payment_method|default_if_none:"" }}</td>
-                        <td>{{list.deposit_date|default_if_none:"" |date:"Y-m-d"}}</td>
-                        <td>{{list.order_num.order_num|default_if_none:"" }}</td>
-                        <td>{{list.scheduled_shipping_date|default_if_none:"" |date:"Y-m-d"}}</td>
+                        <td>{{list.samsung_code|default_if_none:"" }}</td>
+                        <td>{{list.manager|default_if_none:"" }}</td>
+                        <td>{{list.department|default_if_none:"" }}</td>
+                        <td>{{list.phone_num|default_if_none:"" }}</td>
+                        <td>{{list.email|default_if_none:"" }}</td>
                       </tr>
                     {% endfor %}
                   </tbody>
@@ -198,7 +235,8 @@
         <!-- /.container-fluid -->
 
       </div>
-      <!-- End of Main Content -->
+      <!-- nd of Main Content -->
+      
 
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
@@ -209,10 +247,8 @@
         </div>
       </footer>
       <!-- End of Footer -->
-
     </div>
     <!-- End of Content Wrapper -->
-
   </div>
   <!-- End of Page Wrapper -->
 
@@ -221,24 +257,14 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
+  <script language="javascript">
+    var isSave = '{{isSave}}'
+    // alert(isSave)
+    if (isSave){
+      alert("저장되었습니다.");
+    }
+  </script>
+  
 
   <!-- Bootstrap core JavaScript-->
   <script src="{% static '/myApp/assets/vendor/jquery/jquery.min.js' %}"></script>
@@ -260,10 +286,6 @@
   <style>
     th{
       font-size: 13px;
-    }
-    div.row{
-      all : unset;
-      justify-content: center;
     }
     .col-sm-12{
       all: unset;
@@ -297,7 +319,12 @@
     .paginate_button {
       display: inline-block;
     }
+    div.dataTables_wrapper > div.row{
+      display : unset;
+      justify-content: center;
+    } 
   </style>
+
 </body>
 
 </html>

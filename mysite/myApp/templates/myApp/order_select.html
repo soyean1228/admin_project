@@ -156,7 +156,6 @@
                   <thead>
                     <tr>
                       <th>주문번호</th>
-                      <th>거래일련번호</th>
                       <th>제품모델명</th>
                       <th>주문수량</th>
                       <th>주문일자</th>
@@ -173,7 +172,6 @@
                   <tfoot>
                     <tr>
                       <th>주문번호</th>
-                      <th>거래일련번호</th>
                       <th>제품모델명</th>
                       <th>주문수량</th>
                       <th>주문일자</th>
@@ -192,7 +190,6 @@
                       <tr>
                         <style>td{font-size: 14px;};</style>
                         <td>{{list.order_num|default_if_none:"" }}</td>
-                        <td>{{list.sales_num|default_if_none:"" }}</td>
                         <td>{{list.product_model_name|default_if_none:"" }}</td>
                         <td>{{list.order_quantity|default_if_none:"" }}</td>
                         <td>{{list.order_date|default_if_none:"" |date:"Y-m-d"}}</td>
@@ -283,11 +280,6 @@
       all : unset;
       justify-content: center;
     }
-    .pagination{
-      width: 550px;
-      margin-left: auto;
-      margin-right: auto;
-    } 
     .col-sm-12{
       all: unset;
     }
@@ -307,6 +299,18 @@
       outline-style: auto;
       padding: 0px;
       margin-top: 1px;
+    }
+    div.dataTables_wrapper div.dataTables_paginate {
+      margin: 0;
+      white-space: nowrap;
+      text-align: center;
+    }
+    .pagination{
+      all : unset;
+      text-align: center;
+    }
+    .paginate_button {
+      display: inline-block;
     }
   </style>
 </body>

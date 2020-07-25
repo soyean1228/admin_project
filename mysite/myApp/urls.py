@@ -12,7 +12,7 @@ app_name = 'myApp'
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('',views.index, name = 'index'),
+    path('',views.index, name = 'select'),
     path('index/',views.index, name = 'index'),
     path('insert/',views.insert, name = 'insert'),
     path('select/',views.select, name = 'select'),
@@ -22,5 +22,7 @@ urlpatterns = [
     path('select_result/',views.select_result, name = 'select_result'),
 
     path('insert/<str:table_name>/',views.insert, name = 'insert'),
-    path('insert_check/<str:table_name>/', views.insert_check, name='insert_check')
+    path('insert_check/<str:table_name>/', views.insert_check, name='insert_check'),
+
+    path('upload/<str:table_name>/',views.upload, name = 'upload'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

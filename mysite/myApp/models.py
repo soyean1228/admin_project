@@ -2,8 +2,11 @@ from django.db import models
 
 class Employee(models.Model):
     name = models.CharField(primary_key=True, max_length=20)
+    team = models.CharField(max_length=20, blank=True, null=True)
     position = models.CharField(max_length=20, blank=True, null=True)
     department = models.CharField(max_length=20, blank=True, null=True)
+    resident_registration_number = models.CharField(max_length=20, blank=True, null=True)
+    rate = models.CharField(max_length=20, blank=True, null=True)
     phone_num = models.CharField(max_length=20, blank=True, null=True)
     office_num = models.CharField(max_length=20, blank=True, null=True)
     address = models.CharField(max_length=100, blank=True, null=True)
@@ -13,13 +16,17 @@ class Employee(models.Model):
         managed = False
         db_table = 'employee'
 
-class Authority(models.Model):
-    name = models.CharField(primary_key=True, max_length=20)
-    authority = models.CharField(max_length=20, blank=True, null=True)
-    
+class SamsungCode(models.Model):
+    samsung_code = models.IntegerField(primary_key=True)
+    manager = models.CharField(max_length=20)
+    department = models.CharField(max_length=20, blank=True, null=True)
+    phone_num = models.CharField(max_length=20, blank=True, null=True)
+    email = models.CharField(max_length=20, blank=True, null=True)
+
     class Meta:
         managed = False
-        db_table = 'authority'
+        db_table = 'samsung_code'
+        unique_together = (('samsung_code', 'manager'),)
 
 class Product(models.Model):
     productno = models.IntegerField(db_column='ProductNo', primary_key=True)  # Field name made lowercase.
@@ -28,13 +35,58 @@ class Product(models.Model):
     sub_category = models.CharField(max_length=20, blank=True, null=True)
     professionalism_fee_rate = models.CharField(max_length=20, blank=True, null=True)
     potential_fee_rate = models.CharField(max_length=20, blank=True, null=True)
-    additional_fee1 = models.IntegerField(blank=True, null=True)
-    additional_fee2 = models.IntegerField(blank=True, null=True)
-    additional_fee3 = models.IntegerField(blank=True, null=True)
+    additional_fee1 = models.CharField(max_length=20, blank=True, null=True)
+    additional_fee2 = models.CharField(max_length=20, blank=True, null=True)
+    additional_fee3 = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'product'
+
+class Broker(models.Model):
+    name = models.CharField(primary_key=True, max_length=20)
+    resident_registration_number = models.CharField(max_length=30, blank=True, null=True)
+    addresss = models.CharField(max_length=100, blank=True, null=True)
+    contact_number = models.CharField(max_length=20, blank=True, null=True)
+    fee = models.CharField(max_length=20, blank=True, null=True)
+    team = models.CharField(max_length=20, blank=True, null=True)
+    manager = models.CharField(max_length=20, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'broker'
+
+class Customer(models.Model):
+    customer_name = models.CharField(max_length=20, blank=True, null=True)
+    company_registration_number = models.CharField(primary_key=True, max_length=20)
+    representative = models.CharField(max_length=20, blank=True, null=True)
+    address = models.CharField(max_length=100, blank=True, null=True)
+    opening_date = models.DateTimeField(blank=True, null=True)
+    field1 = models.CharField(max_length=20, blank=True, null=True)
+    field2 = models.CharField(max_length=20, blank=True, null=True)
+    field3 = models.CharField(max_length=20, blank=True, null=True)
+    purchasing_manager = models.CharField(max_length=20, blank=True, null=True)
+    purchasing_contact_number1 = models.CharField(max_length=20, blank=True, null=True)
+    purchasing_contact_number2 = models.CharField(max_length=20, blank=True, null=True)
+    purchasing_email = models.CharField(max_length=20, blank=True, null=True)
+    settlement_manager = models.CharField(max_length=20, blank=True, null=True)
+    settlement_contact_number = models.CharField(max_length=20, blank=True, null=True)
+    settlement_email = models.CharField(max_length=20, blank=True, null=True)
+    sales_manager = models.CharField(max_length=20, blank=True, null=True)
+    scm_manager = models.CharField(max_length=20, blank=True, null=True)
+    rate = models.CharField(max_length=20, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'customer'
+
+class Authority(models.Model):
+    name = models.CharField(primary_key=True, max_length=20)
+    authority = models.CharField(max_length=20, blank=True, null=True)
+    
+    class Meta:
+        managed = False
+        db_table = 'authority'
 
 class Sales(models.Model):
     samsung_code = models.IntegerField(blank=True, null=True)
@@ -65,24 +117,6 @@ class CoSalesman(models.Model):
         managed = False
         db_table = 'co_salesman'
 
-
-class Customer(models.Model):
-    customer_name = models.CharField(primary_key=True, max_length=20)
-    company_registration_number = models.CharField(max_length=20, blank=True, null=True)
-    representative = models.CharField(max_length=20, blank=True, null=True)
-    address = models.CharField(max_length=100, blank=True, null=True)
-    opening_date = models.DateTimeField(blank=True, null=True)
-    field1 = models.CharField(max_length=20, blank=True, null=True)
-    field2 = models.CharField(max_length=20, blank=True, null=True)
-    field3 = models.CharField(max_length=20, blank=True, null=True)
-    sales_manager = models.CharField(max_length=20, blank=True, null=True)
-    scm_manager = models.CharField(max_length=20, blank=True, null=True)
-    rate = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'customer'
-
 class CustomerPurchasing(models.Model):
     customer_purchasing_manager = models.CharField(primary_key=True, max_length=20)
     company_registration_number = models.CharField(max_length=20, blank=True, null=True)
@@ -104,17 +138,6 @@ class CustomerSettlement(models.Model):
     class Meta:
         managed = False
         db_table = 'customer_settlement'
-
-class Broker(models.Model):
-    name = models.CharField(primary_key=True, max_length=20)
-    resident_registration_number = models.CharField(max_length=20, blank=True, null=True)
-    addresss = models.CharField(max_length=100, blank=True, null=True)
-    contact_number = models.CharField(max_length=20, blank=True, null=True)
-    fee = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'broker'
 
 class SalesContent(models.Model):
     oppty_num = models.OneToOneField(Sales, models.DO_NOTHING, db_column='oppty_num', primary_key=True)
@@ -140,18 +163,6 @@ class SalesContent(models.Model):
     #     else:
     #         return num + 1
 
-class Broker(models.Model):
-    name = models.CharField(primary_key=True, max_length=20)
-    resident_registration_number = models.CharField(max_length=20, blank=True, null=True)
-    addresss = models.CharField(max_length=100, blank=True, null=True)
-    contact_number = models.CharField(max_length=20, blank=True, null=True)
-    fee = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'broker'
-
-
 class CoSalesman(models.Model):
     name = models.CharField(primary_key=True, max_length=20)
     resident_registration_number = models.CharField(max_length=20, blank=True, null=True)
@@ -162,25 +173,6 @@ class CoSalesman(models.Model):
     class Meta:
         managed = False
         db_table = 'co_salesman'
-
-
-class Customer(models.Model):
-    customer_name = models.CharField(primary_key=True, max_length=20)
-    company_registration_number = models.IntegerField(blank=True, null=True)
-    representative = models.CharField(max_length=20, blank=True, null=True)
-    address = models.CharField(max_length=100, blank=True, null=True)
-    opening_date = models.DateTimeField(blank=True, null=True)
-    field1 = models.CharField(max_length=20, blank=True, null=True)
-    field2 = models.CharField(max_length=20, blank=True, null=True)
-    field3 = models.CharField(max_length=20, blank=True, null=True)
-    sales_manager = models.CharField(max_length=20, blank=True, null=True)
-    scm_manager = models.CharField(max_length=20, blank=True, null=True)
-    rate = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'customer'
-
 
 class CustomerPurchasing(models.Model):
     customer_purchasing_manager = models.CharField(primary_key=True, max_length=20)
@@ -263,3 +255,30 @@ class OrderData(models.Model):
 class UploadOrderFileModel(models.Model):
     title = models.TextField(default='')
     file = models.FileField(null=True)
+
+class Scm(models.Model):
+    oppty_num = models.CharField(max_length=20,primary_key=True)
+    samsung_code = models.IntegerField(blank=True, null=True)
+    samsung_manager = models.CharField(max_length=20, blank=True, null=True)
+    sales_manager = models.CharField(max_length=20, blank=True, null=True)
+    scm_manager = models.CharField(max_length=20, blank=True, null=True)
+    customer_name = models.CharField(max_length=20, blank=True, null=True)
+    recipient = models.CharField(max_length=20, blank=True, null=True)
+    delivery_address = models.CharField(max_length=100, blank=True, null=True)
+    recipient_phone = models.CharField(max_length=20, blank=True, null=True)
+    product_model_name = models.CharField(max_length=20, blank=True, null=True)
+    beginning_purchase = models.CharField(max_length=20, blank=True, null=True)
+    order_quantity = models.IntegerField(blank=True, null=True)
+    approval_price = models.IntegerField(blank=True, null=True)
+    sales_price = models.IntegerField(blank=True, null=True)
+    quote_num = models.IntegerField(blank=True, null=True)
+    order_date = models.DateTimeField(blank=True, null=True)
+    order_num = models.IntegerField(blank=True, null=True)
+    delivery_request_date = models.DateTimeField(blank=True, null=True)
+    scheduled_delivery_date = models.DateTimeField(blank=True, null=True)
+    assignment = models.CharField(max_length=20, blank=True, null=True)
+    billing_place = models.CharField(max_length=20, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'scm'

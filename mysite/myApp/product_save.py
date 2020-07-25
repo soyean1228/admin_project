@@ -1,9 +1,11 @@
 from .models import Product
+from openpyxl import load_workbook
+from openpyxl import Workbook
 
 def save(request):
     print("product_save")
 
-    for i in range(0,5):
+    for i in range(0,1):
         productno = None; main_category = None; middle_category = None
         sub_category = None; professionalism_fee_rate =''; potential_fee_rate = None
         additional_fee1 = None; additional_fee2 = None; additional_fee3 = None
@@ -34,10 +36,37 @@ def save(request):
         if additional_fee3 == '' : 
             additional_fee3 = None
 
-        if productno != '' :
-            # print(productno)
+        if productno != '':
             product_data = Product(productno, main_category, middle_category, sub_category, professionalism_fee_rate, 
                             potential_fee_rate, additional_fee1, additional_fee2, additional_fee3 ) 
             product_data.save()
+            isSuccess = "성공"
+        else :
+            isSuccess = "실패"
+    return isSuccess
 
-    print("완료")
+def upload(request):
+    isSuccess = "실패"
+    if request.method == 'POST':
+        if 'file' in request.FILES:
+            wb = load_workbook(filename=request.FILES['file'].file)
+            first_sheet = wb.get_sheet_names()[0]
+            worksheet = wb.get_sheet_by_name(first_sheet)
+            print(worksheet)
+            
+            for row in worksheet.iter_rows(min_row=2): # Offset for header
+                product = Product()
+                product.productno = row[0].value
+                product.main_category = row[1].value
+                product.middle_category = row[2].value
+                product.sub_category = row[3].value
+                product.professionalism_fee_rate = row[4].value
+                product.potential_fee_rate = row[5].value
+                product.additional_fee1 = row[6].value
+                product.additional_fee2 = row[7].value
+                product.additional_fee3 = row[8].value
+
+                if product.productno != '' and product.productno != None:
+                    product.save()
+                    isSuccess = "성공"
+    return isSuccess
