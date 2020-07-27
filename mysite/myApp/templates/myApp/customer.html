@@ -31,9 +31,12 @@
 
   <!-- 자동완성기능 -->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <!--===============================================================================================-->
+  
+
 </head>
 
 <body id="page-top">
@@ -206,6 +209,7 @@
                         </div>
                       </div>
 
+                      <p style="margin-bottom: 29px;"></p>
                       <div class="row header">
                         <div class="cell">
                           구매담당자
@@ -253,6 +257,7 @@
                         </div>
                       </div>
 
+                      <p style="margin-bottom: 29px;"></p>
                       <div class="row header">
                         <div class="cell">
                           INNO 영업 담당
@@ -261,21 +266,25 @@
                           INNO SCM 담당
                         </div>
                         <div class="cell">
-                          등급
+                          고객관리등급
                         </div>
                       </div>
                       <div class="row">
                         <div class="cell" data-title="sales_manager">
-                          <input id= 'sales_manager' name = 'sales_manager' type='text'/>
+                          <input id= "sales_manager" name = 'sales_manager' type='text'/>
                         </div>
                         <div class="cell" data-title="scm_manager">
                           <input id= 'scm_manager' name = 'scm_manager' type='text'/>
                         </div>
                         <div class="cell" data-title="rate">
-                          <input id= 'rate' name = 'rate' type='text'/>
+                          <select id="rate" name="rate">");   
+                            <option value='1등급'>1등급</option> 
+                            <option value='2등급'>2등급</option> 
+                            <option value='3등급'>3등급</option> 
+                          </select>
                         </div>
                       </div>
-                      
+                    
                       <!-- <script>
                         for(var f=0;f<1;f++){
                         var customer_name = 'customer_name' + f; var company_registration_number = 'company_registration_number' + f; var representative = 'representative' + f; 
@@ -478,29 +487,33 @@
 
   <script language="javascript">
     var isSave = '{{isSave}}'
-    // alert(isSave)
-    if (isSave){
+    if (isSave == "성공"){
       alert("저장되었습니다.");
+    }else if(isSave == "실패"){
+      alert("저장에 실패했습니다.");
     }
-  </script>
-
-  <script type="text/javascript">
+    var isUpload = '{{isUpload}}'
+    if (isUpload == "성공"){
+      alert("엑셀 업로드에 성공했습니다.");
+    }else if(isUpload == "실패"){
+      alert("엑셀 업로드에 실패했습니다");
+    }
     $(function() {
-        var availableCity = '{{team_manager_data}}'
-        $("#city").autocomplete({
-            source: availableCity,
-            select: function(event, ui) {
-                console.log(ui.item);
-            },
-            focus: function(event, ui) {
-                return false;
-            }
+      $("#sales_manager").autocomplete({
+        source : '/sales_autocomplete/', 
+          select: function(event, ui) {
+            console.log(ui.item);
+          },
+          focus: function(event, ui) {
+            return false;
+          }       
         });
+                  
     });
   </script>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="{% static '/myApp/assets/vendor/jquery/jquery.min.js' %}"></script>
+  <!-- <script src="{% static '/myApp/assets/vendor/jquery/jquery.min.js' %}"></script> -->
   <script src="{% static '/myApp/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
   <!-- Core plugin JavaScript-->
@@ -556,6 +569,11 @@
       display : unset;
       justify-content: center;
     } 
+    select {
+      width: inherit;
+      height: inherit;
+      font-size: 13px;
+    }
   </style>
 
 </body>

@@ -168,7 +168,10 @@
                         document.write("<input id= "+ fee +" name = " + fee + " type='text'/>");   
                         document.write("</div>");
                         document.write('<div class="cell" data-title="소속">');
-                        document.write("<input id= "+ team +" name = " + team + " type='text'/>");   
+                        document.write("<select id="+ team +" name=" + team + ">");   
+                        document.write("<option value='직판'>직판</option>");   
+                        document.write("<option value='협업'>협업</option>");   
+                        document.write("</select>");
                         document.write("</div>");
                         document.write('<div class="cell" data-title="담당자">');
                         document.write("<input id= "+ manager +" name = " + manager + " type='text'/>");   
@@ -277,9 +280,16 @@
 
   <script language="javascript">
     var isSave = '{{isSave}}'
-    // alert(isSave)
-    if (isSave){
+    if (isSave == "성공"){
       alert("저장되었습니다.");
+    }else if(isSave == "실패"){
+      alert("저장에 실패했습니다.");
+    }
+    var isUpload = '{{isUpload}}'
+    if (isUpload == "성공"){
+      alert("엑셀 업로드에 성공했습니다.");
+    }else if(isUpload == "실패"){
+      alert("엑셀 업로드에 실패했습니다");
     }
   </script>
   
@@ -341,6 +351,11 @@
       display : unset;
       justify-content: center;
     } 
+    select {
+      width: inherit;
+      height: inherit;
+      font-size: 13px;
+    }
   </style>
 
 </body>

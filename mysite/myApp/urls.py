@@ -6,11 +6,16 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import url, include
 from . import views
 
 app_name = 'myApp'
 
 urlpatterns = [
+    
+    # 자동완성
+    url(r'^sales_autocomplete/$', views.sales_autocomplete, name = 'sales_autocomplete'),
+
     # path('admin/', admin.site.urls),
     path('',views.index, name = 'select'),
     path('index/',views.index, name = 'index'),
@@ -25,4 +30,6 @@ urlpatterns = [
     path('insert_check/<str:table_name>/', views.insert_check, name='insert_check'),
 
     path('upload/<str:table_name>/',views.upload, name = 'upload'),
+    path('download/<str:table_name>/',views.download, name = 'download'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

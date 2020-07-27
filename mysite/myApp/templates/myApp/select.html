@@ -150,10 +150,10 @@
                   <div class="wrap-table100">
                       
                       <!-- <input type="submit" value="저장" onclick="javascript: form.action='/insert_check/approval/';"/> -->
-                      <p style="margin-bottom: 10px;"> 
-                      <span> 1. 기간 : </span>
-                      <input type='date' id='oldDate' style="max-width: 150px; margin: 0px;"/>
-                      <span>~</span>
+                      <!-- <p style="margin-bottom: 10px;">  -->
+                      <!-- <span> 검색 조건 </span> -->
+                      <!-- <input type='date' id='oldDate' style="max-width: 150px; margin: 0px;"/> -->
+                      <!-- <span>~</span>
                       <input type='date' id='currentDate'style="max-width: 150px;  margin: 0px;"/>
                       </p>
 
@@ -163,113 +163,9 @@
 
                       <p style="margin-bottom: 10px;"> 
                       <span> 3. 조건 추가 </span>
-                      <p style="margin-bottom: 20px;"></p>
+                      <p style="margin-bottom: 20px;"></p> --> 
 
                       <div class="table">
-                        <div class="row header">
-                          <div class="cell">
-                            삼성코드
-                          </div>
-                          <div class="cell">
-                            삼성담당
-                          </div>
-                          <div class="cell">
-                            영업담당
-                          </div>
-                          <div class="cell">
-                            SCM담당
-                          </div>
-                          <div class="cell">
-                            업체명
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="cell" data-title="samsung_code">
-                            <input id= "samsung_code" name = "samsung_code" type='text'/>
-                          </div>
-                          <div class="cell" data-title="samsung_manager">
-                            <input id= "samsung_manager" name = "samsung_manager" type='text'/>
-                          </div>
-                          <div class="cell" data-title="sales_manager">
-                            <input id= "sales_manager" name = "sales_manager" type='text'/>
-                          </div>
-                          <div class="cell" data-title="scm_manager">
-                            <input id= "scm_manager" name = "scm_manager" type='text'/>
-                          </div>
-                          <div class="cell" data-title="customer_name">
-                            <input id= "customer_name" name = "customer_name" type='text'/>
-                          </div>
-                        </div>
-                        <div class="row header">
-                          <div class="cell">
-                            인도처명
-                          </div>
-                          <div class="cell">
-                            배송주소
-                          </div>
-                          <div class="cell">
-                            연락처
-                          </div>
-                          <div class="cell">
-                            모델명
-                          </div>
-                          <div class="cell">
-                            매입처
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="cell" data-title="recipient">
-                            <input id= "recipient" name = "recipient" type='text'/>
-                          </div>
-                          <div class="cell" data-title="delivery_address">
-                            <input id= "delivery_address" name = "delivery_address" type='text'/>
-                          </div>
-                          <div class="cell" data-title="recipient_phone">
-                            <input id= "recipient_phone" name = "recipient_phone" type='text'/>
-                          </div>
-                          <div class="cell" data-title="product_model_name">
-                            <input id= "product_model_name" name = "product_model_name" type='text'/>
-                          </div>
-                          <div class="cell" data-title="beginning_purchase">
-                            <input id= "beginning_purchase" name = "beginning_purchase" type='text'/>
-                          </div>
-                        </div>
-
-                        <div class="row header">
-                          <div class="cell">
-                            수량
-                          </div>
-                          <div class="cell">
-                            승인단가
-                          </div>
-                          <div class="cell">
-                            승인액
-                          </div>
-                          <div class="cell">
-                            매출가
-                          </div>
-                          <div class="cell">
-                            매출액
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="cell" data-title="order_quantity">
-                            <input id= "order_quantity" name = "order_quantity" type='number'/>
-                          </div>
-                          <div class="cell" data-title="approval_price">
-                            <input id= "approval_price" name = "approval_price" type='number'/>
-                          </div>
-                          <div class="cell" data-title="approval_total_price">
-                            <input id= "approval_total_price" name = "approval_total_price" type='number'/>
-                          </div>
-                          <div class="cell" data-title="sales_price">
-                            <input id= "sales_price" name = "sales_price" type='number'/>
-                          </div>
-                          <div class="cell" data-title="sales_total_price">
-                            <input id= "sales_total_price" name = "sales_total_price" type='number'/>
-                          </div>
-                        </div>
-
                         <div class="row header">
                           <div class="cell">
                             OPPTY번호
@@ -278,13 +174,7 @@
                             견적번호
                           </div>
                           <div class="cell">
-                            주문일
-                          </div>
-                          <div class="cell">
                             주문번호
-                          </div>
-                          <div class="cell">
-                            납품요청일
                           </div>
                         </div>
                         <div class="row">
@@ -294,54 +184,78 @@
                           <div class="cell" data-title="quote_num ">
                             <input id= "quote_num" name = "quote_num" type='number'/>
                           </div>
-                          <div class="cell" data-title="order_date">
-                            <input id= "order_date" name = "order_date" type='date'/>
-                          </div>
                           <div class="cell" data-title="order_num">
                             <input id= "order_num" name = "order_num" type='number'/>
                           </div>
-                          <div class="cell" data-title="delivery_request_date">
-                            <input id= "delivery_request_date" name = "delivery_request_date" type='date'/>
-                          </div>
                         </div>
-
+                        <p style="margin-bottom: 20px;"></p>
                         <div class="row header">
                           <div class="cell">
-                            납품예정일
-                          </div>
-                          <div class="cell">
-                            할당
-                          </div>
-                          <div class="cell">
-                            입금일
-                          </div>
-                          <div class="cell">
-                            입금액
+                            업체명
                           </div>
                           <div class="cell">
                             계산서발행업체명
                           </div>
+                          <div class="cell">
+                            인도처명
+                          </div>
+                          <div class="cell">
+                            배송주소
+                          </div>
+                          <div class="cell">
+                            <!-- 누구의 어떤 연락처? -->
+                            연락처
+                          </div>
                         </div>
                         <div class="row">
-                          <div class="cell" data-title="scheduled_delivery_date">
-                            <input id= "scheduled_delivery_date" name = "scheduled_delivery_date" type='date'/>
-                          </div>
-                          <div class="cell" data-title="assignment">
-                            <input id= "assignment" name = "assignment" type='text'/>
-                          </div>
-                          <div class="cell" data-title="deposit_date">
-                            <input id= "deposit_date" name = "deposit_date" type='date'/>
-                          </div>
-                          <div class="cell" data-title="deposit_amount">
-                            <input id= "deposit_amount" name = "deposit_amount" type='number'/>
+                          <div class="cell" data-title="customer">
+                            <input id= "customer" name = "customer" type='text'/>
                           </div>
                           <div class="cell" data-title="billing_place">
                             <input id= "billing_place" name = "billing_place" type='text'/>
                           </div>
+                          <div class="cell" data-title="recipient">
+                            <input id= "recipient" name = "recipient" type='text'/>
+                          </div>
+                          <div class="cell" data-title="delivery_address">
+                            <input id= "delivery_address" name = "delivery_address" type='text'/>
+                          </div>
+                          <div class="cell" data-title="recipient_phone1">
+                            <input id= "recipient_phone1" name = "recipient_phone1" type='text'/>
+                          </div>
+                        </div>
+                        <p style="margin-bottom: 20px;"></p>
+                        <div class="row header">
+                          <div class="cell">
+                            주문일
+                          </div>
+                          <div class="cell">
+                            납품요청일
+                          </div>
+                          <div class="cell">
+                            납품예정일
+                          </div>
+                          <div class="cell">
+                            납품완료일
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="cell" data-title="order_date">
+                            <input id= "order_date" name = "order_date" type='number'/>
+                          </div>
+                          <div class="cell" data-title="delivery_request_date">
+                            <input id= "delivery_request_date" name = "delivery_request_date" type='number'/>
+                          </div>
+                          <div class="cell" data-title="scheduled_delivery_date">
+                            <input id= "scheduled_delivery_date" name = "scheduled_delivery_date" type='number'/>
+                          </div>
+                          <div class="cell" data-title="delivery_date">
+                            <input id= "delivery_date" name = "delivery_date" type='number'/>
+                          </div>
                         </div>
                       </div>
                       <!-- <button onclick="add_row()">행 추가하기</button> -->
-                      <input class = "sub" type="submit" value="저장" onclick="javascript: form.action='/select_result/';"/>
+                      <input class = "sub" type="submit" value="검색" onclick="javascript: form.action='/select_result/';"/>
 
                   </div> 
                 </div>
@@ -351,6 +265,117 @@
         </div>
       </div>
       <!-- /.container-fluid -->
+
+      <div id="content">
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >조회</h1>
+          </div> -->
+          <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
+
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">SCM 조회</h6>
+            </div>
+
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>삼성코드</th>
+                      <th>삼성담당</th>
+                      <th>영업담당</th>
+                      <th>SCM담당</th>
+                      <th>업체명</th>
+                      <th>인도처명</th>
+                      <th>배송주소</th>
+                      <th>연락처</th>
+                      <th>모델명</th>
+                      <th>매입처</th>
+                      <th>수량</th>
+                      <th>승인단가</th>
+                      <th>승인액</th>
+                      <th>매출가</th>
+                      <th>매출액</th>
+                      <th>OPPTY번호</th>
+                      <th>견적번호</th>
+                      <th>주문일</th>
+                      <th>주문번호</th>
+                      <th>납품요청일</th>
+                      <th>납품예정일</th>
+                      <th>할당</th>
+                      <th>입금일</th>
+                      <th>입금액</th>
+                      <th>계산서발행업체명</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>업체명</th>
+                      <th>OPPTY번호</th>
+                      <th>견적번호</th>
+                      <th>주문일</th>
+                      <th>주문번호</th>
+                      <th>인도처명</th>
+                      <th>배송주소</th>
+                      <th>연락처</th>
+                      <th>모델명</th>
+                      <th>수량</th>
+                      <th>승인단가</th>
+                      <th>승인액</th>
+                      <th>매출단가</th>
+                      <th>매출액</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    {% for list in data %}
+                      <tr>
+                        <style>td{font-size: 12px;};</style>
+                        <td>{{list.samsung_code|default_if_none:"" }}</td>
+                        <td>{{list.samsung_manager|default_if_none:"" }}</td>
+                        <td>{{list.sales_manager|default_if_none:"" }}</td>
+                        <td>{{list.scm_manager|default_if_none:"" }}</td>
+                        <td>{{list.customer_name|default_if_none:"" }}</td>
+
+                        <td>{{list.recipient|default_if_none:"" }}</td>
+                        <td>{{list.delivery_address|default_if_none:"" }}</td>
+                        <td>{{list.recipient_phone|default_if_none:"" }}</td>
+                        <td>{{list.product_model_name|default_if_none:"" }}</td>
+                        <td>{{list.beginning_purchase|default_if_none:"" }}</td>
+                        
+                        <td>{{list.order_quantity|default_if_none:"" }}</td>
+                        <td>{{list.approval_price|default_if_none:"" }}</td>
+                        <td>{{list.approval_total_price|default_if_none:"" }}</td>
+                        <td>{{list.sales_price|default_if_none:"" }}</td>
+                        <td>{{list.sales_total_price|default_if_none:"" }}</td>
+                        
+                        <td>{{list.oppty_num|default_if_none:"" }}</td>
+                        <td>{{list.quote_num|default_if_none:"" }}</td>
+                        <td>{{list.order_date|default_if_none:""|date:"Y-m-d"}}</td>
+                        <td>{{list.order_num|default_if_none:"" }}</td>
+                        <td>{{list.delivery_request_date|default_if_none:""|date:"Y-m-d"}}</td>
+                        
+                        <td>{{list.scheduled_delivery_date|default_if_none:"" |date:"Y-m-d"}}</td>
+                        <td>{{list.assignment|default_if_none:"" }}</td>
+                        <td>{{list.deposit_date|default_if_none:"" |date:"Y-m-d"}}</td>
+                        <td>{{list.deposit_amount|default_if_none:"" }}</td>
+                        <td>{{list.billing_place|default_if_none:"" }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
       <!-- End of Main Content -->
 
       <!-- Footer -->
@@ -409,6 +434,46 @@
 
   <!-- Page level custom scripts -->
   <script src="{% static '/myApp/assets/js/demo/datatables-demo.js' %}"></script>
+
+  <style>
+    th{
+      font-size: 13px;
+    }
+    .col-sm-12{
+      all: unset;
+    }
+    .dataTables_length{
+      all: unset;
+      margin-top: 2px;
+    }
+    .dataTables_filter{
+      all: unset;
+      float: right;
+      margin-right: 10px;
+    } 
+    .form-control{
+      border-color: black;
+    }
+    input.form-control.form-control-sm{
+      outline-style: auto;
+    }
+    div.dataTables_wrapper div.dataTables_paginate {
+      margin: 0;
+      white-space: nowrap;
+      text-align: center;
+    }
+    .pagination{
+      all : unset;
+      text-align: center;
+    }
+    .paginate_button {
+      display: inline-block;
+    }
+    div.dataTables_wrapper > div.row{
+      display : unset;
+      justify-content: center;
+    } 
+    </style>
 
 </body>
 

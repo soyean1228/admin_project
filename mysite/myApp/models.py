@@ -11,6 +11,10 @@ class Employee(models.Model):
     office_num = models.CharField(max_length=20, blank=True, null=True)
     address = models.CharField(max_length=100, blank=True, null=True)
     email = models.CharField(max_length=20, blank=True, null=True)
+    charge = models.CharField(max_length=20, blank=True, null=True)
+    id = models.CharField(max_length=20, blank=True, null=True)
+    passwd = models.CharField(max_length=20, blank=True, null=True)
+    authority = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -21,7 +25,7 @@ class SamsungCode(models.Model):
     manager = models.CharField(max_length=20)
     department = models.CharField(max_length=20, blank=True, null=True)
     phone_num = models.CharField(max_length=20, blank=True, null=True)
-    email = models.CharField(max_length=20, blank=True, null=True)
+    email = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -29,7 +33,7 @@ class SamsungCode(models.Model):
         unique_together = (('samsung_code', 'manager'),)
 
 class Product(models.Model):
-    productno = models.IntegerField(db_column='ProductNo', primary_key=True)  # Field name made lowercase.
+    productno = models.CharField(primary_key=True, max_length=50)
     main_category = models.CharField(max_length=20, blank=True, null=True)
     middle_category = models.CharField(max_length=20, blank=True, null=True)
     sub_category = models.CharField(max_length=20, blank=True, null=True)
@@ -79,6 +83,45 @@ class Customer(models.Model):
     class Meta:
         managed = False
         db_table = 'customer'
+
+class TeamManager(models.Model):
+    manager = models.CharField(primary_key=True, max_length=20)
+    team = models.CharField(max_length=20, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'team_manager'
+
+class Proposal(models.Model):
+    contact_conclusion_date = models.DateTimeField(blank=True, null=True)
+    samsung_code = models.IntegerField(blank=True, null=True)
+    samsung_sales_manager = models.CharField(max_length=20, blank=True, null=True)
+    point = models.CharField(max_length=20, blank=True, null=True)
+    sales_manager = models.CharField(max_length=20, blank=True, null=True)
+    broker = models.CharField(max_length=20, blank=True, null=True)
+    scm_manager = models.CharField(max_length=20, blank=True, null=True)
+    customer_name = models.CharField(max_length=20, blank=True, null=True)
+    payment_method = models.CharField(max_length=20, blank=True, null=True)
+    sales_type = models.CharField(max_length=20, blank=True, null=True)
+    demand = models.CharField(max_length=20, blank=True, null=True)
+    billing_place = models.CharField(max_length=20, blank=True, null=True)
+    oppty_num = models.CharField(primary_key=True, max_length=20)
+    productno = models.CharField(max_length=50, blank=True, null=True)
+    buy_place = models.CharField(max_length=20, blank=True, null=True)
+    decision_quantity = models.IntegerField(blank=True, null=True)
+    decision_unit = models.IntegerField(blank=True, null=True)
+    decision_price = models.IntegerField(blank=True, null=True)
+    sales_unit = models.IntegerField(blank=True, null=True)
+    sales_price = models.IntegerField(blank=True, null=True)
+    delivery_request_date = models.DateTimeField(blank=True, null=True)
+    recipitent = models.CharField(max_length=20, blank=True, null=True)
+    recipient_phone1 = models.CharField(max_length=20, blank=True, null=True)
+    recipient_phone2 = models.CharField(max_length=20, blank=True, null=True)
+    delivery_address = models.CharField(max_length=100, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'proposal'
 
 class Authority(models.Model):
     name = models.CharField(primary_key=True, max_length=20)

@@ -7,16 +7,18 @@ from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from .forms import UploadOrderFileModel
+import json
 
 from .models import Employee
 from .models import SamsungCode
 from .models import Authority
 from .models import Product
 from .models import Customer
+from .models import Broker
+from .models import Proposal
 from .models import CustomerPurchasing
 from .models import CustomerSettlement
 from .models import CoSalesman
-from .models import Broker
 from .models import Sales
 from .models import SalesContent
 from .models import Approval
@@ -44,6 +46,23 @@ from . import scm_select
 def index(request):
     return render(request, 'myApp/select.html')
 
+def sales_autocomplete(request):
+    print("자동완성")
+    # if request.GET.has_key('term'):
+    sales_data = Employee.objects.filter(charge="INNO 영업담당")
+    print(sales_data)
+    results = []
+    for i in sales_data : 
+        i_json = {}
+        i_json['id'] = i.id
+        i_json['label'] = i.name
+        i_json['value'] = i.name
+        results.append(i_json)
+    data = json.dumps(results)
+    mimetype = 'application/json'
+    return HttpResponse(data,mimetype)
+    # return HttpResponse()
+
 def insert(request, table_name):
     if(table_name == 'employee'):
         employee_data = Employee.objects.all() 
@@ -60,6 +79,12 @@ def insert(request, table_name):
     if(table_name == 'customer'):
         customer_data = Customer.objects.all()
         return render(request, 'myApp/customer.html', { "customer_data" : customer_data })   
+    if(table_name == 'proposal'):
+        proposal_data = Proposal.objects.all()
+        return render(request, 'myApp/proposal.html', { "proposal_data" : proposal_data })  
+    # if(table_name == 'approval_order'):
+    #     customer_data = Customer.objects.all()
+    #     return render(request, 'myApp/approval_order.html', { "customer_data" : customer_data })   
     if(table_name == 'authority'):
         return render(request, 'myApp/authority_insert.html')
     if(table_name == 'customer_purchasing'):
@@ -102,7 +127,15 @@ def insert_check(request, table_name):
     if(table_name == 'customer'):
         isSuccess = customer_save.save(request)
         customer_data = Customer.objects.all()
-        return render(request, 'myApp/customer.html', { "isSave" : True , "customer_data" : customer_data }) 
+        sales_charge_data = Employee.objects.filter(charge='INNO 영업담당')
+        scm_charge_data = Employee.objects.filter(charge='INNO SCM담당')
+        return render(request, 'myApp/customer.html', { "isSave" : isSuccess , "customer_data" : customer_data , "sales_charge_data" : sales_charge_data, "scm_charge_data" : scm_charge_data })   
+    # if(table_name == 'proposal'):
+    #     proposal_data = Proposal.objects.all()
+    #     return render(request, 'myApp/approval_order.html',  { "isSave" : True , "proposal_data" : proposal_data })  
+    # if(table_name == 'approval_order'):
+    #     customer_data = Customer.objects.all()
+    #     return render(request, 'myApp/approval_order.html',  { "isSave" : True ,  "customer_data" : customer_data })   
     if(table_name == 'authority'):
         authority_save.save(request)
         return render(request, 'myApp/authority_insert.html', { "isSave" : True })
@@ -155,20 +188,43 @@ def upload(request, table_name):
         isSuccess = employee_save.upload(request)
         employee_data = Employee.objects.all() 
         return render(request, 'myApp/employee.html', { "isUpload" : isSuccess , "employee_data" : employee_data })
+    if(table_name == 'samsung_code'):
+        isSuccess = samsung_code_save.upload(request)
+        samsung_code_data = SamsungCode.objects.all() 
+        return render(request, 'myApp/samsung_code.html', { "isUpload" : isSuccess , "samsung_code_data" : samsung_code_data })
+    if(table_name == 'product'):
+        isSuccess = product_save.upload(request)
+        product_data = Product.objects.all()
+        return render(request, 'myApp/product.html', { "isUpload" : isSuccess , "product_data" : product_data })
+    if(table_name == 'broker'):
+        broker_save.upload(request)
+        broker_data = Broker.objects.all()
+        return render(request, 'myApp/broker.html', { "isUpload" : isSuccess , "broker_data" : broker_data }) 
+    if(table_name == 'customer'):
+        isSuccess = customer_save.upload(request)
+        customer_data = Customer.objects.all()
+        return render(request, 'myApp/customer.html', { "isUpload" : isSuccess , "customer_data" : customer_data , "sales_charge_data" : sales_charge_data, "scm_charge_data" : scm_charge_data })   
+
+def download(request, table_name):
+    print(table_name)
+    # if(table_name == 'employee'):
+    #     isSuccess = employee_save.upload(request)
+    #     employee_data = Employee.objects.all() 
+    #     return render(request, 'myApp/employee.html', { "isUpload" : isSuccess , "employee_data" : employee_data })
     # if(table_name == 'samsung_code'):
     #     samsung_code_save.upload(request)
     #     samsung_code_data = SamsungCode.objects.all() 
     #     return render(request, 'myApp/samsung_code.html', { "isUpload" : isSuccess , "samsung_code_data" : samsung_code_data })
     if(table_name == 'product'):
-        isSuccess = product_save.upload(request)
+        isSuccess = product_save.download(request)
         product_data = Product.objects.all()
-        return render(request, 'myApp/product.html', { "isUpload" : isSuccess , "product_data" : product_data })
+        return render(request, 'myApp/product.html', { "isDownload" : isSuccess , "product_data" : product_data })
     # if(table_name == 'broker'):
     #     broker_save.upload(request)
     #     broker_data = Broker.objects.all()
     #     return render(request, 'myApp/broker.html', { "isUpload" : isSuccess , "broker_data" : broker_data }) 
     # if(table_name == 'customer'):
-    #     customer_save.upload(request)
+    #     isSuccess = customer_save.upload(request)
     #     customer_data = Customer.objects.all()
     #     return render(request, 'myApp/customer.html', { "isUpload" : isSuccess , "customer_data" : customer_data }) 
 

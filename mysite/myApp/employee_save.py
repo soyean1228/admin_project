@@ -38,9 +38,21 @@ def save(request):
         rate = request.POST.get('rate'+ str(i), None)
         if rate == '' : 
             rate = None
+        authority = request.POST.get('authority'+ str(i), None)
+        if authority == '' : 
+            authority = None
+        id = request.POST.get('id'+ str(i), None)
+        if id == '' : 
+            id = None
+        passwd = request.POST.get('passwd'+ str(i), None)
+        if passwd == '' : 
+            passwd = None
+        charge = request.POST.get('charge'+ str(i), None)
+        if charge == '' : 
+            charge = None
 
         if name != '' and name != None:
-            employee_data = Employee(name, team, position, department, resident_registration_number, rate, phone_num, office_num, address, email) 
+            employee_data = Employee(name, team, position, department, resident_registration_number, rate, phone_num, office_num, address, email, charge, id, passwd, authority) 
             employee_data.save()
             isSuccess = "성공"
         else :
@@ -69,6 +81,9 @@ def upload(request):
                 employee.recipient = row[8].value
                 employee.address = row[9].value
                 employee.email = row[10].value
+                employee.charge = row[11].value
+                employee.passwd = row[12].value
+                employee.authority = row[13].value
 
                 if employee.name != '' and employee.name != None:
                     employee.save()

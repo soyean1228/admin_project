@@ -178,6 +178,9 @@
                           <div class="cell">
                             이메일
                           </div>
+                          <div class="cell">
+                            담당
+                          </div>
                         </div>
                         <script>
                           for(var f=0;f<1;f++){
@@ -185,7 +188,7 @@
                           var phone_num = 'phone_num' + f; var office_num = 'office_num' + f; 
                           var address = 'address' + f; var email = 'email' + f;
                           var resident_registration_number  = 'resident_registration_number' + f;
-                          var team = 'team' + f; var rate = 'rate' + f;
+                          var team = 'team' + f; var rate = 'rate' + f; var charge = 'charge' + f;
                           document.write('<div class="row">');
                           document.write('<div class="cell" data-title="이름">');
                           document.write("<input id= "+ name +" name = " + name + " type='text'/>");  
@@ -197,9 +200,6 @@
                           document.write("<option value='협업'>협업</option>");   
                           document.write(" </select>");
                           document.write("</div>");
-                          // document.write('<div class="cell" data-title="소속">');
-                          // document.write("<input id= "+ team +" name = " + team + " type='text'/>");  
-                          // document.write("</div>");
                           document.write('<div class="cell" data-title="직위">');
                           document.write("<input id= "+ position +" name = " + position + " type='text'/>");   
                           document.write("</div>");
@@ -224,6 +224,44 @@
                           document.write('<div class="cell" data-title="이메일">');
                           document.write("<input id= "+ email +" name = " + email + " type='text'/>");    
                           document.write("</div>");
+                          document.write('<div class="cell" data-title="권한">');
+                          document.write("<select id="+ charge +" name=" + charge + ">");   
+                          document.write("<option value='INNO 영업담당'>INNO 영업담당</option>");   
+                          document.write("<option value='INNO SCM담당'>INNO SCM담당</option>");   
+                          document.write("</select>");
+                          document.write("</div>");
+                          document.write("</div>");
+                          }
+                        </script>
+
+                        <p style="margin-bottom: 20px;"></p>
+                        <div class="row header">
+                          <div class="cell">
+                            id
+                          </div>
+                          <div class="cell">
+                            passwd
+                          </div>
+                          <div class="cell">
+                            권한
+                          </div>
+                        </div>
+                        <script>
+                          for(var f=0;f<1;f++){
+                          var id = 'id' + f; var passwd = 'passwd' + f; var authority= 'authority' + f; 
+                          document.write('<div class="row">');
+                          document.write('<div class="cell" data-title="id">');
+                          document.write("<input id= "+ id +" name = " + id + " type='text'/>");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="passwd">');
+                          document.write("<input id= "+ passwd +" name = " + passwd + " type='text'/>"); 
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="권한">');
+                          document.write("<select id="+ authority +" name=" + authority + ">");   
+                          document.write("<option value='모든 권한 부여'>모든 권한 부여</option>");   
+                          document.write("<option value='계약 및 거래내용에 대해서는 모든 권한 부여하고 나머지는 읽기권한만 부여'>계약 및 거래내용에 대해서는 모든 권한 부여하고 나머지는 읽기권한만 부여</option>");   
+                          document.write("<option value='ID 미부여 임직원 등록만'>ID 미부여 임직원 등록만</option>");   
+                          document.write(" </select>");
                           document.write("</div>");
                           }
                         </script>
@@ -271,6 +309,10 @@
                       <th>내선번호</th>
                       <th>집주소</th>
                       <th>이메일</th>
+                      <th>담당</th>
+                      <th>id</th>
+                      <th>passwd</th>
+                      <th>권한</th>
                     </tr>
                   </thead>
                   <tfoot>
@@ -285,6 +327,10 @@
                       <th>내선번호</th>
                       <th>집주소</th>
                       <th>이메일</th>
+                      <th>담당</th>
+                      <th>id</th>
+                      <th>passwd</th>
+                      <th>권한</th>
                     </tr>
                   </tfoot>
                   <tbody>
@@ -301,6 +347,10 @@
                         <td>{{list.office_num|default_if_none:"" }}</td>
                         <td>{{list.address|default_if_none:"" }}</td>
                         <td>{{list.email|default_if_none:"" }}</td>
+                        <td>{{list.charge|default_if_none:"" }}</td>
+                        <td>{{list.id|default_if_none:"" }}</td>
+                        <td>{{list.passwd|default_if_none:"" }}</td>
+                        <td>{{list.authority|default_if_none:"" }}</td>
                       </tr>
                     {% endfor %}
                   </tbody>
@@ -408,10 +458,10 @@
       display : unset;
       justify-content: center;
     } 
-    
     select {
       width: inherit;
       height: inherit;
+      font-size: 13px;
     }
   </style>
 

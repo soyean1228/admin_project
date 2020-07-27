@@ -314,3 +314,14 @@ input.sub:hover {
   color: #fff;
   transform: translateY(-7px);
 }
+
+.container-search {
+    width: 100%;
+    display: -moz-box;
+    display: -ms-flexbox;
+    flex-wrap: wrap;
+    padding: 20px 20px;
+    max-width: 100%;
+    overflow: scroll;
+    overflow-y: hidden;
+}

@@ -1,6 +1,7 @@
 from .models import Product
 from openpyxl import load_workbook
 from openpyxl import Workbook
+import openpyxl
 
 def save(request):
     print("product_save")
@@ -70,3 +71,44 @@ def upload(request):
                     product.save()
                     isSuccess = "성공"
     return isSuccess
+
+def download(request):
+    isSuccess = "실패"
+    # 워크북(엑셀파일)을 새로 만듭니다.
+    wb = openpyxl.Workbook()
+
+    # 현재 활성화된 시트를 선택합니다.
+    sheet = wb.active
+    # A1셀에 hello world!를 입력합니다.
+    sheet['A1'] = '제품'
+
+    # 워크북(엑셀파일)을 원하는 이름으로 저장합니다.
+
+    i = 1
+    sheet.cell(row=i, column=1).value = "Product NO"
+    sheet.cell(row=i, column=2).value = "대분류"
+    sheet.cell(row=i, column=3).value = "중분류"
+    sheet.cell(row=i, column=4).value = "소분류"
+    sheet.cell(row=i, column=5).value = "전문성 수수료율"
+    sheet.cell(row=i, column=6).value = "잠재력 수수료율"
+    sheet.cell(row=i, column=7).value = "추가 수수료1"
+    sheet.cell(row=i, column=8).value = "추가 수수료2"
+    sheet.cell(row=i, column=9).value = "추가 수수료3"
+    i = i+1
+
+    for data in Product.objects.all():
+        sheet.cell(row=i, column=1).value = data.productno
+        sheet.cell(row=i, column=2).value = data.main_category
+        sheet.cell(row=i, column=3).value = data.middle_category
+        sheet.cell(row=i, column=4).value = data.sub_category
+        sheet.cell(row=i, column=5).value = data.professionalism_fee_rate
+        sheet.cell(row=i, column=6).value = data.potential_fee_rate
+        sheet.cell(row=i, column=7).value = data.additional_fee1
+        sheet.cell(row=i, column=8).value = data.additional_fee2
+        sheet.cell(row=i, column=9).value = data.additional_fee3
+        i = i+1
+    
+    wb.save('제품.xlsx')
+
+    return isSuccess
+ 
