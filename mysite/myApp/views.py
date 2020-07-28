@@ -49,12 +49,12 @@ def index(request):
 
 def sales_autocomplete(request):
     print("자동완성")
-    sales_data = Employee.objects.filter(charge="INNO 영업담당")
+    sales_data = Employee.objects.filter(name__istartswith=request.GET['term'], charge="INNO 영업담당")
     print(sales_data)
     results = []
     for i in sales_data : 
         i_json = {}
-        i_json['id'] = i.id
+        i_json['id'] = i.name
         i_json['label'] = i.name
         i_json['value'] = i.name
         results.append(i_json)
@@ -64,12 +64,12 @@ def sales_autocomplete(request):
 
 def scm_autocomplete(request):
     print("자동완성")
-    scm_data = Employee.objects.filter(charge="INNO SCM담당")
+    scm_data = Employee.objects.filter(name__istartswith=request.GET['term'], charge="INNO SCM담당")
     print(scm_data)
     results = []
     for i in scm_data : 
         i_json = {}
-        i_json['id'] = i.id
+        i_json['id'] = i.name
         i_json['label'] = i.name
         i_json['value'] = i.name
         results.append(i_json)
@@ -79,13 +79,12 @@ def scm_autocomplete(request):
 
 def samsung_code_autocomplete(request):
     print("자동완성")
-    # sales_charge_data.values('name').filter(name=sales_manager).count()
-    samsung_code_data = SamsungCode.objects.all()
+    samsung_code_data = SamsungCode.objects.filter(samsung_code__istartswith=request.GET['term'])
     print(samsung_code_data)
     results = []
     for i in samsung_code_data : 
         i_json = {}
-        i_json['id'] = i.id
+        i_json['id'] = i.samsung_code
         i_json['label'] = i.samsung_code
         i_json['value'] = i.samsung_code
         results.append(i_json)
@@ -93,14 +92,14 @@ def samsung_code_autocomplete(request):
     mimetype = 'application/json'
     return HttpResponse(data,mimetype)
 
-def manager_autocomplete(request):
+def employee_autocomplete(request):
     print("자동완성")
-    manager_data = Employee.objects.all()
+    manager_data = Employee.objects.filter(name__istartswith=request.GET['term'])
     print(manager_data)
     results = []
     for i in manager_data : 
         i_json = {}
-        i_json['id'] = i.id
+        i_json['id'] = i.name
         i_json['label'] = i.name
         i_json['value'] = i.name
         results.append(i_json)
@@ -110,12 +109,12 @@ def manager_autocomplete(request):
 
 def samsung_sales_manager_autocomplete(request):
     print("자동완성")
-    samsung_sales_manager_data = SamsungCode.objects.all()
+    samsung_sales_manager_data = SamsungCode.objects.filter(manager__istartswith=request.GET['term'])
     print(samsung_sales_manager_data)
     results = []
     for i in samsung_sales_manager_data : 
         i_json = {}
-        i_json['id'] = i.id
+        i_json['id'] = i.manager
         i_json['label'] = i.manager
         i_json['value'] = i.manager
         results.append(i_json)
@@ -123,16 +122,46 @@ def samsung_sales_manager_autocomplete(request):
     mimetype = 'application/json'
     return HttpResponse(data,mimetype)
 
-def productno_autocomplete(request):
+def broker_autocomplete(request):
     print("자동완성")
-    manager_data = Employee.objects.all()
-    print(manager_data)
+    sales_manager_data = Broker.objects.filter(name__istartswith=request.GET['term'])
+    print(sales_manager_data)
     results = []
-    for i in manager_data : 
+    for i in sales_manager_data : 
         i_json = {}
-        i_json['id'] = i.id
+        i_json['id'] = i.name
         i_json['label'] = i.name
         i_json['value'] = i.name
+        results.append(i_json)
+    data = json.dumps(results)
+    mimetype = 'application/json'
+    return HttpResponse(data,mimetype)
+    
+def productno_autocomplete(request):
+    print("자동완성")
+    product_data = Product.objects.filter(productno__istartswith=request.GET['term'])
+    print(product_data)
+    results = []
+    for i in product_data : 
+        i_json = {}
+        i_json['id'] = i.productno
+        i_json['label'] = i.productno
+        i_json['value'] = i.productno
+        results.append(i_json)
+    data = json.dumps(results)
+    mimetype = 'application/json'
+    return HttpResponse(data,mimetype)
+
+def customer_name_autocomplete(request):
+    print("자동완성")
+    customer_name_data = Customer.objects.filter(customer_name__istartswith=request.GET['term'])
+    print(customer_name_data)
+    results = []
+    for i in customer_name_data : 
+        i_json = {}
+        i_json['id'] = i.customer_name + " ( 사업자 등록 번호 : " + i.company_registration_number + " ) "
+        i_json['label'] = i.customer_name + " ( 사업자 등록 번호 : " + i.company_registration_number + " ) "
+        i_json['value'] = i.customer_name + " ( 사업자 등록 번호 : " + i.company_registration_number + " ) "
         results.append(i_json)
     data = json.dumps(results)
     mimetype = 'application/json'
@@ -155,7 +184,6 @@ def insert(request, table_name):
         customer_data = Customer.objects.all()
         return render(request, 'myApp/customer.html', { "customer_data" : customer_data })   
     if(table_name == 'proposal'):
-        isSuccess = proposal_save.save(request)
         proposal_data = Proposal.objects.all()
         return render(request, 'myApp/proposal.html', { "proposal_data" : proposal_data })  
     # if(table_name == 'approval_order'):
@@ -206,6 +234,12 @@ def insert_check(request, table_name):
         return render(request, 'myApp/customer.html', { "isSave" : isSuccess , "customer_data" : customer_data })   
     if(table_name == 'proposal'):
         isSuccess = proposal_save.save(request)
+        if isSuccess == "중개사 등록 필요":
+            broker_data = Broker.objects.all()
+            return render(request, 'myApp/broker.html', { "isSave" : isSuccess , "broker_data" : broker_data }) 
+        elif isSuccess == "업체 등록 필요":
+            customer_data = Customer.objects.all()
+            return render(request, 'myApp/customer.html', { "isSave" : isSuccess , "customer_data" : customer_data })  
         proposal_data = Proposal.objects.all()
         return render(request, 'myApp/proposal.html',  { "isSave" : isSuccess , "proposal_data" : proposal_data })  
     # if(table_name == 'approval_order'):
@@ -302,6 +336,24 @@ def download(request, table_name):
     #     isSuccess = customer_save.upload(request)
     #     customer_data = Customer.objects.all()
     #     return render(request, 'myApp/customer.html', { "isUpload" : isSuccess , "customer_data" : customer_data }) 
+
+def select_proposal(request):
+    select_oppty_num = proposal_save.select(request)
+    # print(Proposal.objects.filter(oppty_num=select_oppty_num).count())
+    proposal_data = Proposal.objects.filter(oppty_num=select_oppty_num).first()
+    # print(proposal_data.contact_conclusion_date)
+    return render(request, 'myApp/proposal.html', { "select_oppty_num" : select_oppty_num, "proposal_data" : proposal_data })
+
+def modify_proposal(request):
+    isSuccess = proposal_save.modify(request)
+    if isSuccess == "중개사 등록 필요":
+        broker_data = Broker.objects.all()
+        return render(request, 'myApp/broker.html', { "isSave" : isSuccess , "broker_data" : broker_data }) 
+    elif isSuccess == "업체 등록 필요":
+        customer_data = Customer.objects.all()
+        return render(request, 'myApp/customer.html', { "isSave" : isSuccess , "customer_data" : customer_data })  
+    proposal_data = Proposal.objects.all()
+    return render(request, 'myApp/proposal.html',  { "isSave" : isSuccess , "proposal_data" : proposal_data })  
 
 def select_table(request, table_name):
     if(table_name == 'employee'):
