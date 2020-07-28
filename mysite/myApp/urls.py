@@ -15,6 +15,11 @@ urlpatterns = [
     
     # 자동완성
     url(r'^sales_autocomplete/$', views.sales_autocomplete, name = 'sales_autocomplete'),
+    url(r'^scm_autocomplete/$', views.scm_autocomplete, name = 'scm_autocomplete'),
+    url(r'^manager_autocomplete/$', views.manager_autocomplete, name = 'manager_autocomplete'),
+    url(r'^samsung_code_autocomplete/$', views.samsung_code_autocomplete, name = 'samsung_code_autocomplete'),
+    url(r'^samsung_sales_manager_autocomplete/$', views.samsung_sales_manager_autocomplete, name = 'samsung_sales_manager_autocomplete'),
+    url(r'^productno_autocomplete/$', views.productno_autocomplete, name = 'productno_autocomplete'),
 
     # path('admin/', admin.site.urls),
     path('',views.index, name = 'select'),

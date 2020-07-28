@@ -42,13 +42,13 @@ from . import deposit_save
 from . import order_save
 from . import approval_save
 from . import scm_select
+from . import proposal_save
 
 def index(request):
     return render(request, 'myApp/select.html')
 
 def sales_autocomplete(request):
     print("자동완성")
-    # if request.GET.has_key('term'):
     sales_data = Employee.objects.filter(charge="INNO 영업담당")
     print(sales_data)
     results = []
@@ -61,7 +61,82 @@ def sales_autocomplete(request):
     data = json.dumps(results)
     mimetype = 'application/json'
     return HttpResponse(data,mimetype)
-    # return HttpResponse()
+
+def scm_autocomplete(request):
+    print("자동완성")
+    scm_data = Employee.objects.filter(charge="INNO SCM담당")
+    print(scm_data)
+    results = []
+    for i in scm_data : 
+        i_json = {}
+        i_json['id'] = i.id
+        i_json['label'] = i.name
+        i_json['value'] = i.name
+        results.append(i_json)
+    data = json.dumps(results)
+    mimetype = 'application/json'
+    return HttpResponse(data,mimetype)
+
+def samsung_code_autocomplete(request):
+    print("자동완성")
+    # sales_charge_data.values('name').filter(name=sales_manager).count()
+    samsung_code_data = SamsungCode.objects.all()
+    print(samsung_code_data)
+    results = []
+    for i in samsung_code_data : 
+        i_json = {}
+        i_json['id'] = i.id
+        i_json['label'] = i.samsung_code
+        i_json['value'] = i.samsung_code
+        results.append(i_json)
+    data = json.dumps(results)
+    mimetype = 'application/json'
+    return HttpResponse(data,mimetype)
+
+def manager_autocomplete(request):
+    print("자동완성")
+    manager_data = Employee.objects.all()
+    print(manager_data)
+    results = []
+    for i in manager_data : 
+        i_json = {}
+        i_json['id'] = i.id
+        i_json['label'] = i.name
+        i_json['value'] = i.name
+        results.append(i_json)
+    data = json.dumps(results)
+    mimetype = 'application/json'
+    return HttpResponse(data,mimetype)
+
+def samsung_sales_manager_autocomplete(request):
+    print("자동완성")
+    samsung_sales_manager_data = SamsungCode.objects.all()
+    print(samsung_sales_manager_data)
+    results = []
+    for i in samsung_sales_manager_data : 
+        i_json = {}
+        i_json['id'] = i.id
+        i_json['label'] = i.manager
+        i_json['value'] = i.manager
+        results.append(i_json)
+    data = json.dumps(results)
+    mimetype = 'application/json'
+    return HttpResponse(data,mimetype)
+
+def productno_autocomplete(request):
+    print("자동완성")
+    manager_data = Employee.objects.all()
+    print(manager_data)
+    results = []
+    for i in manager_data : 
+        i_json = {}
+        i_json['id'] = i.id
+        i_json['label'] = i.name
+        i_json['value'] = i.name
+        results.append(i_json)
+    data = json.dumps(results)
+    mimetype = 'application/json'
+    return HttpResponse(data,mimetype)
 
 def insert(request, table_name):
     if(table_name == 'employee'):
@@ -80,6 +155,7 @@ def insert(request, table_name):
         customer_data = Customer.objects.all()
         return render(request, 'myApp/customer.html', { "customer_data" : customer_data })   
     if(table_name == 'proposal'):
+        isSuccess = proposal_save.save(request)
         proposal_data = Proposal.objects.all()
         return render(request, 'myApp/proposal.html', { "proposal_data" : proposal_data })  
     # if(table_name == 'approval_order'):
@@ -123,16 +199,15 @@ def insert_check(request, table_name):
     if(table_name == 'broker'):
         isSuccess = broker_save.save(request)
         broker_data = Broker.objects.all()
-        return render(request, 'myApp/broker.html', { "isSave" : True , "broker_data" : broker_data }) 
+        return render(request, 'myApp/broker.html', { "isSave" : isSuccess , "broker_data" : broker_data }) 
     if(table_name == 'customer'):
         isSuccess = customer_save.save(request)
         customer_data = Customer.objects.all()
-        sales_charge_data = Employee.objects.filter(charge='INNO 영업담당')
-        scm_charge_data = Employee.objects.filter(charge='INNO SCM담당')
-        return render(request, 'myApp/customer.html', { "isSave" : isSuccess , "customer_data" : customer_data , "sales_charge_data" : sales_charge_data, "scm_charge_data" : scm_charge_data })   
-    # if(table_name == 'proposal'):
-    #     proposal_data = Proposal.objects.all()
-    #     return render(request, 'myApp/approval_order.html',  { "isSave" : True , "proposal_data" : proposal_data })  
+        return render(request, 'myApp/customer.html', { "isSave" : isSuccess , "customer_data" : customer_data })   
+    if(table_name == 'proposal'):
+        isSuccess = proposal_save.save(request)
+        proposal_data = Proposal.objects.all()
+        return render(request, 'myApp/proposal.html',  { "isSave" : isSuccess , "proposal_data" : proposal_data })  
     # if(table_name == 'approval_order'):
     #     customer_data = Customer.objects.all()
     #     return render(request, 'myApp/approval_order.html',  { "isSave" : True ,  "customer_data" : customer_data })   
@@ -197,13 +272,13 @@ def upload(request, table_name):
         product_data = Product.objects.all()
         return render(request, 'myApp/product.html', { "isUpload" : isSuccess , "product_data" : product_data })
     if(table_name == 'broker'):
-        broker_save.upload(request)
+        isSuccess = broker_save.upload(request)
         broker_data = Broker.objects.all()
         return render(request, 'myApp/broker.html', { "isUpload" : isSuccess , "broker_data" : broker_data }) 
     if(table_name == 'customer'):
         isSuccess = customer_save.upload(request)
         customer_data = Customer.objects.all()
-        return render(request, 'myApp/customer.html', { "isUpload" : isSuccess , "customer_data" : customer_data , "sales_charge_data" : sales_charge_data, "scm_charge_data" : scm_charge_data })   
+        return render(request, 'myApp/customer.html', { "isUpload" : isSuccess , "customer_data" : customer_data })   
 
 def download(request, table_name):
     print(table_name)

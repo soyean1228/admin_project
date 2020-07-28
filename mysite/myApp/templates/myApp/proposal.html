@@ -29,6 +29,11 @@
   <link rel="stylesheet" type="text/css" href="{% static '/myApp/assets/css/main.css' %} ">
   <!--===============================================================================================-->
 
+  <!-- 자동완성기능 -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script> 
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -134,13 +139,29 @@
           </div>
           <div class="card-body">
 
-            <form id='empoyee' name = 'employee' method="post">{% csrf_token %} 
+            <form id='proposal' name = 'proposal' method="post">{% csrf_token %} 
 
               <div class="container-search" style="overflow: auto;">
-                <p> 계약체결일 <input type="date" class="form-control form-control-sm" ></p>
+                <!-- <p> 계약체결일 <input id = 'contact_conclusion_date' type="date" class="form-control form-control-sm" ></p> -->
                 <p style="margin-bottom: 20px;"></p>
                 <div class="wrap-table100">
                   <div class="table">
+                    <div class="row header">
+                      <div class="cell">
+                        계약체결일
+                      </div>
+                    </div>
+                    <script>
+                      for(var f=0;f<1;f++){
+                      var contact_conclusion_date = 'contact_conclusion_date' + f;
+                      document.write('<div class="row">');
+                      document.write('<div class="cell" data-title="contact_conclusion_date">');
+                      document.write("<input id= "+ contact_conclusion_date +" name = " + contact_conclusion_date + " type='date'/>");  
+                      document.write("</div>");
+                      document.write("</div>");
+                      }
+                    </script>
+                    <p style="margin-bottom: 20px;"></p>
                     <div class="row header">
                       <div class="cell">
                         삼성코드
@@ -164,8 +185,8 @@
                     <script>
                       for(var f=0;f<1;f++){
                       var samsung_code = 'samsung_code' + f; 
-                      var samsung_manager = 'samsung_manager' + f; var point = 'point' + f; 
-                      var sales_manager = 'sales_manager' + f; var broker_name = 'broker_name' + f;  
+                      var samsung_sales_manager = 'samsung_sales_manager' + f; var point = 'point' + f; 
+                      var sales_manager = 'sales_manager' + f; var broker = 'broker' + f;  
                       var scm_manager = 'scm_manager' + f; var customer_name = 'customer_name' + f;  
                       var payment_method = 'payment_method' + f; var sales_type = 'sales_type' + f;  
                       var demand = 'demand' + f; var billing_place = 'billing_place' + f;  
@@ -175,8 +196,8 @@
                       document.write('<div class="cell" data-title="samsung_code">');
                       document.write("<input id= "+ samsung_code +" name = " + samsung_code + " type='number'/>");  
                       document.write("</div>");
-                      document.write('<div class="cell" data-title="samsung_manager">');
-                      document.write("<input id= "+ samsung_manager +" name = " + samsung_manager + " type='text'/>");  
+                      document.write('<div class="cell" data-title="samsung_sales_manager">');
+                      document.write("<input id= "+ samsung_sales_manager +" name = " + samsung_sales_manager + " type='text'/>");  
                       document.write("</div>");
                       document.write('<div class="cell" data-title="point">');
                       document.write("<input id= "+ point +" name = " + point + " type='text'/>");  
@@ -184,8 +205,8 @@
                       document.write('<div class="cell" data-title="sales_manager">');
                       document.write("<input id= "+ sales_manager +" name = " + sales_manager + " type='text'/>");   
                       document.write("</div>");
-                      document.write('<div class="cell" data-title="broker_name">');
-                      document.write("<input id= "+ broker_name +" name = " + broker_name + " type='text'/>");   
+                      document.write('<div class="cell" data-title="broker">');
+                      document.write("<input id= "+ broker +" name = " + broker + " type='text'/>");   
                       document.write("</div>");
                       document.write('<div class="cell" data-title="scm_manager">');
                       document.write("<input id= "+ scm_manager +" name = " + scm_manager + " type='text'/>");   
@@ -260,16 +281,22 @@
                         제품모델명
                       </div>
                       <div class="cell">
+                        매입처
+                      </div>
+                      <div class="cell">
                         품의수량
                       </div>
                       <div class="cell">
                         품의단가
                       </div>
                       <div class="cell">
+                        품의액
+                      </div>
+                      <div class="cell">
                         매출단가
                       </div>
                       <div class="cell">
-                        매입처
+                        매출액
                       </div>
                       <div class="cell">
                         납품요청일
@@ -278,42 +305,47 @@
                         인수자
                       </div>
                       <div class="cell">
-                        인수자전화
+                        인수자전화1
+                      </div>
+                      <div class="cell">
+                        인수자전화2
                       </div>
                       <div class="cell">
                         배송주소
                       </div>
-                      <div class="cell">
-                        계약체결일
-                      </div>
                     </div>
                     <script>
                       for(var f=0;f<1;f++){
-                      var oppty_num = 'oppty_num' + f; var product_model_name = 'product_model_name' + f; 
-                      var decision_quantity = 'decision_quantity' + f; var decision_price = 'decision_price' + f; 
-                      var sales_price = 'sales_price' + f; var beginning_purchase = 'beginning_purchase' + f;  
+                      var oppty_num = 'oppty_num' + f; var productno = 'productno' + f; 
+                      var decision_quantity = 'decision_quantity' + f; var decision_unit = 'decision_unit' + f; var decision_price = 'decision_price' + f; 
+                      var sales_price = 'sales_price' + f; var sales_unit = 'sales_unit' + f;var buy_place = 'buy_place' + f;  
                       var delivery_request_date = 'delivery_request_date' + f; var recipient = 'recipient' + f;  
-                      var recipient_phone = 'recipient_phone' + f; var delivery_address = 'delivery_address' + f;  
-                      var contact_conclusion_date = 'contact_conclusion_date' + f; 
+                      var recipient_phone1 = 'recipient_phone1' + f; var recipient_phone2 = 'recipient_phone2' + f;var delivery_address = 'delivery_address' + f;  
 
                       document.write('<div class="row">');
                       document.write('<div class="cell" data-title="oppty_num">');
                       document.write("<input id= "+ oppty_num +" name = " + oppty_num + " type='text'/>");   
                       document.write("</div>");
-                      document.write('<div class="cell" data-title="product_model_name">');
-                      document.write("<input id= "+ product_model_name +" name = " + product_model_name + " type='text'/>");  
+                      document.write('<div class="cell" data-title="productno">');
+                      document.write("<input id= "+ productno +" name = " + productno + " type='text'/>");  
+                      document.write("</div>");
+                      document.write('<div class="cell" data-title="buy_place">');
+                      document.write("<input id= "+ buy_place +" name = " + buy_place + " type='text'/>");  
                       document.write("</div>");
                       document.write('<div class="cell" data-title="decision_quantity">');
                       document.write("<input id= "+ decision_quantity +" name = " + decision_quantity + " type='number'/>");  
                       document.write("</div>");
+                      document.write('<div class="cell" data-title="decision_unit">');
+                      document.write("<input id= "+ decision_unit +" name = " + decision_unit + " type='number'/>");  
+                      document.write("</div>");
                       document.write('<div class="cell" data-title="decision_price">');
                       document.write("<input id= "+ decision_price +" name = " + decision_price + " type='number'/>");  
                       document.write("</div>");
+                      document.write('<div class="cell" data-title="sales_unit">');
+                      document.write("<input id= "+ sales_unit +" name = " + sales_unit + " type='number'/>");   
+                      document.write("</div>");
                       document.write('<div class="cell" data-title="sales_price">');
                       document.write("<input id= "+ sales_price +" name = " + sales_price + " type='number'/>");   
-                      document.write("</div>");
-                      document.write('<div class="cell" data-title="beginning_purchase">');
-                      document.write("<input id= "+ beginning_purchase +" name = " + beginning_purchase + " type='text'/>");   
                       document.write("</div>");
                       document.write('<div class="cell" data-title="delivery_request_date">');
                       document.write("<input id= "+ delivery_request_date +" name = " + delivery_request_date + " type='date'/>");   
@@ -321,20 +353,20 @@
                       document.write('<div class="cell" data-title="recipient">');
                       document.write("<input id= "+ recipient +" name = " + recipient + " type='text'/>");   
                       document.write("</div>");
-                      document.write('<div class="cell" data-title="recipient_phone">');
-                      document.write("<input id= "+ recipient_phone +" name = " + recipient_phone + " type='text'/>");   
+                      document.write('<div class="cell" data-title="recipient_phone1">');
+                      document.write("<input id= "+ recipient_phone1 +" name = " + recipient_phone1 + " type='text'/>");   
+                      document.write("</div>");
+                      document.write('<div class="cell" data-title="recipient_phone2">');
+                      document.write("<input id= "+ recipient_phone2 +" name = " + recipient_phone2 + " type='text'/>");   
                       document.write("</div>");
                       document.write('<div class="cell" data-title="delivery_address">');
                       document.write("<input id= "+ delivery_address +" name = " + delivery_address + " type='text'/>");   
-                      document.write("</div>");
-                      document.write('<div class="cell" data-title="contact_conclusion_date">');
-                      document.write("<input id= "+ contact_conclusion_date +" name = " + contact_conclusion_date + " type='date'/>");   
                       document.write("</div>");
                       document.write("</div>");
                       }
                     </script>
                   </div>
-                  <input type="submit" class = 'sub' value="저장" onclick="javascript: form.action='/insert_check/product/';"/>
+                  <input type="submit" class = 'sub' value="저장" onclick="javascript: form.action='/insert_check/proposal/';"/>
                 </div>
               </div> 
             </form>
@@ -448,11 +480,40 @@
     }else if(isUpload == "실패"){
       alert("엑셀 업로드에 실패했습니다");
     }
+    $(function() {
+      $("#samsung_code").autocomplete({
+        source : '/samsung_code_autocomplete/', 
+          select: function(event, ui) {
+            console.log(ui.item);
+          },
+          focus: function(event, ui) {
+            return false;
+          }       
+      });
+      $("#samsung_sales_manager").autocomplete({
+        source : '/samsung_sales_manager_autocomplete/', 
+          select: function(event, ui) {
+            console.log(ui.item);
+          },
+          focus: function(event, ui) {
+            return false;
+          }       
+      });  
+      $("#productno").autocomplete({
+        source : '/productno_autocomplete/', 
+          select: function(event, ui) {
+            console.log(ui.item);
+          },
+          focus: function(event, ui) {
+            return false;
+          }       
+      });      
+    });
   </script>
   
 
   <!-- Bootstrap core JavaScript-->
-  <script src="{% static '/myApp/assets/vendor/jquery/jquery.min.js' %}"></script>
+  <!-- <script src="{% static '/myApp/assets/vendor/jquery/jquery.min.js' %}"></script> -->
   <script src="{% static '/myApp/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
   <!-- Core plugin JavaScript-->

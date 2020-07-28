@@ -1,7 +1,13 @@
 from .models import Customer
+from .models import Employee
+from openpyxl import load_workbook
+from openpyxl import Workbook
 
 def save(request):
     print("customer_save")
+
+    sales_charge_data = Employee.objects.filter(charge='INNO 영업담당')
+    scm_charge_data = Employee.objects.filter(charge='INNO SCM담당')
 
     for i in range(0,1):
         customer_name = None; company_registration_number = None; representative = None; 
@@ -53,9 +59,21 @@ def save(request):
         if settlement_email == '' : 
             settlement_email = None
         sales_manager = request.POST.get('sales_manager', None)
+        
+        count_sales_charge_data = sales_charge_data.values('name').filter(name=sales_manager).count()
+        print(count_sales_charge_data)
+        if count_sales_charge_data == 0:
+            return "영업 담당 오류"
+
         if sales_manager == '' : 
             sales_manager = None
         scm_manager = request.POST.get('scm_manager' , None)
+
+        count_scm_charge_data = scm_charge_data.values('name').filter(name=scm_manager).count()
+        print(count_scm_charge_data)
+        if count_scm_charge_data == 0:
+            return "SCM 담당 오류"
+
         if scm_manager == '' : 
             scm_manager = None
         rate = request.POST.get('rate' , None)
@@ -68,5 +86,7 @@ def save(request):
             settlement_manager, settlement_contact_number, settlement_email,
             sales_manager,  scm_manager, rate) 
             customer_data.save()
-
-    print("완료")
+            isSuccess = "성공"
+        else :
+            isSuccess = "실패"
+    return isSuccess

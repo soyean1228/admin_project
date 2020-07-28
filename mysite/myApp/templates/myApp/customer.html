@@ -31,12 +31,9 @@
 
   <!-- 자동완성기능 -->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script> 
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   
-
 </head>
 
 <body id="page-top">
@@ -491,6 +488,10 @@
       alert("저장되었습니다.");
     }else if(isSave == "실패"){
       alert("저장에 실패했습니다.");
+    }else if(isSave == "영업 담당 오류"){
+      alert("입력한 INNO 영업 담당이 등록되어 있지 않습니다.");
+    }else if(isSave == "SCM 담당 오류"){
+      alert("입력한 INNO SCM 담당이 등록되어 있지 않습니다.");
     }
     var isUpload = '{{isUpload}}'
     if (isUpload == "성공"){
@@ -507,8 +508,16 @@
           focus: function(event, ui) {
             return false;
           }       
-        });
-                  
+      });
+      $("#scm_manager").autocomplete({
+        source : '/scm_autocomplete/', 
+          select: function(event, ui) {
+            console.log(ui.item);
+          },
+          focus: function(event, ui) {
+            return false;
+          }       
+      });       
     });
   </script>
 

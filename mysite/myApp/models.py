@@ -114,7 +114,7 @@ class Proposal(models.Model):
     sales_unit = models.IntegerField(blank=True, null=True)
     sales_price = models.IntegerField(blank=True, null=True)
     delivery_request_date = models.DateTimeField(blank=True, null=True)
-    recipitent = models.CharField(max_length=20, blank=True, null=True)
+    recipient = models.CharField(max_length=20, blank=True, null=True)
     recipient_phone1 = models.CharField(max_length=20, blank=True, null=True)
     recipient_phone2 = models.CharField(max_length=20, blank=True, null=True)
     delivery_address = models.CharField(max_length=100, blank=True, null=True)

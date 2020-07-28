@@ -29,6 +29,11 @@
   <link rel="stylesheet" type="text/css" href="{% static '/myApp/assets/css/main.css' %} ">
   <!--===============================================================================================-->
 
+  <!-- 자동완성기능 -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script> 
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -149,7 +154,7 @@
                         for(var f=0;f<1;f++){
                         var name = 'name' + f; var resident_registration_number = 'resident_registration_number' + f; 
                         var addresss = 'addresss' + f; var contact_number = 'contact_number' + f; var fee = 'fee' + f; 
-                        var team = 'team' + f; var manager = 'manager' + f;
+                        var team = 'team' + f; var manager = 'manager';
 
                         document.write('<div class="row">');
                         document.write('<div class="cell" data-title="성명(회사명)">');
@@ -284,18 +289,33 @@
       alert("저장되었습니다.");
     }else if(isSave == "실패"){
       alert("저장에 실패했습니다.");
+    }else if(isSave == "담당자 오류"){
+      alert("입력한 담당자가 등록되어 있지 않습니다.");
     }
     var isUpload = '{{isUpload}}'
     if (isUpload == "성공"){
       alert("엑셀 업로드에 성공했습니다.");
     }else if(isUpload == "실패"){
       alert("엑셀 업로드에 실패했습니다");
+    }else if(isUpload == "담당자 오류"){
+      alert("입력한 담당자가 등록되어 있지 않습니다.");
     }
+    $(function() {
+      $("#manager").autocomplete({
+        source : '/manager_autocomplete/', 
+          select: function(event, ui) {
+            console.log(ui.item);
+          },
+          focus: function(event, ui) {
+            return false;
+          }       
+      });
+    });
   </script>
   
 
   <!-- Bootstrap core JavaScript-->
-  <script src="{% static '/myApp/assets/vendor/jquery/jquery.min.js' %}"></script>
+  <!-- <script src="{% static '/myApp/assets/vendor/jquery/jquery.min.js' %}"></script> -->
   <script src="{% static '/myApp/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
   <!-- Core plugin JavaScript-->
