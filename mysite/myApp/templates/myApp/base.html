@@ -29,6 +29,11 @@
   <link rel="stylesheet" type="text/css" href="{% static '/myApp/assets/css/main.css' %} ">
   <!--===============================================================================================-->
 
+   <!-- 자동완성기능 -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script> 
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
 </head>
 
 <body id="page-top">
@@ -138,7 +143,7 @@
   {% endblock %}
   
   <!-- Bootstrap core JavaScript-->
-  <script src="{% static '/myApp/assets/vendor/jquery/jquery.min.js' %}"></script>
+  <!-- <script src="{% static '/myApp/assets/vendor/jquery/jquery.min.js' %}"></script> -->
   <script src="{% static '/myApp/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
   <!-- Core plugin JavaScript-->
@@ -175,8 +180,6 @@
     }
     input.form-control.form-control-sm{
       outline-style: auto;
-      padding: 0px;
-      margin-top: 1px;
     }
     div.dataTables_wrapper div.dataTables_paginate {
       margin: 0;
