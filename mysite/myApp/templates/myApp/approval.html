@@ -1,0 +1,90 @@
+{% extends 'myApp/base.html' %}  
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid" >
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >Insert</h1>
+    </div>
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">승인 테이블 입력</h6>
+      </div>
+      <div class="card-body">
+        <!-- The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS! -->
+        <form id='approval' name = 'approval' method="post">{% csrf_token %} 
+          <div class="limiter">
+            <div class="container-table100">
+              <div class="wrap-table100">
+                  <!-- <input type="submit" value="저장" onclick="javascript: form.action='/insert_check/approval/';"/> -->
+                  <div class="table">
+                    <div class="row header">
+                      <div class="cell">
+                        견적번호
+                      </div>
+                      <div class="cell">
+                        OPPTY번호
+                      </div>
+                      <div class="cell">
+                        제품모델명
+                      </div>
+                      <div class="cell">
+                        승인수량
+                      </div>
+                      <div class="cell">
+                        승인단가
+                      </div>
+                      <div class="cell">
+                        잔량
+                      </div>
+                    </div>
+                    <script>
+                      for(var f=0;f<5;f++){
+                      var oppty_num = 'oppty_num' + f; var product_model_name = 'product_model_name' + f; 
+                      var approval_quantity = 'approval_quantity' + f; var quote_num = 'quote_num' + f; 
+                      var balance = 'balance' + f; var approval_price = 'approval_price' + f;  
+
+                      document.write('<div class="row">');
+                      document.write('<div class="cell" data-title="quote_num">');
+                      document.write("<input id= "+ quote_num +" name = " + quote_num + " type='number'/>");  
+                      document.write("</div>");
+                      document.write('<div class="cell" data-title="oppty_num">');
+                      document.write("<input id= "+ oppty_num +" name = " + oppty_num + " type='text'/>");   
+                      document.write("</div>");
+                      document.write('<div class="cell" data-title="product_model_name">');
+                      document.write("<input id= "+ product_model_name +" name = " + product_model_name + " type='text'/>");  
+                      document.write("</div>");
+                      document.write('<div class="cell" data-title="approval_quantity">');
+                      document.write("<input id= "+ approval_quantity +" name = " + approval_quantity + " type='number'/>");  
+                      document.write("</div>");
+                      document.write('<div class="cell" data-title="approval_price">');
+                      document.write("<input id= "+ approval_price +" name = " + approval_price + " type='number'/>");   
+                      document.write("</div>");
+                      document.write('<div class="cell" data-title="balance">');
+                      document.write("<input id= "+ balance +" name = " + balance + " type='number'/>");   
+                      document.write("</div>");
+                      document.write("</div>");
+                      }
+                    </script>
+                  </div>
+                  <!-- <button onclick="add_row()">행 추가하기</button> -->
+                  <input type="submit" class='sub' value="저장" onclick="javascript: form.action='/insert_check/approval/';"/>
+              </div> 
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+  <!-- Footer -->
+  <footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+        <span>Copyright &copy; Your Website 2020</span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+  {% endblock %}

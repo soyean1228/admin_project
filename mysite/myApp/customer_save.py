@@ -90,3 +90,54 @@ def save(request):
         else :
             isSuccess = "실패"
     return isSuccess
+
+
+def upload(request):
+    isSuccess = "실패"
+    try:
+        if request.method == 'POST':
+            if 'file' in request.FILES:
+                sales_charge_data = Employee.objects.filter(charge='INNO 영업담당')
+                scm_charge_data = Employee.objects.filter(charge='INNO SCM담당')
+                wb = load_workbook(filename=request.FILES['file'].file)
+                first_sheet = wb.get_sheet_names()[0]
+                worksheet = wb.get_sheet_by_name(first_sheet)
+                print(worksheet)
+                    
+                for row in worksheet.iter_rows(min_row=2): # Offset for header
+                    data = Customer()
+                    data.customer_name = row[0].value
+                    data.company_registration_number = row[1].value
+                    data.representative = row[2].value
+                    data.address = row[3].value
+                    data.opening_date = row[4].value
+                    data.field1 = row[5].value
+                    data.field2 = row[6].value
+                    data.field3 = row[7].value
+                    data.purchasing_manager = row[8].value
+                    data.purchasing_contact_number1 = row[9].value
+                    data.purchasing_contact_number2 = row[10].value
+                    data.purchasing_email = row[11].value
+                    data.settlement_manager = row[12].value
+                    data.settlement_contact_number = row[13].value
+                    data.settlement_email = row[14].value
+                    data.sales_manager = row[15].value
+                    count_sales_charge_data = sales_charge_data.values('name').filter(name=data.sales_manager).count()
+                    # print(count_sales_charge_data)
+                    if count_sales_charge_data == 0:
+                        return "영업 담당 오류"
+
+                    data.scm_manager = row[16].value
+                    count_scm_charge_data = scm_charge_data.values('name').filter(name=data.scm_manager).count()
+                    # print(count_scm_charge_data)
+                    if count_scm_charge_data == 0:
+                        return "SCM 담당 오류"
+
+                    data.rate = row[16].value
+                    
+                    if data.company_registration_number != '' and data.company_registration_number != None:
+                        data.save()
+                        isSuccess = "성공"
+    except:
+        isSuccess = "실패"
+    return isSuccess

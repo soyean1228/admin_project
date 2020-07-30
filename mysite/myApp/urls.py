@@ -27,11 +27,11 @@ urlpatterns = [
     path('',views.index, name = 'select'),
     path('index/',views.index, name = 'index'),
     path('insert/',views.insert, name = 'insert'),
-    path('select/',views.select, name = 'select'),
-    path('select/<str:table_name>/',views.select_table, name = 'select_table'),
+    # path('select/',views.select, name = 'select'),
+    # path('select/<str:table_name>/',views.select_table, name = 'select_table'),
 
-    path('order_upload/',views.order_upload, name = 'order_upload'),
-    path('select_result/',views.select_result, name = 'select_result'),
+    # path('order_upload/',views.order_upload, name = 'order_upload'),
+    # path('select_result/',views.select_result, name = 'select_result'),
 
     path('insert/<str:table_name>/',views.insert, name = 'insert'),
     path('insert_check/<str:table_name>/', views.insert_check, name='insert_check'),
@@ -42,5 +42,8 @@ urlpatterns = [
     
     path('select_proposal/',views.select_proposal, name = 'select_proposal'),
     path('modify_proposal/',views.modify_proposal, name = 'modify_proposal'),
+
+    path('signin/', views.signin, name='signin'),    
+    path('signout/', views.signout, name='signout')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

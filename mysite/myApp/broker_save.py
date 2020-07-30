@@ -26,9 +26,10 @@ def save(request):
         team = request.POST.get('team' + str(i), None)
         if team == '' : 
             team = None
-        manager = request.POST.get('manager' + str(i), None)
+        manager = request.POST.get('manager', None)
         if manager == '' : 
             manager = None
+        print(manager)
         count_manager = Employee.objects.all().values('name').filter(name=manager).count()
         print(count_manager)
         if count_manager == 0:
@@ -37,8 +38,10 @@ def save(request):
         if name != '':
             broker_data = Broker(name, resident_registration_number, addresss, contact_number, fee, team, manager)
             broker_data.save()
-
-    print("완료")
+            isSuccess = "성공"
+        else :
+            isSuccess = "실패"
+    return isSuccess
 
 def upload(request):
     isSuccess = "실패"

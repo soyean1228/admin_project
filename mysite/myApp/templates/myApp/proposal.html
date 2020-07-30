@@ -185,7 +185,7 @@
                     <script>
                       for(var f=0;f<1;f++){
                       var samsung_code = 'samsung_code' + f; 
-                      var samsung_sales_manager = 'samsung_sales_manager' + f; var point = 'point' + f; 
+                      var samsung_sales_manager = 'samsung_sales_manager' + f; var team = 'team' + f; 
                       var sales_manager = 'sales_manager' + f; var broker = 'broker' + f;  
                       var scm_manager = 'scm_manager' + f; var customer_name = 'customer_name' + f;  
                       var payment_method = 'payment_method' + f; var sales_type = 'sales_type' + f;  
@@ -199,8 +199,12 @@
                       document.write('<div class="cell" data-title="samsung_sales_manager">');
                       document.write("<input id= "+ samsung_sales_manager +" name = " + samsung_sales_manager + " type='text'/>");  
                       document.write("</div>");
-                      document.write('<div class="cell" data-title="point">');
-                      document.write("<input id= "+ point +" name = " + point + " type='text'/>");  
+                      document.write('<div class="cell" data-title="소속">');
+                      document.write("<select id="+ team +" name=" + team + ">");   
+                      document.write("<option value='직판'>직판</option>");   
+                      document.write("<option value='INNO'>INNO</option>");   
+                      document.write("<option value='협업'>협업</option>");   
+                      document.write("</select>");
                       document.write("</div>");
                       document.write('<div class="cell" data-title="sales_manager">');
                       document.write("<input id= "+ sales_manager +" name = " + sales_manager + " type='text'/>");   
@@ -220,6 +224,9 @@
                         거래처명
                       </div>
                       <div class="cell">
+                        사업자등록번호
+                      </div>
+                      <div class="cell">
                         결제방식
                       </div>
                       <div class="cell">
@@ -234,8 +241,8 @@
                     </div>
                     <script>
                       for(var f=0;f<1;f++){
-                      var samsung_code = 'samsung_code' + f; 
-                      var samsung_manager = 'samsung_manager' + f; var point = 'point' + f; 
+                      var samsung_code = 'samsung_code' + f; var company_registration_number = 'company_registration_number' + f; 
+                      var samsung_manager = 'samsung_manager' + f; var team = 'team' + f; 
                       var sales_manager = 'sales_manager' + f; var broker_name = 'broker_name' + f;  
                       var scm_manager = 'scm_manager' + f; var customer_name = 'customer_name' + f;  
                       var payment_method = 'payment_method' + f; var sales_type = 'sales_type' + f;  
@@ -245,6 +252,9 @@
                       document.write('<div class="row">');
                       document.write('<div class="cell" data-title="customer_name">');
                       document.write("<input id= "+ customer_name +" name = " + customer_name + " type='text'/>");   
+                      document.write("</div>");
+                      document.write('<div class="cell" data-title="company_registration_number">');
+                      document.write("<input id= "+ company_registration_number +" name = " + company_registration_number + " type='text'/>");   
                       document.write("</div>");
                       document.write('<div class="cell" data-title="payment_method">');
                       document.write("<select id="+ payment_method +" name=" + payment_method + ">");   
@@ -377,7 +387,7 @@
 
               <div class="container-search" style="overflow: auto;">
                 <div class="cell" data-title="select_oppty_num">
-                  <label>OPPTY번호</label><input id= "select_oppty_num" name = "select_oppty_num" type='text'  value='{{select_oppty_num}}' class="form-control form-control-sm" />
+                  <label>OPPTY번호</label><input id= "select_oppty_num" name = "select_oppty_num" type='text'  value='{{select_oppty_num|default_if_none:""}}' class="form-control form-control-sm" />
                   <input type="button" class = 'sub' value="조회" style="margin-top: 10px;" onclick='mySubmit(2)'/>
                 </div>
               </div>
@@ -430,7 +440,7 @@
                       <script>
                         for(var f=0;f<1;f++){
                         var samsung_code = 'modify_samsung_code' + f; 
-                        var samsung_sales_manager = 'modify_samsung_sales_manager' + f; var point = 'modify_point' + f; 
+                        var samsung_sales_manager = 'modify_samsung_sales_manager' + f; var team = 'modify_team' + f; 
                         var sales_manager = 'modify_sales_manager' + f; var broker = 'modify_broker' + f;  
                         var scm_manager = 'modify_scm_manager' + f; var customer_name = 'modify_customer_name' + f;  
                         var payment_method = 'modify_payment_method' + f; var sales_type = 'modify_sales_type' + f;  
@@ -444,8 +454,15 @@
                         document.write('<div class="cell" data-title="samsung_sales_manager">');
                         document.write("<input id= "+ samsung_sales_manager +" name = " + samsung_sales_manager + " type='text' value='{{proposal_data.samsung_sales_manager|default_if_none:'' }}'/>");    
                         document.write("</div>");
-                        document.write('<div class="cell" data-title="point">');
-                        document.write("<input id= "+ point +" name = " + point + " type='text' value='{{proposal_data.point|default_if_none:'' }}'/>");  
+
+                        document.write('<div class="cell" data-title="소속">');
+                        console.log("{{proposal_data.samsung_sales_manager}}")
+                        console.log("{{proposal_data.team}}")
+                        document.write("<select id="+ team +" name=" + team + "/>");
+                        document.write("<option value='직판'>직판</option>");   
+                        document.write("<option value='INNO'>INNO</option>");   
+                        document.write("<option value='협업'>협업</option>");   
+                        document.write(" </select>");
                         document.write("</div>");
                         document.write('<div class="cell" data-title="sales_manager">');
                         document.write("<input id= "+ sales_manager +" name = " + sales_manager + " type='text' value='{{proposal_data.sales_manager|default_if_none:'' }}'/>");    
@@ -465,6 +482,9 @@
                           거래처명
                         </div>
                         <div class="cell">
+                          사업자등록번호
+                        </div>
+                        <div class="cell">
                           결제방식
                         </div>
                         <div class="cell">
@@ -479,8 +499,8 @@
                       </div>
                       <script >
                         for(var f=0;f<1;f++){
-                        var samsung_code = 'modify_samsung_code' + f; 
-                        var samsung_manager = 'modify_samsung_manager' + f; var point = 'modify_point' + f; 
+                        var samsung_code = 'modify_samsung_code' + f; var company_registration_number = 'modify_company_registration_number' + f; 
+                        var samsung_manager = 'modify_samsung_manager' + f; var team = 'modify_team' + f; 
                         var sales_manager = 'modify_sales_manager' + f; var broker_name = 'modify_broker_name' + f;  
                         var scm_manager = 'modify_scm_manager' + f; var customer_name = 'modify_customer_name' + f;  
                         var payment_method = 'modify_payment_method' + f; var sales_type = 'modify_sales_type' + f;  
@@ -490,6 +510,9 @@
                         document.write('<div class="row">');
                         document.write('<div class="cell" data-title="customer_name">');
                         document.write("<input id= "+ customer_name +" name = " + customer_name + " type='text'value='{{proposal_data.customer_name|default_if_none:'' }}'/>"); 
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="company_registration_number">');
+                        document.write("<input id= "+ company_registration_number +" name = " + company_registration_number + " type='text'value='{{proposal_data.company_registration_number|default_if_none:'' }}'/>"); 
                         document.write("</div>");
                         document.write('<div class="cell" data-title="payment_method">');
                         document.write("<select id="+ payment_method +" name=" + payment_method + ">");   
@@ -634,28 +657,44 @@
 
   <script language="javascript">
     var isSave = '{{isSave}}'
-    if (isSave == "성공"){
-      alert("저장되었습니다.");
-    }else if(isSave == "실패"){
-      alert("저장에 실패했습니다.");
-    }else if(isSave == "미등록 삼성코드"){
-      alert("등록되지 않은 삼성코드입니다.");
-    }else if(isSave == "미등록 삼성영업담당"){
-      alert("등록되지 않은 삼성영업담당입니다.");
-    }else if(isSave == "미등록 영업담당"){
-      alert("등록되지 않은 영업담당입니다.");
-    }else if(isSave == "미등록 SCM담당"){
-      alert("등록되지 않은 SCM담당입니다.");
-    }else if(isSave == "미등록 productno"){
-      alert("등록되지 않은 productno입니다.");
+    console.log(isSave)
+    if ( isSave != ''){
+      alert(isSave);
     }
+
+    // var isSave = '{{isSave}}'
+    // if (isSave == "성공"){
+    //   alert("저장되었습니다.");
+    // }else if(isSave == "실패"){
+    //   alert("저장에 실패했습니다.");
+    // }else if(isSave == "미등록 삼성코드"){
+    //   alert("등록되지 않은 삼성코드입니다.");
+    // }else if(isSave == "미등록 삼성영업담당"){
+    //   alert("등록되지 않은 삼성영업담당입니다.");
+    // }else if(isSave == "미등록 영업담당"){
+    //   alert("등록되지 않은 영업담당입니다.");
+    // }else if(isSave == "미등록 SCM담당"){
+    //   alert("등록되지 않은 SCM담당입니다.");
+    // }else if(isSave == "미등록 productno"){
+    //   alert("등록되지 않은 productno입니다.");
+    // }
+
     var isUpload = '{{isUpload}}'
     if (isUpload == "성공"){
       alert("엑셀 업로드에 성공했습니다.");
     }else if(isUpload == "실패"){
       alert("엑셀 업로드에 실패했습니다");
     }
+    
     $(function() {
+      console.log('{{proposal_data}}')
+      if ('{{proposal_data}}'){
+        console.log("dd")
+        $("#modify_team0").val("{{proposal_data.team|default_if_none:'직판'}}").prop("selected", "selected");
+        $("#modify_demand0").val("{{proposal_data.demand}}").prop("selected", "selected");
+        $("#modify_payment_method0").val("{{proposal_data.payment_method}}").prop("selected", "selected");
+      }
+
       $("#samsung_code0").autocomplete({
         source : '/samsung_code_autocomplete/', 
           select: function(event, ui) {
@@ -714,8 +753,79 @@
         source : '/customer_name_autocomplete/', 
           select: function(event, ui) {
             console.log(ui.item);
+            $("#company_registration_number0").val(ui.item.value)
+            return false;
           },
           focus: function(event, ui) {
+            $("#customer_name0").val(ui.item.id)
+            return false;
+          }       
+      }); 
+
+
+      $("#modify_samsung_code0").autocomplete({
+        source : '/samsung_code_autocomplete/', 
+          select: function(event, ui) {
+            console.log(ui.item);
+          },
+          focus: function(event, ui) {
+            return false;
+          }       
+      });
+      $("#modify_samsung_sales_manager0").autocomplete({
+        source : '/samsung_sales_manager_autocomplete/', 
+          select: function(event, ui) {
+            console.log(ui.item);
+          },
+          focus: function(event, ui) {
+            return false;
+          }       
+      });  
+      $("#modify_sales_manager0").autocomplete({
+        source : '/employee_autocomplete/', 
+          select: function(event, ui) {
+            console.log(ui.item);
+          },
+          focus: function(event, ui) {
+            return false;
+          }       
+      });  
+      $("#modify_productno0").autocomplete({
+        source : '/productno_autocomplete/', 
+          select: function(event, ui) {
+            console.log(ui.item);
+          },
+          focus: function(event, ui) {
+            return false;
+          }       
+      });     
+      $("#modify_broker0").autocomplete({
+        source : '/broker_autocomplete/', 
+          select: function(event, ui) {
+            console.log(ui.item);
+          },
+          focus: function(event, ui) {
+            return false;
+          }       
+      });         
+      $("#modify_scm_manager0").autocomplete({
+        source : '/employee_autocomplete/', 
+          select: function(event, ui) {
+            console.log(ui.item);
+          },
+          focus: function(event, ui) {
+            return false;
+          }       
+      });        
+      $("#modify_customer_name0").autocomplete({
+        source : '/customer_name_autocomplete/', 
+          select: function(event, ui) {
+            console.log(ui.item);
+            $("#modify_company_registration_number0").val(ui.item.value)
+            return false;
+          },
+          focus: function(event, ui) {
+            $("#modify_customer_name0").val(ui.item.id)
             return false;
           }       
       }); 
