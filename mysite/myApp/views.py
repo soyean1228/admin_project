@@ -462,12 +462,17 @@ def select(request):
 #                             order.balance = row.approval_quantity
 #                         else:
 #                             order.balance = None
+<<<<<<< HEAD
 #                     except ObjectDoesNotExist: 
+=======
+#                     except ObjectDoesNotExist:
+>>>>>>> 049e966b37499a0df23a7ea28a5e93f3ea38cc54
 #                         print("예외")
 #                         order.balance = None
                 
 #                 if order.order_num != None:
 #                     order.save()
+<<<<<<< HEAD
 
 #         order_data = OrderData.objects.all() 
 #         print(order_data)
@@ -512,3 +517,9 @@ def signin(request):
 def signout(request):
     logout(request)
     return signin(request)
+=======
+
+#         order_data = OrderData.objects.all() 
+#         print(order_data)
+#         return render(request, 'myApp/order_result.html', { "order_data" : order_data })
+>>>>>>> 049e966b37499a0df23a7ea28a5e93f3ea38cc54
