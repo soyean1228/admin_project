@@ -22,8 +22,14 @@ def save(request):
             email = None
 
         if samsung_code != '' and manager != '' and samsung_code != None and manager != None:
-            samsung_code_data = SamsungCode(samsung_code, manager, department, phone_num, email) 
-            samsung_code_data.save()
+            # samsung_code_data = SamsungCode(samsung_code, manager, department, phone_num, email) 
+            # samsung_code_data.save()
+            data_count = SamsungCode.objects.filter(samsung_code=samsung_code, manager=manager).count()
+            if data_count != 0 :
+                data = SamsungCode.objects.get(samsung_code=samsung_code, manager=manager)
+                data.delete()
+            SamsungCode.objects.create(samsung_code=samsung_code, manager=manager, department=department, phone_num=phone_num, email=email)
+            isSuccess = "저장되었습니다"
 
     print("완료")
 

@@ -31,8 +31,8 @@ from .models import Proposal
 # from .models import CoSalesman
 # from .models import Sales
 # from .models import SalesContent
-# from .models import Approval
-# from .models import OrderData
+from .models import Approval
+from .models import OrderData
 # from .models import Deposit
 # from .models import Delivery
 
@@ -50,7 +50,7 @@ from . import broker_save
 # from . import delivery_save
 # from . import deposit_save
 # from . import order_save
-# from . import approval_save
+from . import approval_save
 # from . import scm_select
 from . import proposal_save
 
@@ -171,9 +171,27 @@ def customer_name_autocomplete(request):
     for i in customer_name_data : 
         i_json = {}
         i_json['id'] = i.customer_name
-        i_json['label'] = i.company_registration_number 
-        i_json['value'] = i.company_registration_number
+        i_json['label'] = i.customer_name + " 사업자등록번호:" + i.company_registration_number 
+        i_json['value'] = i.customer_name + " 사업자등록번호:" + i.company_registration_number 
         results.append(i_json)
+    data = json.dumps(results)
+    mimetype = 'application/json'
+    return HttpResponse(data,mimetype)
+
+def customer_name_autocomplete_oppty_num(request):
+    # approval에서 사용
+    print("자동완성")
+    customer_name_data = Proposal.objects.filter(customer_name__istartswith=request.GET['term'])
+    # print(customer_name_data)
+    results = []
+    for i in customer_name_data : 
+        i_json = {}
+        i_json['id'] = i.customer_name
+        i_json['label'] = i.customer_name + " oppty_num:" + i.oppty_num 
+        i_json['value'] = i.customer_name + " oppty_num:" + i.oppty_num 
+        if i_json not in results:
+            results.append(i_json)
+    # print(results)
     data = json.dumps(results)
     mimetype = 'application/json'
     return HttpResponse(data,mimetype)
@@ -196,10 +214,13 @@ def insert(request, table_name):
         customer_data = Customer.objects.all()
         return render(request, 'myApp/customer.html', { "customer_data" : customer_data })   
     if(table_name == 'proposal'):
-        return render(request, 'myApp/proposal.html')  
+        return render(request, 'myApp/proposal.html', )  
     if(table_name == 'approval'):
-        customer_data = Customer.objects.all()
-        return render(request, 'myApp/approval.html', { "customer_data" : customer_data })   
+        approval_data = Approval.objects.all()
+        return render(request, 'myApp/approval.html', { "approval_data" : approval_data })   
+    if(table_name == 'order'):
+        order_data = OrderData.objects.all()
+        return render(request, 'myApp/order.html', { "order_data" : order_data }) 
     if(table_name == 'authority'):
         return render(request, 'myApp/authority_insert.html')
     if(table_name == 'customer_purchasing'):
@@ -214,8 +235,6 @@ def insert(request, table_name):
         return render(request, 'myApp/sales_content_insert.html')
     if(table_name == 'approval'):
         return render(request, 'myApp/approval_insert.html')
-    if(table_name == 'order'):
-        return render(request, 'myApp/order_insert.html')
     if(table_name == 'deposit'):
         return render(request, 'myApp/deposit_insert.html')
     if(table_name == 'delivery'):
@@ -254,9 +273,14 @@ def insert_check(request, table_name):
             customer_data = Customer.objects.all()
             return render(request, 'myApp/customer.html', { "isSave" : isSuccess , "customer_data" : customer_data })  
         return render(request, 'myApp/proposal.html',  { "isSave" : isSuccess })  
-    # if(table_name == 'approval_order'):
-    #     customer_data = Customer.objects.all()
-    #     return render(request, 'myApp/approval_order.html',  { "isSave" : True ,  "customer_data" : customer_data })   
+    if(table_name == 'approval'):
+        isSuccess = approval_save.save(request)
+        approval_data = Approval.objects.all()
+        return render(request, 'myApp/approval.html', { "isSave" : isSuccess , "approval_data" : approval_data })   
+    if(table_name == 'order'):
+        isSuccess = order_save.save(request)
+        approval_data = OrderData.objects.all()
+        return render(request, 'myApp/order_insert.html', { "isSave" : isSuccess, "approval_data" : approval_data })
     if(table_name == 'authority'):
         authority_save.save(request)
         return render(request, 'myApp/authority_insert.html', { "isSave" : True })
@@ -278,18 +302,18 @@ def insert_check(request, table_name):
             return render(request, 'myApp/sales_content_insert.html', { "isSave" : True })
         except IntegrityError as e:
             return render(request, 'myApp/sales_content_insert.html', { "isIntegrity" : True })
-    if(table_name == 'approval'):
-        try: 
-            approval_save.save(request)
-            return render(request, 'myApp/approval_insert.html', { "isSave" : True })
-        except IntegrityError as e:
-            return render(request, 'myApp/approval_insert.html', { "isIntegrity" : True })
-    if(table_name == 'order'):
-        try: 
-            order_save.save(request)
-            return render(request, 'myApp/order_insert.html', { "isSave" : True })
-        except IntegrityError as e:
-            return render(request, 'myApp/order_insert.html', { "isIntegrity" : True })
+    # if(table_name == 'approval'):
+    #     try: 
+    #         approval_save.save(request)
+    #         return render(request, 'myApp/approval_insert.html', { "isSave" : True })
+    #     except IntegrityError as e:
+    #         return render(request, 'myApp/approval_insert.html', { "isIntegrity" : True })
+    # if(table_name == 'order'):
+    #     try: 
+    #         order_save.save(request)
+    #         return render(request, 'myApp/order_insert.html', { "isSave" : True })
+    #     except IntegrityError as e:
+    #         return render(request, 'myApp/order_insert.html', { "isIntegrity" : True })
     if(table_name == 'deposit'):
         try: 
             deposit_save.save(request)
@@ -462,17 +486,12 @@ def select(request):
 #                             order.balance = row.approval_quantity
 #                         else:
 #                             order.balance = None
-<<<<<<< HEAD
 #                     except ObjectDoesNotExist: 
-=======
-#                     except ObjectDoesNotExist:
->>>>>>> 049e966b37499a0df23a7ea28a5e93f3ea38cc54
 #                         print("예외")
 #                         order.balance = None
                 
 #                 if order.order_num != None:
 #                     order.save()
-<<<<<<< HEAD
 
 #         order_data = OrderData.objects.all() 
 #         print(order_data)
@@ -517,9 +536,44 @@ def signin(request):
 def signout(request):
     logout(request)
     return signin(request)
-=======
 
-#         order_data = OrderData.objects.all() 
-#         print(order_data)
-#         return render(request, 'myApp/order_result.html', { "order_data" : order_data })
->>>>>>> 049e966b37499a0df23a7ea28a5e93f3ea38cc54
+def get_propoal_data_from_oppty(request):
+    # approval.html에서 사용
+    # oppty넘버를 통해서 Proposal에 등록된 정보를 가져옴 
+    # select_oppty_num
+    approval_data = Approval.objects.all()
+    select_oppty_num = request.POST.get('select_oppty_num',None)
+    select_customer_name = request.POST.get('select_customer_name',None)
+    print(select_oppty_num)
+
+    isCustomerRight = Customer.objects.filter(customer_name=select_customer_name).count()
+
+    try:
+        if isCustomerRight != 0:
+            proposal_data = Proposal.objects.filter(oppty_num=select_oppty_num)
+            print(proposal_data)
+            return render(request, 'myApp/approval.html', {"select_customer_name" : select_customer_name, "select_oppty_num" : select_oppty_num, 'proposal_data': proposal_data, "approval_data" : approval_data })   
+        else:
+            return render(request, 'myApp/approval.html', {'error' : "oppty번호나 업체명이 유효하지 않습니다.", "approval_data" : approval_data })   
+    except:
+        return render(request, 'myApp/approval.html', {'error' : "oppty번호나 업체명이 유효하지 않습니다.", "approval_data" : approval_data })   
+
+def get_approval_data_from_select_quote_num(request):
+    # order.html에서 사용
+    # elect_quote_num를 통해서 Approval 등록된 정보를 가져옴 
+    # select_quote_num
+    # approval_data = Approval.objects.all()
+    select_quote_num = request.POST.get('select_quote_num',None)
+    print(select_quote_num)
+
+    isQuoteNumRight = Approval.objects.filter(quote_num=select_quote_num).count()
+
+    try:
+        if isQuoteNumRight != 0:
+            approval_data = Approval.objects.filter(quote_num=select_quote_num)
+            print(approval_data)
+            return render(request, 'myApp/approval.html', {"select_quote_num" : select_quote_num, "approval_data" : approval_data })  
+        else:
+            return render(request, 'myApp/approval.html', {'error' : "견적번호가 유효하지 않습니다.", "approval_data" : approval_data })   
+    except:
+        return render(request, 'myApp/approval.html', {'error' : "견적번호가 유효하지 않습니다.", "approval_data" : approval_data })   

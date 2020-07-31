@@ -1,3 +1,4 @@
+{% extends 'myApp/base.html' %}  
 {% block content %}  
       <!-- Begin Page Content -->
       <div class="container-fluid" >
@@ -619,7 +620,7 @@
         source : '/customer_name_autocomplete/', 
           select: function(event, ui) {
             console.log(ui.item);
-            $("#company_registration_number0").val(ui.item.value)
+            $("#company_registration_number0").val(ui.item.value.split(":")[1])
             return false;
           },
           focus: function(event, ui) {
@@ -687,7 +688,7 @@
         source : '/customer_name_autocomplete/', 
           select: function(event, ui) {
             console.log(ui.item);
-            $("#modify_company_registration_number0").val(ui.item.value)
+            $("#modify_company_registration_number0").val(ui.item.value.split(":")[1])
             return false;
           },
           focus: function(event, ui) {

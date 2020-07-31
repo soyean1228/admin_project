@@ -102,12 +102,11 @@ def save(request):
         oppty_num = request.POST.get('oppty_num'+ str(i), None)
         if oppty_num == '' : 
             oppty_num = None
+
         productno = request.POST.get('productno'+ str(i), None)
         count_productno_data = Product.objects.values('productno').filter(productno=productno).count()
         print(count_productno_data)
-        if productno == '' : 
-            productno = None
-        elif count_productno_data == 0:
+        if count_productno_data == 0:
             return "등록되지 않은 productno입니다."
 
         buy_place = request.POST.get('buy_place'+ str(i), None)
@@ -148,9 +147,9 @@ def save(request):
         recipient = request.POST.get('recipient'+ str(i), None)
         if recipient == '' : 
             recipient = None
+
         recipient_phone1 = request.POST.get('recipient_phone1'+ str(i), None)
-        if recipient_phone1 == '' : 
-            recipient_phone1 = None
+        
         recipient_phone2 = request.POST.get('recipient_phone2'+ str(i), None)
         if recipient_phone2 == '' : 
             recipient_phone2 = None
@@ -158,12 +157,21 @@ def save(request):
         if delivery_address == '' : 
             delivery_address = None
 
-        if oppty_num != '' and oppty_num != None:
-            proposal_data = Proposal( contact_conclusion_date, samsung_code, samsung_sales_manager, team, sales_manager, broker, scm_manager,  
-                                    customer_name, company_registration_number, payment_method, sales_type, demand, billing_place, oppty_num, productno, buy_place,  decision_quantity,
-                                    decision_unit, decision_price, sales_unit, sales_price, delivery_request_date, recipient, 
-                                    recipient_phone1, recipient_phone2, delivery_address) 
-            proposal_data.save()
+        if oppty_num != '' and oppty_num != None and recipient != '' and recipient != None and productno != '' and productno != None:
+            data_count = Proposal.objects.filter(oppty_num=oppty_num, recipient=recipient, productno=productno).count()
+            if data_count != 0 :
+                data = Proposal.objects.get(oppty_num=oppty_num, recipient=recipient, productno=productno)
+                data.delete()
+            Proposal.objects.create(contact_conclusion_date=contact_conclusion_date, samsung_code=samsung_code, samsung_sales_manager=samsung_sales_manager, team=team, 
+                                    sales_manager=sales_manager, broker=broker, scm_manager=scm_manager, customer_name=customer_name, company_registration_number=company_registration_number,
+                                    payment_method=payment_method, sales_type=sales_type, demand=demand,  billing_place=billing_place, oppty_num=oppty_num, productno=productno, buy_place=buy_place,  decision_quantity=decision_quantity,
+                                    decision_unit=decision_unit, decision_price=decision_price, sales_unit=sales_unit, sales_price=sales_price, delivery_request_date=delivery_request_date, recipient=recipient, 
+                                    recipient_phone1=recipient_phone1, recipient_phone2=recipient_phone2, delivery_address=delivery_address)
+            # proposal_data = Proposal( contact_conclusion_date, samsung_code, samsung_sales_manager, team, sales_manager, broker, scm_manager,  
+            #                         customer_name, company_registration_number, payment_method, sales_type, demand, billing_place, oppty_num, productno, buy_place,  decision_quantity,
+            #                         decision_unit, decision_price, sales_unit, sales_price, delivery_request_date, recipient, 
+            #                         recipient_phone1, recipient_phone2, delivery_address) 
+            # proposal_data.save()
             isSuccess = "저장되었습니다"
         else :
             print("oppty_num")
@@ -372,4 +380,5 @@ def modify(request):
         else :
             print("oppty_num")
             isSuccess = "수정에 실패했습니다"
+
     return isSuccess
