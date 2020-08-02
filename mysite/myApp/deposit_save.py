@@ -3,34 +3,44 @@ from .models import Deposit
 def save(request):
     print("deposit_save")
 
-    for i in range(0,5):
+    isSuccess = "저장에 실패했습니다"   
 
-        customer_name = None;  deposit_amount = None; balance = None; 
-        payment_method = None; deposit_date = None; order_num = None; scheduled_shipping_date = None; 
+    for i in range(0,1):
+
+        company_registration_number = None;  order_num = None; 
+        deposit_number = None; transaction_date = None 
+        transaction_content = None; in_amount = None; 
+        out_amount = None; deposit_balance = None; 
         
-        order_num = request.POST.get('order_num' + str(i),0)
-        customer_name = request.POST.get('customer_name' + str(i),'')
-        if customer_name == '' : 
-            customer_name = None
-        deposit_amount = request.POST.get('deposit_amount' + str(i),0)
-        if deposit_amount == '' : 
-            deposit_amount = None
-        balance = request.POST.get('balance' + str(i),0)
-        if balance == '' : 
-            balance = None
-        payment_method = request.POST.get('payment_method' + str(i),'')
-        if payment_method == '' : 
-            payment_method = None
-        deposit_date = request.POST.get('deposit_date' + str(i),0)
-        if deposit_date == '' : 
-            deposit_date = None
-        scheduled_shipping_date = request.POST.get('scheduled_shipping_date' + str(i),0)
-        if scheduled_shipping_date == '' : 
-            scheduled_shipping_date = None
+        company_registration_number = request.POST.get('select_company_registration_number',0)
+        customer_name = request.POST.get('select_customer_name',0)
+        order_num = request.POST.get('order_num' + str(i),'')
+        if order_num == '' : 
+            order_num = None
+        # deposit_number = request.POST.get('deposit_number' + str(i),0)
+        # if deposit_number == '' : 
+        #     deposit_number = None
+        
+        #미구현
+        deposit_number = 0
+        
+        transaction_date = request.POST.get('transaction_date' + str(i),0)
+        if transaction_date == '' : 
+            transaction_date = None
+        transaction_content = request.POST.get('transaction_content' + str(i),'')
+        if transaction_content == '' : 
+            transaction_content = None
+        in_amount = request.POST.get('in_amount' + str(i),0)
+        if in_amount == '' : 
+            in_amount = None
+        
+        # 잔액
+        deposit_balance = in_amount
 
         if order_num != '' :
-            deposit_data = Deposit(customer_name, deposit_amount, balance, payment_method, deposit_date, order_num, scheduled_shipping_date) 
+            deposit_data = Deposit(customer_name, company_registration_number, deposit_number, transaction_date, transaction_content, in_amount, out_amount, deposit_balance, order_num) 
             deposit_data.save()
-
-    print("완료")
+        isSuccess = "저장되었습니다"  
+    
+    return isSuccess
     

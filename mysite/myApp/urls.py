@@ -50,5 +50,7 @@ urlpatterns = [
 
     path('get_propoal_data_from_oppty/', views.get_propoal_data_from_oppty, name='get_propoal_data_from_oppty'),
     path('get_approval_data_from_select_quote_num/', views.get_approval_data_from_select_quote_num, name='get_approval_data_from_select_quote_num'),
+    path('get_deposit_data_from_company_registration_number/', views.get_deposit_data_from_company_registration_number, name='get_deposit_data_from_company_registration_number'),
+    path('get_data_from_select_scheduled_delivery_date/', views.get_data_from_select_scheduled_delivery_date, name='get_data_from_select_scheduled_delivery_date'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

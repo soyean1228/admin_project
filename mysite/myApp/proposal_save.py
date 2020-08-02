@@ -5,7 +5,7 @@ from .models import Product
 from .models import Customer
 from openpyxl import load_workbook
 from openpyxl import Workbook
-
+from .models import Employee
 def save(request):
 
     print("proposal_save")
@@ -47,7 +47,9 @@ def save(request):
             team = None
 
         sales_manager = request.POST.get('sales_manager'+ str(i), None)
-        count_sales_manager_data = SamsungCode.objects.values('manager').filter(manager=sales_manager).count()
+        print(sales_manager)
+        # count_//sales_manager_data = SamsungCode.objects.values('manager').filter(manager=sales_manager).count()
+        count_sales_manager_data = Employee.objects.filter(charge="INNO 영업담당",name=sales_manager)
         print(count_sales_manager_data)
         if sales_manager == '' : 
             sales_manager = None
@@ -63,7 +65,8 @@ def save(request):
             return "등록되지 않은 중개사입니다. 중개사를 등록해주세요."
 
         scm_manager = request.POST.get('scm_manager'+ str(i), None)
-        count_scm_manager_data = SamsungCode.objects.values('manager').filter(manager=scm_manager).count()
+        # count_scm_manager_data = SamsungCode.objects.values('manager').filter(manager=scm_manager).count()
+        count_scm_manager_data = Employee.objects.filter(charge="INNO SCM담당",name=scm_manager)
         print(count_scm_manager_data)
         if scm_manager == '' : 
             scm_manager = None
@@ -104,6 +107,7 @@ def save(request):
             oppty_num = None
 
         productno = request.POST.get('productno'+ str(i), None)
+        print(productno)
         count_productno_data = Product.objects.values('productno').filter(productno=productno).count()
         print(count_productno_data)
         if count_productno_data == 0:
@@ -167,11 +171,6 @@ def save(request):
                                     payment_method=payment_method, sales_type=sales_type, demand=demand,  billing_place=billing_place, oppty_num=oppty_num, productno=productno, buy_place=buy_place,  decision_quantity=decision_quantity,
                                     decision_unit=decision_unit, decision_price=decision_price, sales_unit=sales_unit, sales_price=sales_price, delivery_request_date=delivery_request_date, recipient=recipient, 
                                     recipient_phone1=recipient_phone1, recipient_phone2=recipient_phone2, delivery_address=delivery_address)
-            # proposal_data = Proposal( contact_conclusion_date, samsung_code, samsung_sales_manager, team, sales_manager, broker, scm_manager,  
-            #                         customer_name, company_registration_number, payment_method, sales_type, demand, billing_place, oppty_num, productno, buy_place,  decision_quantity,
-            #                         decision_unit, decision_price, sales_unit, sales_price, delivery_request_date, recipient, 
-            #                         recipient_phone1, recipient_phone2, delivery_address) 
-            # proposal_data.save()
             isSuccess = "저장되었습니다"
         else :
             print("oppty_num")
@@ -224,7 +223,7 @@ def modify(request):
     for i in range(0,1):
 
         contact_conclusion_date = None; samsung_code = None; samsung_sales_manager = None;  
-        team = None;  sales_manager = None;  
+        team = None;  sales_manager = None;  company_registration_number = None
         address = None; email = None; resident_registration_number = None; team = None; rate = None; decision_price = None; sales_price = None
 
         contact_conclusion_date = request.POST.get('modify_contact_conclusion_date' + str(i), None)
@@ -258,6 +257,7 @@ def modify(request):
             team = None
 
         sales_manager = request.POST.get('modify_sales_manager'+ str(i), None)
+        print(sales_maneger)
         count_sales_manager_data = SamsungCode.objects.values('manager').filter(manager=sales_manager).count()
         print(count_sales_manager_data)
         if sales_manager == '' : 
@@ -370,15 +370,18 @@ def modify(request):
         if delivery_address == '' : 
             delivery_address = None
 
-        if oppty_num != '' and oppty_num != None:
-            proposal_data = Proposal( contact_conclusion_date, samsung_code, samsung_sales_manager, team, sales_manager, broker, scm_manager,  
-                                    customer_name, company_registration_number, payment_method, sales_type, demand, billing_place, oppty_num, productno, buy_place,  decision_quantity,
-                                    decision_unit, decision_price, sales_unit, sales_price, delivery_request_date, recipient, 
-                                    recipient_phone1, recipient_phone2, delivery_address) 
-            proposal_data.save()
+        if oppty_num != '' and oppty_num != None and recipient != '' and recipient != None and productno != '' and productno != None:
+            data_count = Proposal.objects.filter(oppty_num=oppty_num, recipient=recipient, productno=productno).count()
+            if data_count != 0 :
+                data = Proposal.objects.get(oppty_num=oppty_num, recipient=recipient, productno=productno)
+                data.delete()
+            Proposal.objects.create(contact_conclusion_date=contact_conclusion_date, samsung_code=samsung_code, samsung_sales_manager=samsung_sales_manager, team=team, 
+                                    sales_manager=sales_manager, broker=broker, scm_manager=scm_manager, customer_name=customer_name, company_registration_number=company_registration_number,
+                                    payment_method=payment_method, sales_type=sales_type, demand=demand,  billing_place=billing_place, oppty_num=oppty_num, productno=productno, buy_place=buy_place,  decision_quantity=decision_quantity,
+                                    decision_unit=decision_unit, decision_price=decision_price, sales_unit=sales_unit, sales_price=sales_price, delivery_request_date=delivery_request_date, recipient=recipient, 
+                                    recipient_phone1=recipient_phone1, recipient_phone2=recipient_phone2, delivery_address=delivery_address)
             isSuccess = "수정되었습니다"
         else :
             print("oppty_num")
             isSuccess = "수정에 실패했습니다"
-
     return isSuccess

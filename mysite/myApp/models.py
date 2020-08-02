@@ -91,6 +91,7 @@ class Customer(models.Model):
 #     class Meta:
 #         managed = False
 #         db_table = 'team_manager'
+
 class Proposal(models.Model):
     contact_conclusion_date = models.DateTimeField(blank=True, null=True)
     samsung_code = models.IntegerField(blank=True, null=True)
@@ -265,51 +266,22 @@ class Sales(models.Model):
 #         managed = False
 #         db_table = 'deposit'
 
-class Approval(models.Model):
-    quote_num = models.IntegerField(primary_key=True)
-    oppty_num = models.CharField(max_length=20, blank=True, null=True)
-    productno = models.CharField(max_length=50)
-    buy_place = models.CharField(max_length=20, blank=True, null=True)
-    decision_quantity = models.IntegerField(blank=True, null=True)
-    approval_quantity = models.IntegerField(blank=True, null=True)
-    approval_unit = models.IntegerField(blank=True, null=True)
-    approval_price = models.IntegerField(blank=True, null=True)
-    delivery_request_date = models.DateTimeField(blank=True, null=True)
-    approval_balance = models.IntegerField(blank=True, null=True)
-    total_approval_balance = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'approval'
-        unique_together = (('quote_num', 'productno'),)
-        
-
 class OrderData(models.Model):
-    order_date = models.DateTimeField(blank=True, null=True)
     order_num = models.IntegerField(primary_key=True)
-    assignment = models.CharField(max_length=20, blank=True, null=True)
-    productno = models.CharField(max_length=50)
-    buy_place = models.CharField(max_length=20, blank=True, null=True)
-    approval_quantity = models.IntegerField(blank=True, null=True)
-    order_quantity = models.IntegerField(blank=True, null=True)
-    approval_unit = models.IntegerField(blank=True, null=True)
-    approval_price = models.IntegerField(blank=True, null=True)
-    sales_unit = models.IntegerField(blank=True, null=True)
-    sales_price = models.IntegerField(blank=True, null=True)
-    delivery_request_date = models.DateTimeField(blank=True, null=True)
-    scheduled_delivery_date = models.DateTimeField(blank=True, null=True)
-    recipient = models.CharField(max_length=20)
-    recipient_phone1 = models.CharField(max_length=20, blank=True, null=True)
-    recipient_phone2 = models.CharField(max_length=20, blank=True, null=True)
-    delivery_address = models.CharField(max_length=100, blank=True, null=True)
-    order_balance = models.IntegerField(blank=True, null=True)
-    oppty_num = models.CharField(max_length=20)
     quote_num = models.IntegerField()
+    oppty_num = models.CharField(max_length=20)
+    productno = models.CharField(max_length=50)
+    recipient = models.CharField(max_length=20)
+    order_date = models.DateTimeField(blank=True, null=True)
+    assignment = models.CharField(max_length=20, blank=True, null=True)
+    order_quantity = models.IntegerField(blank=True, null=True)
+    scheduled_delivery_date = models.DateTimeField(blank=True, null=True)
+    order_balance = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'order_data'
-        unique_together = (('order_num', 'productno', 'recipient', 'oppty_num', 'quote_num'),)
+        unique_together = (('order_num', 'productno', 'recipient', 'oppty_num', 'quote_num'),) 
 
 # class UploadOrderFileModel(models.Model):
 #     title = models.TextField(default='')
@@ -341,3 +313,47 @@ class OrderData(models.Model):
 #     class Meta:
 #         managed = False
 #         db_table = 'scm'
+
+class Approval(models.Model):
+    quote_num = models.IntegerField(primary_key=True)
+    oppty_num = models.CharField(max_length=20)
+    productno = models.CharField(max_length=50)
+    recipient = models.CharField(max_length=20)
+    approval_quantity = models.IntegerField(blank=True, null=True)
+    approval_unit = models.IntegerField(blank=True, null=True)
+    approval_price = models.IntegerField(blank=True, null=True)
+    approval_balance = models.IntegerField(blank=True, null=True)
+    total_approval_balance = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'approval'
+        unique_together = (('quote_num', 'oppty_num', 'productno', 'recipient'),)
+        
+
+class Deposit(models.Model):
+    customer_name = models.CharField(max_length=20, blank=True, null=True)
+    company_registration_number = models.CharField(primary_key=True, max_length=20)
+    deposit_number = models.IntegerField()
+    transaction_date = models.DateTimeField(blank=True, null=True)
+    transaction_content = models.CharField(max_length=100, blank=True, null=True)
+    in_amount = models.IntegerField(blank=True, null=True)
+    out_amount = models.IntegerField(blank=True, null=True)
+    deposit_balance = models.IntegerField(blank=True, null=True)
+    order_num = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'deposit'
+        unique_together = (('company_registration_number', 'deposit_number'),)
+
+class Delivery(models.Model):
+    order_num = models.IntegerField(primary_key=True)
+    in_date = models.DateTimeField(blank=True, null=True)
+    in_amount = models.IntegerField(blank=True, null=True)
+    etc = models.CharField(max_length=50, blank=True, null=True)
+    delivery_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'delivery'

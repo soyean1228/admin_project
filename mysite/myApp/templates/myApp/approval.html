@@ -54,22 +54,23 @@
                             <div class="cell">
                               납품요청일
                             </div>
-                            <!-- <div class="cell">
-                              승인잔량
-                            </div> -->
+                            <div class="cell">
+                              인수자
+                            </div>
                           </div>
                           <script>
                             var f = -1; var quote_num = 'quote_num' + f; var productno = 'productno' + f; 
                             var buy_place = 'buy_place' + f; var decision_quantity = 'decision_quantity' + f; 
                             var approval_quantity = 'approval_quantity' + f; var approval_unit = 'approval_unit' + f; 
                             var delivery_request_date = 'delivery_request_date' + f; var approval_balance = 'approval_balance' + f;
-                            var proposal_data_length = 'proposal_data_length'
+                            var proposal_data_length = 'proposal_data_length'; var recipient = 'recipient' + f;
 
                             document.write('{% for list in proposal_data %}');
                             f = f+1;  quote_num = 'quote_num' + f; productno = 'productno' + f; 
                             buy_place = 'buy_place' + f; decision_quantity = 'decision_quantity' + f; 
                             approval_quantity = 'approval_quantity' + f; approval_unit = 'approval_unit' + f; 
                             delivery_request_date = 'delivery_request_date' + f; approval_balance = 'approval_balance' + f;
+                            recipient = 'recipient'+f
 
                             document.write('<div class="row">');
                             document.write('<div class="cell" data-title="quote_num">');
@@ -93,12 +94,12 @@
                             document.write('<div class="cell" data-title="delivery_request_date">');
                             document.write("<input id= "+ delivery_request_date +" name = " + delivery_request_date + " type='date'  value='{{list.delivery_request_date|default_if_none:'' | date:'Y-m-d'}}'/>");    
                             document.write("</div>");
-                            // document.write('<div class="cell" data-title="approval_balance">');
-                            // document.write("<input id= "+ approval_balance +" name = " + approval_balance + " type='number'> ");   
-                            // document.write("</div>");
+                            document.write('<div class="cell" data-title="recipient">');
+                            document.write("<input id= "+ recipient +" name = " + recipient + " type='text' value={{list.recipient|default_if_none:'' }}> ");  
+                            document.write("</div>");
                             document.write("</div>");
                             document.write('{% endfor %}');
-                            document.write("<input id= " + proposal_data_length + " name = "+ proposal_data_length + " value =" + f + "> ");
+                            document.write("<input id= " + proposal_data_length + " name = "+ proposal_data_length + " type='hidden' value =" + f + "> ");
                           </script>
                         </div>
                         <input type="submit" class='sub' value="저장" onclick='mySubmit(2)'/>
@@ -144,7 +145,8 @@
                       <th>승인액</th>
                       <th>납품요청일</th>
                       <th>승인잔량</th>
-                      <th>총승인액</th>
+                      <th>총 승인액</th>
+                      <th>인수자</th>
                     </tr>
                   </thead>
                   <tfoot>
@@ -159,7 +161,8 @@
                       <th>승인액</th>
                       <th>납품요청일</th>
                       <th>승인잔량</th>
-                      <th>총승인액</th>
+                      <th>총 승인액</th>
+                      <th>인수자</th>
                     </tr>
                   </tfoot>
                   <tbody>
@@ -174,9 +177,10 @@
                         <td>{{list.approval_quantity|default_if_none:"" }}</td>
                         <td>{{list.approval_unit|default_if_none:"" }}</td>
                         <td>{{list.approval_price|default_if_none:"" }}</td>
-                        <td>{{list.delivery_request_date|default_if_none:"" }}</td>
+                        <td>{{list.delivery_request_date|default_if_none:""  |date:"Y-m-d"}}</td>
                         <td>{{list.approval_balance|default_if_none:"" }}</td>
                         <td>{{list.total_approval_balance|default_if_none:"" }}</td>
+                        <td>{{list.recipient|default_if_none:"" }}</td>
                       </tr>
                     {% endfor %}
                   </tbody>

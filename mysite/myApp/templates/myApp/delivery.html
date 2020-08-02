@@ -9,25 +9,28 @@
           </div>
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">주문 등록</h6>
+              <h6 class="m-0 font-weight-bold text-primary">배송 등록</h6>
             </div>
             <div class="card-body">
               <!-- The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS! -->
               <form id='myForm' name = 'myForm' method="post">{% csrf_token %} 
 
                 <div class="container-search" style="overflow: auto;">
-                  <div data-title="select_quote_num" style="display:inline-block; margin-right: 40px;">
-                    <label>견적번호</label><input id= "select_quote_num" name = "select_quote_num" type='text' class="form-control form-control-sm" value= {{select_quote_num|default_if_none:"" }} >
+                  <div data-title="select_scheduled_delivery_date" style="display:inline-block; margin-right: 40px;">
+                    <label>납품예정일</label><input id= "select_scheduled_delivery_date" name = "select_scheduled_delivery_date" type='date' class="form-control form-control-sm" value= {{select_scheduled_delivery_date|default_if_none:"" }} >
                   </div>
                   <input type="button" class = 'sub' value="조회" style="margin-top: 10px;" onclick='mySubmit(1)'/>
                 </div>
 
-                {% if approval_data|length > 0 %}
+                {% if data|length > 0 %}
                   <div class="limiter">
                     <div class="container-table100" style="padding: 2px 20px;">
                       <div class="wrap-table100">
                         <div class="table">
                           <div class="row header">
+                            <div class="cell">
+                              업체명
+                            </div>
                             <div class="cell">
                               주문일자
                             </div>
@@ -35,16 +38,10 @@
                               주문번호
                             </div>
                             <div class="cell">
-                              할당
-                            </div>
-                            <div class="cell">
                               ProductNo
                             </div>
                             <div class="cell">
                               매입처
-                            </div>
-                            <div class="cell">
-                              승인수량
                             </div>
                             <div class="cell">
                               주문수량
@@ -62,60 +59,58 @@
                               매출액
                             </div>
                             <div class="cell">
-                              납품요청일
-                            </div>
-                            <div class="cell">
-                              납품예정일
-                            </div>
-                            <div class="cell">
                               인수자
                             </div>
                             <div class="cell">
-                              인수자 전화번호1
+                              결제방식
                             </div>
                             <div class="cell">
-                              인수자 전화번호2
+                              선입금 잔고
                             </div>
                             <div class="cell">
-                              배송주소
+                              입금일
+                            </div>
+                            <div class="cell">
+                              입금액
+                            </div>
+                            <div class="cell">
+                              여신/기타
+                            </div>
+                            <div class="cell">
+                              납품완료일
                             </div>
                           </div>
                           <script>
                             var f = -1; 
-                            var order_date = 'order_date' + f; var order_num = 'order_num' + f;
-                            var assignment = 'assignment' + f; var productno = 'productno' + f;
-                            var buy_place = 'buy_place' + f; var approval_quantity = 'approval_quantity' + f;
-                            var order_quantity = 'order_quantity' + f; var approval_unit = 'approval_unit' + f;
-                            var approval_price = 'approval_price' + f; var sales_unit = 'sales_unit' + f;
-                            var sales_price = 'sales_price' + f; var delivery_request_date = 'delivery_request_date' + f;
-                            var scheduled_delivery_date = 'scheduled_delivery_date' + f; var recipient = 'recipient' + f;
-                            var recipient_phone1 = 'recipient_phone1' + f; var recipient_phone2 = 'recipient_phone2' + f;
-                            var delivery_address = 'delivery_address' + f; 
-                            
-                            var oppty_num = 'oppty_num'; 
-                            var approval_data_length = 'approval_data_length'; 
+                            var order_num = 'order_num' + f; var in_date = 'in_date' + f;
+                            var in_amount = 'in_amount' + f; var etc = 'etc' + f;
+                            var delivery_date = 'delivery_date' + f;
+                            var customer_name = 'customer_name' + f; var order_date = 'order_date' + f; 
+                            var buy_place = 'buy_place' + f; var order_quantity = 'order_quantity' + f; 
+                            var approval_unit = 'approval_unit' + f; var approval_price = 'approval_price' + f; 
+                            var sales_unit = 'sales_unit' + f; var sales_price = 'sales_price' + f; 
+                            var recipient = 'recipient' + f; var payment_method = 'payment_method' + f; 
+                            var deposit_balance = 'deposit_balance' + f; var productno = 'productno' + f; 
+                            var data_length = 'data_length';
+                            var company_registration_number = 'company_registration_number' + f;
+                            var customer_name = 'customer_name' + f;
 
-                            document.write('{% for list in approval_data %}');
+                            document.write('{% for list in data %}');
                             f = f+1;  
-                            order_date = 'order_date' + f;  order_num = 'order_num' + f;
-                            assignment = 'assignment' + f;  productno = 'productno' + f;
-                            buy_place = 'buy_place' + f;  approval_quantity = 'approval_quantity' + f;
-                            order_quantity = 'order_quantity' + f;  approval_unit = 'approval_unit' + f;
-                            approval_price = 'approval_price' + f;  sales_unit = 'sales_unit' + f;
-                            sales_price = 'sales_price' + f;  delivery_request_date = 'delivery_request_date' + f;
-                            scheduled_delivery_date = 'scheduled_delivery_date' + f;  recipient = 'recipient' + f;
-                            recipient_phone1 = 'recipient_phone1' + f; recipient_phone2 = 'recipient_phone2' + f;
-                            delivery_address = 'delivery_address' + f; 
+                            order_num = 'order_num' + f;  in_date = 'in_date' + f;
+                            in_amount = 'in_amount' + f;  etc = 'etc' + f;
+                            delivery_date = 'delivery_date' + f; company_registration_number = 'company_registration_number' + f;
+                            customer_name = 'customer_name' + f;
                             
                             document.write('<div class="row">');
+                            document.write('<div class="cell" data-title="customer_name">');
+                            document.write("<input id= "+ customer_name +" name = " + customer_name + " type='text'  value={{list.customer_name|default_if_none:'' }}> ");   
+                            document.write("</div>");
                             document.write('<div class="cell" data-title="order_date">');
-                            document.write("<input id= "+ order_date +" name = " + order_date + " type='date' > ");  
+                            document.write("<input id= "+ order_date +" name = " + order_date + " type='date'  value={{list.order_date|default_if_none:'' | date:'Y-m-d'}}>");    
                             document.write("</div>");
                             document.write('<div class="cell" data-title="order_num">');
-                            document.write("<input id= "+ order_num +" name = " + order_num + " type='number' > ");  
-                            document.write("</div>");
-                            document.write('<div class="cell" data-title="assignment">');
-                            document.write("<input id= "+ assignment +" name = " + assignment + " type='text' > ");   
+                            document.write("<input id= "+ order_num +" name = " + order_num + " type='number' value={{list.order_num|default_if_none:'' }}> ");  
                             document.write("</div>");
                             document.write('<div class="cell" data-title="productno">');
                             document.write("<input id= "+ productno +" name = " + productno + " type='text' value={{list.productno|default_if_none:'' }}> ");  
@@ -123,11 +118,8 @@
                             document.write('<div class="cell" data-title="buy_place">');
                             document.write("<input id= "+ buy_place +" name = " + buy_place + " type='text' value={{list.buy_place|default_if_none:'' }}> ");  
                             document.write("</div>");
-                            document.write('<div class="cell" data-title="approval_quantity">');
-                            document.write("<input id= "+ approval_quantity +" name = " + approval_quantity + " type='text' value={{list.approval_quantity|default_if_none:'' }}> ");
-                            document.write("</div>");
                             document.write('<div class="cell" data-title="order_quantity">');
-                            document.write("<input id= "+ order_quantity +" name = " + order_quantity + " type='number' > "); 
+                            document.write("<input id= "+ order_quantity +" name = " + order_quantity + " type='number'  value={{list.order_quantity|default_if_none:'' }}> ");  
                             document.write("</div>");
                             document.write('<div class="cell" data-title="approval_unit">');
                             document.write("<input id= "+ approval_unit +" name = " + approval_unit + " type='number' value={{list.approval_unit|default_if_none:'' }}> ");
@@ -141,28 +133,32 @@
                             document.write('<div class="cell" data-title="sales_price">');
                             document.write("<input id= "+ sales_price +" name = " + sales_price + " type='number' value={{list.sales_price|default_if_none:'' }}> ");
                             document.write("</div>");
-                            document.write('<div class="cell" data-title="delivery_request_date">');
-                            document.write("<input id= "+ delivery_request_date +" name = " + delivery_request_date + " type='date' value='{{list.delivery_request_date|default_if_none:'' | date:'Y-m-d'}}'/>");    
-                            document.write("</div>");
-                            document.write('<div class="cell" data-title="scheduled_delivery_date">');
-                            document.write("<input id= "+ scheduled_delivery_date +" name = " + scheduled_delivery_date + " type='date'> ");   
-                            document.write("</div>");
                             document.write('<div class="cell" data-title="recipient">');
-                            document.write("<input id= "+ recipient +" name = " + recipient + " type='text' value={{list.recipient|default_if_none:'' }}> "); 
+                            document.write("<input id= "+ recipient +" name = " + recipient + " type='text' value={{list.recipient|default_if_none:''}}> ");   
                             document.write("</div>");
-                            document.write('<div class="cell" data-title="recipient_phone1">');
-                            document.write("<input id= "+ recipient_phone1 +" name = " + recipient_phone1 + " type='text' value={{list.recipient_phone1|default_if_none:'' }}> "); 
+                            document.write('<div class="cell" data-title="payment_method">');
+                            document.write("<input id= "+ payment_method +" name = " + payment_method + " type='text' value={{list.payment_method|default_if_none:''  }}> ");  
                             document.write("</div>");
-                            document.write('<div class="cell" data-title="recipient_phone2">');
-                            document.write("<input id= "+ recipient_phone2 +" name = " + recipient_phone2 + " type='text' value={{list.recipient_phone2|default_if_none:'' }}> "); 
+                            document.write('<div class="cell" data-title="deposit_balance">');
+                            document.write("<input id= "+ deposit_balance +" name = " + deposit_balance + " type='number' value={{list.deposit_balance|default_if_none:''}}> ");  
                             document.write("</div>");
-                            document.write('<div class="cell" data-title="delivery_address">');
-                            document.write("<input id= "+ delivery_address +" name = " + delivery_address + " type='text' value={{list.delivery_address|default_if_none:'' }}> "); 
+                            document.write('<div class="cell" data-title="in_date">');
+                            document.write("<input id= "+ in_date +" name = " + in_date + " type='date' > "); 
                             document.write("</div>");
-                            document.write("<input id= " + oppty_num + " name = "+ oppty_num + " type='hidden' value={{list.oppty_num|default_if_none:'' }}> ");
+                            document.write('<div class="cell" data-title="in_amount">');
+                            document.write("<input id= "+ in_amount +" name = " + in_amount + " type='number' > ");
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="etc">');
+                            document.write("<input id= "+ etc +" name = " + etc + " type='text'> ");
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="delivery_date">');
+                            document.write("<input id= "+ delivery_date +" name = " + delivery_date + " type='date'> "); 
+                            document.write("<input id= "+ company_registration_number +" name = " + company_registration_number + " type='hidden' value={{list.company_registration_number|default_if_none:''}}> ");  
+                            document.write("<input id= "+ customer_name +" name = " + customer_name + " type='hidden' value={{list.customer_name|default_if_none:''}}> ");  
+                            document.write("</div>");
                             document.write("</div>");
                             document.write('{% endfor %}');
-                            document.write("<input id= " + approval_data_length + " name = "+ approval_data_length + " type='hidden' value =" + f + "> ");
+                            document.write("<input id= " + data_length + " name = "+ data_length + " type='hidden' value =" + f + "> ");
                           </script>
                         </div>
                         <input type="submit" class='sub' value="저장" onclick='mySubmit(2)'/>
@@ -190,7 +186,7 @@
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">주문 조회</h6>
+              <h6 class="m-0 font-weight-bold text-primary">배송 조회</h6>
             </div>
 
             <div class="card-body">
@@ -198,69 +194,67 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
+                      <th>업체명</th>
                       <th>주문일</th>
                       <th>주문번호</th>
-                      <th>할당</th>
                       <th>productno</th>
                       <th>매입처</th>
-                      <th>승인수량</th>
                       <th>주문수량</th>
                       <th>승인단가</th>
                       <th>승인액</th>
                       <th>매출단가</th>
                       <th>매출액</th>
-                      <th>납품요청일</th>
-                      <th>납품예정일</th>
                       <th>인수자</th>
-                      <th>인수자 전화번호1</th>
-                      <th>인수자 전화번호2</th>
-                      <th>배송주소</th>
+                      <th>결제방식</th>
+                      <th>선입금잔고</th>
+                      <th>입금일</th>
+                      <th>입금액</th>
+                      <th>여신/기타</th>
+                      <th>납품완료일</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
+                      <th>업체명</th>
                       <th>주문일</th>
                       <th>주문번호</th>
-                      <th>할당</th>
                       <th>productno</th>
                       <th>매입처</th>
-                      <th>승인수량</th>
                       <th>주문수량</th>
                       <th>승인단가</th>
                       <th>승인액</th>
                       <th>매출단가</th>
                       <th>매출액</th>
-                      <th>납품요청일</th>
-                      <th>납품예정일</th>
                       <th>인수자</th>
-                      <th>인수자 전화번호1</th>
-                      <th>인수자 전화번호2</th>
-                      <th>배송주소</th>
-                      <th>주문잔량</th>
+                      <th>결제방식</th>
+                      <th>선입금잔고</th>
+                      <th>입금일</th>
+                      <th>입금액</th>
+                      <th>여신/기타</th>
+                      <th>납품완료일</th>
                     </tr>
                   </tfoot>
                   <tbody>
-                    {% for list in order_data %}
+                    {% for list in all_data %}
                       <tr>
                         <style>td{font-size: 14px;};</style>
+                        <td>{{list.customer_name|default_if_none:"" }}</td>
                         <td>{{list.order_date|default_if_none:"" |date:"Y-m-d"}}</td>
                         <td>{{list.order_num|default_if_none:"" }}</td>
-                        <td>{{list.assignment|default_if_none:"" }}</td>
                         <td>{{list.productno|default_if_none:"" }}</td>
                         <td>{{list.buy_place|default_if_none:"" }}</td>
-                        <td>{{list.approval_quantity|default_if_none:"" }}</td>
                         <td>{{list.order_quantity|default_if_none:"" }}</td>
                         <td>{{list.approval_unit|default_if_none:"" }}</td>
                         <td>{{list.approval_price|default_if_none:"" }}</td>
                         <td>{{list.sales_unit|default_if_none:"" }}</td>
                         <td>{{list.sales_price|default_if_none:"" }}</td>
-                        <td>{{list.delivery_request_date|default_if_none:""  |date:"Y-m-d"}}</td>
-                        <td>{{list.scheduled_delivery_date|default_if_none:""  |date:"Y-m-d"}}</td>
                         <td>{{list.recipient|default_if_none:"" }}</td>
-                        <td>{{list.recipient_phone1|default_if_none:"" }}</td>
-                        <td>{{list.recipient_phone2|default_if_none:"" }}</td>
-                        <td>{{list.delivery_address|default_if_none:"" }}</td>
-                        <td>{{list.order_balance|default_if_none:"" }}</td>
+                        <td>{{list.payment_method|default_if_none:"" }}</td>
+                        <td>{{list.deposit_balance|default_if_none:"" }}</td>
+                        <td>{{list.in_date|default_if_none:""|date:"Y-m-d"}}</td>
+                        <td>{{list.in_amount|default_if_none:"" }}</td>
+                        <td>{{list.etc|default_if_none:"" }}</td>
+                        <td>{{list.delivery_date|default_if_none:""|date:"Y-m-d"}}</td>
                       </tr>
                     {% endfor %}
                   </tbody>
@@ -296,11 +290,18 @@
     alert(error);
   }
 
+  var isSave = '{{isSave}}'
+  console.log(isSave)
+  if ( isSave != ''){
+    alert(isSave);
+  }
+
+
 function mySubmit(index){
   if(index == 1){
-    document.myForm.action = '/get_approval_data_from_select_quote_num/';
+    document.myForm.action = '/get_data_from_select_scheduled_delivery_date/';
   }else if(index == 2){
-    document.myForm.action = '/insert_check/order/'; 
+    document.myForm.action = '/insert_check/delivery/'; 
   }
   document.myForm.submit();
 }

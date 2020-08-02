@@ -279,9 +279,6 @@
                       <script>
                         for(var f=0;f<1;f++){
                         var contact_conclusion_date = 'modify_contact_conclusion_date' + f;
-                        // var data = '{{proposal_data.contact_conclusion_date|default_if_none:"" | date:"Y-m-d"}}'
-                        // var dateControl = document.querySelector("input[id=modify_contact_conclusion_date]");
-                        // dateControl.value = data;
                         document.write('<div class="row">');
                         document.write('<div class="cell" data-title="contact_conclusion_date">');
                         document.write("<input id= "+ contact_conclusion_date +" name = " + contact_conclusion_date + " type='date' value='{{proposal_data.contact_conclusion_date|default_if_none:'' | date:'Y-m-d'}}'/>");    
@@ -581,7 +578,7 @@
           }       
       });  
       $("#sales_manager0").autocomplete({
-        source : '/employee_autocomplete/', 
+        source : '/sales_autocomplete/', 
           select: function(event, ui) {
             console.log(ui.item);
           },
@@ -608,7 +605,7 @@
           }       
       });         
       $("#scm_manager0").autocomplete({
-        source : '/employee_autocomplete/', 
+        source : '/scm_autocomplete/', 
           select: function(event, ui) {
             console.log(ui.item);
           },
@@ -649,7 +646,7 @@
           }       
       });  
       $("#modify_sales_manager0").autocomplete({
-        source : '/employee_autocomplete/', 
+        source : '/sales_autocomplete/', 
           select: function(event, ui) {
             console.log(ui.item);
           },
@@ -676,7 +673,7 @@
           }       
       });         
       $("#modify_scm_manager0").autocomplete({
-        source : '/employee_autocomplete/', 
+        source : '/scm_autocomplete/', 
           select: function(event, ui) {
             console.log(ui.item);
           },

@@ -1,0 +1,218 @@
+{% extends 'myApp/base.html' %}  
+{% block content %}
+      <!-- Begin Page Content -->
+      <div class="container-fluid" >
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >입력</h1>
+          </div>
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">입출금 관리</h6>
+            </div>
+            <div class="card-body">
+              <!-- The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS! -->
+              <form id='myForm' name = 'myForm' method="post">{% csrf_token %} 
+
+                <div class="container-search" style="overflow: auto;">
+                    <div data-title="select_customer_name" style="display:inline-block; margin-right: 40px;">
+                      <label>업체명</label><input id= "select_customer_name" name = "select_customer_name" type='text' class="form-control form-control-sm" value= {{select_customer_name|default_if_none:"" }} >
+                    </div>
+  
+                    <div data-title="select_company_registration_number" style="display:inline-block;">
+                      <label>사업자등록번호</label><input id= "select_company_registration_number" name = "select_company_registration_number" type='text' class="form-control form-control-sm" value= {{select_oppty_num|default_if_none:'' }} >
+                    </div>
+                    <p></p>
+                </div>
+
+                <div class="limiter">
+                    <div class="container-table100" style="padding: 2px 20px;">
+                        <div class="wrap-table100">
+                        <div class="table">
+                            <div class="row header">
+                                <div class="cell">
+                                    거래일시
+                                </div>
+                                <div class="cell">
+                                    기재내용
+                                </div>
+                                <div class="cell">
+                                    입금
+                                </div>
+                                <div class="cell">
+                                    출고
+                                </div>
+                                <div class="cell">
+                                    잔액
+                                </div>
+                                <div class="cell">
+                                    주문번호
+                                </div>
+                            </div>
+                            <script>
+                            var f = -1; 
+                            var transaction_date = 'transaction_date' + f; var transaction_content = 'transaction_content' + f;
+                            var in_amount = 'in_amount' + f; var out_amount = 'out_amount' + f;
+                            var deposit_balance = 'deposit_balance' + f; var order_num = 'order_num' + f;
+
+                            f = f+1;  
+                            transaction_date = 'transaction_date' + f;  transaction_content = 'transaction_content' + f;
+                            in_amount = 'in_amount' + f;  out_amount = 'out_amount' + f;
+                            deposit_balance = 'deposit_balance' + f;  order_num = 'order_num' + f;
+
+                            document.write('<div class="row">');
+                            document.write('<div class="cell" data-title="transaction_date">');
+                            document.write("<input id= "+ transaction_date +" name = " + transaction_date + " type='date' > ");  
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="transaction_content">');
+                            document.write("<input id= "+ transaction_content +" name = " + transaction_content + " type='text' > ");  
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="in_amount">');
+                            document.write("<input id= "+ in_amount +" name = " + in_amount + " type='number' > ");   
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="out_amount">');
+                            document.write("<input id= "+ out_amount +" name = " + out_amount + " type='number' > "); 
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="deposit_balance">');
+                            document.write("<input id= "+ deposit_balance +" name = " + deposit_balance + " type='number' > "); 
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="order_num">');
+                            document.write("<input id= "+ order_num +" name = " + order_num + " type='number' > "); 
+                            document.write("</div>");
+                            document.write("</div>");
+                            </script>
+                        </div>
+                        <input type="submit" class='sub' value="저장" onclick='mySubmit(1)'/>
+                        </div>
+                    </div> 
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Main Content  -->
+        <div id="content">
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >조회</h1>
+            </div>
+            <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
+
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">입출금 내역 조회</h6>
+                </div>
+
+                <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>업체명</th>
+                            <th>사업자등록번호</th>
+                            <th>거래일시</th>
+                            <th>기재내용</th>
+                            <th>입금</th>
+                            <th>출고</th>
+                            <th>잔액</th>
+                            <th>주문번호</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>업체명</th>
+                            <th>사업자등록번호</th>
+                            <th>거래일시</th>
+                            <th>기재내용</th>
+                            <th>입금</th>
+                            <th>출고</th>
+                            <th>잔액</th>
+                            <th>주문번호</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for list in deposit_data %}
+                        <tr>
+                            <style>td{font-size: 14px;};</style>
+                            <td>{{list.customer_name|default_if_none:"" }}</td>
+                            <td>{{list.company_registration_number|default_if_none:"" }}</td>
+                            <td>{{list.transaction_date|default_if_none:"" |date:"Y-m-d"}}</td>
+                            <td>{{list.transaction_content|default_if_none:"" }}</td>
+                            <td>{{list.in_amount|default_if_none:"" }}</td>
+                            <td>{{list.out_amount|default_if_none:"" }}</td>
+                            <td>{{list.deposit_balance|default_if_none:"" }}</td>
+                            <td>{{list.order_num|default_if_none:"" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- nd of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright &copy; Your Website 2020</span>
+            </div>
+          </div>
+        </footer>
+        <!-- End of Footer -->
+  {% endblock %}
+
+{% block script %}
+<script language="javascript">
+
+  var error = '{{error}}'
+  console.log(error)
+  if ( error != ''){
+    alert(error);
+  }
+
+  var isSave = '{{isSave}}'
+  console.log(isSave)
+  if ( isSave != ''){
+    alert(isSave);
+  }
+
+  $(function() {      
+      $("#select_customer_name").autocomplete({
+        source : '/customer_name_autocomplete/', 
+          select: function(event, ui) {
+            console.log(ui.item);
+            $("#select_company_registration_number").val(ui.item.value.split(":")[1])
+            return false;
+          },
+          focus: function(event, ui) {
+            $("#select_customer_name").val(ui.item.id)
+            return false;
+          }       
+      }); 
+    });
+
+function mySubmit(index){
+  if(index == 1){
+    document.myForm.action = '/insert_check/deposit/'; 
+  }else if(index == 2){
+    document.myForm.action = '/get_deposit_data_from_company_registration_number/';
+  }
+  document.myForm.submit();
+}
+
+</script>
+{% endblock %}
+
