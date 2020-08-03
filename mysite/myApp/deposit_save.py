@@ -1,4 +1,5 @@
 from .models import Deposit
+from .models import CustomerDepositBalance
 
 def save(request):
     print("deposit_save")
@@ -40,6 +41,9 @@ def save(request):
         if order_num != '' :
             deposit_data = Deposit(customer_name, company_registration_number, deposit_number, transaction_date, transaction_content, in_amount, out_amount, deposit_balance, order_num) 
             deposit_data.save()
+            
+            customer_deposit_data = CustomerDepositBalance ( company_registration_number, deposit_balance)
+            customer_deposit_data.save()
         isSuccess = "저장되었습니다"  
     
     return isSuccess

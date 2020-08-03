@@ -57,7 +57,7 @@ from . import proposal_save
 
 # @login_required
 def index(request):
-    return render(request, 'myApp/select.html')
+    return render(request, 'myApp/scm.html')
 
 def sales_autocomplete(request):
     print("자동완성")
@@ -226,8 +226,11 @@ def insert(request, table_name):
         deposit_data = Deposit.objects.all()
         return render(request, 'myApp/deposit.html', { "deposit_data" : deposit_data }) 
     if(table_name == 'delivery'):
-        all_data = OrderData.objects.raw(' SELECT * FROM order_data INNER JOIN approval ON order_data.oppty_num=approval.oppty_num AND order_data.quote_num=approval.quote_num AND order_data.recipient=approval.recipient AND order_data.productno=approval.productno INNER JOIN (SELECT proposal.*, deposit.deposit_balance FROM proposal INNER JOIN deposit ON proposal.customer_name=deposit.customer_name AND proposal.company_registration_number=deposit.company_registration_number) proposal_deposit ON order_data.oppty_num=proposal_deposit.oppty_num AND order_data.recipient=proposal_deposit.recipient AND order_data.productno=proposal_deposit.productno INNER JOIN delivery ON order_data.order_num=delivery.order_num; ')
+        # all_data = OrderData.objects.raw('SELECT * FROM order_data INNER JOIN approval ON order_data.oppty_num=approval.oppty_num AND order_data.quote_num=approval.quote_num AND order_data.recipient=approval.recipient AND order_data.productno=approval.productno INNER JOIN (SELECT proposal.*, deposit.deposit_balance FROM proposal INNER JOIN deposit ON proposal.customer_name=deposit.customer_name AND proposal.company_registration_number=deposit.company_registration_number) proposal_deposit ON order_data.oppty_num=proposal_deposit.oppty_num AND order_data.recipient=proposal_deposit.recipient AND order_data.productno=proposal_deposit.productno INNER JOIN delivery ON order_data.order_num=delivery.order_num; ')
+        all_data = OrderData.objects.raw('SELECT * FROM order_data INNER JOIN approval ON order_data.oppty_num=approval.oppty_num AND order_data.quote_num=approval.quote_num AND order_data.recipient=approval.recipient AND order_data.productno=approval.productno  INNER JOIN proposal ON order_data.oppty_num=proposal.oppty_num AND order_data.recipient=proposal.recipient AND order_data.productno=proposal.productno  INNER JOIN ( SELECT delivery.*, deposit.deposit_balance FROM delivery INNER JOIN deposit ON delivery.company_registration_number=deposit.company_registration_number AND delivery.deposit_number=deposit.deposit_number ) delivery_deposit ON delivery_deposit.order_num=order_data.order_num;')
         return render(request, 'myApp/delivery.html', { "all_data" : all_data }) 
+    if(table_name == 'settlement'):
+        return render(request, 'myApp/settlement.html')
     if(table_name == 'authority'):
         return render(request, 'myApp/authority_insert.html')
     if(table_name == 'customer_purchasing'):
@@ -623,8 +626,8 @@ def get_data_from_select_scheduled_delivery_date(request):
 
     isScheduled_delivery_dateRight = OrderData.objects.filter(scheduled_delivery_date=scheduled_delivery_date).count()
     print(isScheduled_delivery_dateRight)
-    data = OrderData.objects.raw('SELECT * FROM order_data INNER JOIN approval ON order_data.oppty_num=approval.oppty_num AND order_data.quote_num=approval.quote_num AND order_data.recipient=approval.recipient AND order_data.productno=approval.productno INNER JOIN (SELECT proposal.*, deposit.deposit_balance FROM proposal INNER JOIN deposit ON proposal.customer_name=deposit.customer_name AND proposal.company_registration_number=deposit.company_registration_number) proposal_deposit ON order_data.oppty_num=proposal_deposit.oppty_num AND order_data.recipient=proposal_deposit.recipient AND order_data.productno=proposal_deposit.productno;')
-    all_data = OrderData.objects.raw(' SELECT * FROM order_data INNER JOIN approval ON order_data.oppty_num=approval.oppty_num AND order_data.quote_num=approval.quote_num AND order_data.recipient=approval.recipient AND order_data.productno=approval.productno INNER JOIN (SELECT proposal.*, deposit.deposit_balance FROM proposal INNER JOIN deposit ON proposal.customer_name=deposit.customer_name AND proposal.company_registration_number=deposit.company_registration_number) proposal_deposit ON order_data.oppty_num=proposal_deposit.oppty_num AND order_data.recipient=proposal_deposit.recipient AND order_data.productno=proposal_deposit.productno INNER JOIN delivery ON order_data.order_num=delivery.order_num; ')
+    data = OrderData.objects.raw('SELECT * FROM order_data INNER JOIN approval ON order_data.oppty_num=approval.oppty_num AND order_data.quote_num=approval.quote_num AND order_data.recipient=approval.recipient AND order_data.productno=approval.productno INNER JOIN (SELECT proposal.*, customer_deposit_balance.deposit_balance FROM proposal INNER JOIN customer_deposit_balance ON proposal.company_registration_number=customer_deposit_balance.company_registration_number) proposal_deposit ON order_data.oppty_num=proposal_deposit.oppty_num AND order_data.recipient=proposal_deposit.recipient AND order_data.productno=proposal_deposit.productno;')
+    all_data = OrderData.objects.raw('SELECT * FROM order_data INNER JOIN approval ON order_data.oppty_num=approval.oppty_num AND order_data.quote_num=approval.quote_num AND order_data.recipient=approval.recipient AND order_data.productno=approval.productno  INNER JOIN proposal ON order_data.oppty_num=proposal.oppty_num AND order_data.recipient=proposal.recipient AND order_data.productno=proposal.productno  INNER JOIN ( SELECT delivery.*, deposit.deposit_balance FROM delivery INNER JOIN deposit ON delivery.company_registration_number=deposit.company_registration_number AND delivery.deposit_number=deposit.deposit_number ) delivery_deposit ON delivery_deposit.order_num=order_data.order_num;')
     try:
         if isScheduled_delivery_dateRight != 0:
             # data = data.filter(scheduled_delivery_date=scheduled_delivery_date)
@@ -634,8 +637,6 @@ def get_data_from_select_scheduled_delivery_date(request):
                 if i.scheduled_delivery_date.strftime('%Y-%m-%d') == scheduled_delivery_date:
                     result_data.append(i)
                     print(i.deposit_balance)
-            # filtered_results = [i for i in data if i.scheduled_delivery_date == scheduled_delivery_date]
-            # print(filtered_results)
             print(result_data)
             return render(request, 'myApp/delivery.html', {"select_scheduled_delivery_date" : scheduled_delivery_date, "data" : result_data, "all_data" : all_data })  
         else:

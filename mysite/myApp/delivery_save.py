@@ -1,6 +1,7 @@
 from .models import Delivery
 from .models import Deposit
 from .models import OrderData
+from .models import CustomerDepositBalance
 from django.core.exceptions import ObjectDoesNotExist
 
 def save(request):
@@ -38,8 +39,6 @@ def save(request):
             customer_name = None
 
         if order_num != '' :
-            delivery_data = Delivery(order_num, in_date, in_amount, etc, delivery_date) 
-            delivery_data.save()
 
             # 돈이 들어오면, 
             deposit_data= Deposit.objects.filter(company_registration_number=company_registration_number)
@@ -53,20 +52,34 @@ def save(request):
                 if Deposit.objects.filter(company_registration_number=company_registration_number).count() == 1 :
                     # 아직 내역이 없으면
                     data = Deposit.objects.get(company_registration_number=company_registration_number,deposit_number=0)
+                    print("해당 업체의 출금 내역기 없음")
                     transaction_date = data.transaction_date
                     transaction_content = data.transaction_content
                     deposit_balance = int(data.in_amount) - int(in_amount)  
                     deposit_data = Deposit.objects.create(customer_name=customer_name, company_registration_number=company_registration_number, deposit_number=max_deposit_number, transaction_date=transaction_date, transaction_content=transaction_content, in_amount=None, out_amount=in_amount, deposit_balance=deposit_balance, order_num=order_num) 
+                    customer_deposit_data = CustomerDepositBalance ( company_registration_number, deposit_balance)
+                    customer_deposit_data.save()
                 else :
                     # 내역이 있으면 
                     data = Deposit.objects.get(company_registration_number=company_registration_number,deposit_number=0)
+                    print("해당 업체의 출금 내역이 있음")
                     transaction_date = data.transaction_date
                     transaction_content = data.transaction_content
-                    deposit_balance = int(data.deposit_balance) - int(in_amount)
+                    deposit_balance = CustomerDepositBalance.objects.get(company_registration_number=company_registration_number).deposit_balance
+                    print(deposit_balance)
+                    print(in_amount)
+                    deposit_balance = int(deposit_balance) - int(in_amount)
                     deposit_data = Deposit.objects.create(customer_name=customer_name, company_registration_number=company_registration_number, deposit_number=max_deposit_number, transaction_date=transaction_date, transaction_content=transaction_content, in_amount=None, out_amount=in_amount, deposit_balance=deposit_balance, order_num=order_num) 
-            except :
+                    customer_deposit_data = CustomerDepositBalance ( company_registration_number, deposit_balance)
+                    customer_deposit_data.save()
+            except Exception as ex:
+                print(ex)
                 return "저장된 입출금 정보가 없습니다."
-
+            
+            delivery_data = Delivery(order_num, company_registration_number, max_deposit_number, in_date, in_amount, etc, delivery_date) 
+            delivery_data.save()
+            
+            
         isSuccess = "저장되었습니다"  
     
     return isSuccess
