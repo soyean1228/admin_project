@@ -1,1 +1,292 @@
+{% extends 'myApp/base.html' %}  
+{% block content %}
+      <!-- Begin Page Content -->
+      <div class="container-fluid" >
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >입력</h1>
+          </div>
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">정산 관리</h6>
+            </div>
+            <div class="card-body">
+              <!-- The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS! -->
+              <form id='myForm' name = 'myForm' method="post">{% csrf_token %} 
+
+                <div class="container-search" style="overflow: auto;">
+                  <div data-title="select_oppty_num" style="display:inline-block;">
+                    <label>납품완료일</label><input id= "select_delivery_date" name = "select_delivery_date" type='text' class="form-control form-control-sm" value= {{select_delivery_date|default_if_none:'' }} >
+                  </div>
+                  <div data-title="select_customer_name" style="display:inline-block; margin-right: 40px;">
+                    <label>업체명</label><input id= "select_customer_name" name = "select_customer_name" type='text' class="form-control form-control-sm" value= {{select_customer_name|default_if_none:"" }} >
+                  </div>
+                  <p></p>
+                  <input type="button" class = 'sub' value="조회" style="margin-top: 10px;" onclick='mySubmit(1)'/>
+                </div>
+
+                {% if proposal_data|length > 0 %}
+                  <div class="limiter">
+                    <div class="container-table100" style="padding: 2px 20px;">
+                      <div class="wrap-table100">
+                        <div class="table">
+                          <div class="row header">
+                            <div class="cell">
+                       업체명
+                            </div>
+                            <div class="cell">
+                              ProductNo
+                            </div>
+                            <div class="cell">
+                              매입처
+                            </div>
+                            <div class="cell">
+                              주문수량
+                            </div>
+                            <div class="cell">
+                              승인단가
+                            </div>
+                            <div class="cell">
+                              승인액
+                            </div>
+                            <div class="cell">
+                              매출단가
+                            </div>
+                            <div class="cell">
+                              매출액
+                            </div>
+                            <div class="cell">
+                              인수자
+                            </div>
+                            <div class="cell">
+                              납품완료일
+                            </div>
+                            <div class="cell">
+                              결제방식
+                            </div>
+                            <div class="cell">
+                              입금일
+                            </div>
+                            <div class="cell">
+                              입금액
+                            </div>
+                            <div class="cell">
+                              여신/기타
+                            </div>
+                            <div class="cell">
+                              계산발행일
+                            </div>
+                            <div class="cell">
+                              계산서발행처
+                            </div>
+                            <div class="cell">
+                              계산서발행금액
+                            </div>
+                            <div class="cell">
+                              정산월
+                            </div>
+                          </div>
+                          <script>
+                            var f = -1; var quote_num = 'quote_num' + f; var productno = 'productno' + f; 
+                            var buy_place = 'buy_place' + f; var decision_quantity = 'decision_quantity' + f; 
+                            var approval_quantity = 'approval_quantity' + f; var approval_unit = 'approval_unit' + f; 
+                            var delivery_request_date = 'delivery_request_date' + f; var approval_balance = 'approval_balance' + f;
+                            var proposal_data_length = 'proposal_data_length'; var recipient = 'recipient' + f;
+
+                            document.write('{% for list in proposal_data %}');
+                            f = f+1;  quote_num = 'quote_num' + f; productno = 'productno' + f; 
+                            buy_place = 'buy_place' + f; decision_quantity = 'decision_quantity' + f; 
+                            approval_quantity = 'approval_quantity' + f; approval_unit = 'approval_unit' + f; 
+                            delivery_request_date = 'delivery_request_date' + f; approval_balance = 'approval_balance' + f;
+                            recipient = 'recipient'+f
+
+                            document.write('<div class="row">');
+                            document.write('<div class="cell" data-title="quote_num">');
+                            document.write("<input id= "+ quote_num +" name = " + quote_num + " type='number' > ");  
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="productno">');
+                            document.write("<input id= "+ productno +" name = " + productno + " type='text' value={{list.productno|default_if_none:'' }}> ");    
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="buy_place">');
+                            document.write("<input id= "+ buy_place +" name = " + buy_place + " type='text' value={{list.buy_place|default_if_none:'' }}> ");   
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="decision_quantity">');
+                            document.write("<input id= "+ decision_quantity +" name = " + decision_quantity + " type='number' value={{list.decision_quantity|default_if_none:'' }}> ");  
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="approval_quantity">');
+                            document.write("<input id= "+ approval_quantity +" name = " + approval_quantity + " type='number'> ");  
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="approval_unit">');
+                            document.write("<input id= "+ approval_unit +" name = " + approval_unit + " type='number'> ");   
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="delivery_request_date">');
+                            document.write("<input id= "+ delivery_request_date +" name = " + delivery_request_date + " type='date'  value='{{list.delivery_request_date|default_if_none:'' | date:'Y-m-d'}}'/>");    
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="recipient">');
+                            document.write("<input id= "+ recipient +" name = " + recipient + " type='text' value={{list.recipient|default_if_none:'' }}> ");  
+                            document.write("</div>");
+                            document.write("</div>");
+                            document.write('{% endfor %}');
+                            document.write("<input id= " + proposal_data_length + " name = "+ proposal_data_length + " type='hidden' value =" + f + "> ");
+                          </script>
+                        </div>
+                        <input type="submit" class='sub' value="저장" onclick='mySubmit(2)'/>
+                      </div>
+                    </div> 
+                  </div>
+                  {% endif %}
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Main Content  -->
+      <div id="content">
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >조회</h1>
+          </div>
+          <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
+
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">정산 조회</h6>
+            </div>
+
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>업체명</th>
+                      <th>Product No</th>
+                      <th>매입처</th>
+                      <th>주문수량</th>
+                      <th>승인단가</th>
+                      <th>승인액</th>
+                      <th>매출단가</th>
+                      <th>매출액</th>
+                      <th>인수자</th>
+                      <th>납품완료일</th>
+                      <th>인수자</th>
+                      <th>납품완료일</th>
+                      <th>결제방식</th>
+                      <th>입금일</th>
+                      <th>입금액</th>
+                      <th>여신/기타</th>
+                      <th>계산발행일</th>
+                      <th>계산서발행처</th>
+                      <th>계산서발행금액</th>
+                      <th>정산월</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>업체명</th>
+                      <th>Product No</th>
+                      <th>매입처</th>
+                      <th>주문수량</th>
+                      <th>승인단가</th>
+                      <th>승인액</th>
+                      <th>매출단가</th>
+                      <th>매출액</th>
+                      <th>인수자</th>
+                      <th>납품완료일</th>
+                      <th>인수자</th>
+                      <th>납품완료일</th>
+                      <th>결제방식</th>
+                      <th>입금일</th>
+                      <th>입금액</th>
+                      <th>여신/기타</th>
+                      <th>계산발행일</th>
+                      <th>계산서발행처</th>
+                      <th>계산서발행금액</th>
+                      <th>정산월</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    {% for list in approval_data %}
+                      <tr>
+                        <style>td{font-size: 14px;};</style>
+                        <td>{{list.quote_num|default_if_none:"" }}</td>
+                        <td>{{list.oppty_num|default_if_none:"" }}</td>
+                        <td>{{list.productno|default_if_none:"" }}</td>
+                        <td>{{list.buy_place|default_if_none:"" }}</td>
+                        <td>{{list.decision_quantity|default_if_none:"" }}</td>
+                        <td>{{list.approval_quantity|default_if_none:"" }}</td>
+                        <td>{{list.approval_unit|default_if_none:"" }}</td>
+                        <td>{{list.approval_price|default_if_none:"" }}</td>
+                        <td>{{list.delivery_request_date|default_if_none:""  |date:"Y-m-d"}}</td>
+                        <td>{{list.approval_balance|default_if_none:"" }}</td>
+                        <td>{{list.total_approval_balance|default_if_none:"" }}</td>
+                        <td>{{list.recipient|default_if_none:"" }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- nd of Main Content -->
+
+        
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright &copy; Your Website 2020</span>
+            </div>
+          </div>
+        </footer>
+        <!-- End of Footer -->
+  {% endblock %}
+
+{% block script %}
+<script language="javascript">
+
+  var error = '{{isSave}}'
+  console.log(error)
+  if ( error != ''){
+    alert(error);
+  }
+  
+$(function() {
+  $("#select_customer_name").autocomplete({
+    // 업체명을 보고 옆에 oppty 번호에 업체명에 해당되는 oppty가 입력됨 
+    source : '/customer_name_autocomplete_oppty_num/', 
+      select: function(event, ui) {
+        console.log(ui.item);
+        $("#select_oppty_num").val(ui.item.value.split(":")[1])
+        return false;
+      },
+      focus: function(event, ui) {
+        $("#select_customer_name").val(ui.item.id)
+        return false;
+      }       
+  }); 
+
+});
+
+function mySubmit(index){
+  if(index == 1){
+    document.myForm.action = '/get_data_from_oppty/';
+  }else if(index == 2){
+    document.myForm.action = '/insert_check/settlement/'; 
+  }
+  document.myForm.submit();
+}
+
+</script>
+{% endblock %}
 
