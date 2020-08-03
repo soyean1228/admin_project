@@ -17,21 +17,36 @@
                 <div class="container-table100">
                   <div class="wrap-table100">
                       
-                      <!-- <input type="submit" value="저장" onclick="javascript: form.action='/insert_check/approval/';"/> -->
-                      <!-- <p style="margin-bottom: 10px;">  -->
-                      <!-- <span> 검색 조건 </span> -->
-                      <!-- <input type='date' id='oldDate' style="max-width: 150px; margin: 0px;"/> -->
-                      <!-- <span>~</span>
+                      <p style="margin-bottom: 10px;"> 
+                      <span> 검색 조건 </span>
+                      <input type='date' id='oldDate' style="max-width: 150px; margin: 0px;"/>
+                      <span>~</span>
                       <input type='date' id='currentDate'style="max-width: 150px;  margin: 0px;"/>
-                      </p>
-                      <p style="margin-bottom: 10px;"> 
-                      <span> 2. 수요 구분 : </span>
-                      </p>
-                      <p style="margin-bottom: 10px;"> 
-                      <span> 3. 조건 추가 </span>
-                      <p style="margin-bottom: 20px;"></p> --> 
 
                       <div class="table">
+                        <div class="row header">
+                          <div class="cell">
+                            OPPTY번호
+                          </div>
+                          <div class="cell">
+                            견적번호
+                          </div>
+                          <div class="cell">
+                            주문번호
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="cell" data-title="oppty_num">
+                            <input id= "oppty_num" name = "oppty_num" type='number'/>
+                          </div>
+                          <div class="cell" data-title="quote_num ">
+                            <input id= "quote_num" name = "quote_num" type='number'/>
+                          </div>
+                          <div class="cell" data-title="order_num">
+                            <input id= "order_num" name = "order_num" type='number'/>
+                          </div>
+                        </div>
+                        <p style="margin-bottom: 20px;"></p>
                         <div class="row header">
                           <div class="cell">
                             OPPTY번호
