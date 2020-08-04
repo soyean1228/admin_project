@@ -141,3 +141,71 @@ def upload(request):
     except:
         isSuccess = "실패"
     return isSuccess
+
+def download(request):
+    isSuccess = "성공"
+    try:
+        # 워크북(엑셀파일)을 새로 만듭니다.
+        wb = openpyxl.Workbook()
+
+        # 현재 활성화된 시트를 선택합니다.
+        sheet = wb.active
+        # A1셀에 hello world!를 입력합니다.
+        sheet['A1'] = '업체'
+
+        # 워크북(엑셀파일)을 원하는 이름으로 저장합니다.
+
+        i = 1
+        sheet.cell(row=i, column=1).value = "업체명"
+        sheet.cell(row=i, column=2).value = "사업자등록번호"
+        sheet.cell(row=i, column=3).value = "대표자"
+        sheet.cell(row=i, column=4).value = "주소"
+        sheet.cell(row=i, column=5).value = "개업연월일"
+        sheet.cell(row=i, column=6).value = "업종1"
+        sheet.cell(row=i, column=7).value = "업종2"
+        sheet.cell(row=i, column=8).value = "업종3"
+        sheet.cell(row=i, column=9).value = "구매담당자"
+        sheet.cell(row=i, column=10).value = "연락처1"
+        sheet.cell(row=i, column=11).value = "연락처2"
+        sheet.cell(row=i, column=12).value = "E-Mail"
+        sheet.cell(row=i, column=13).value = "정산담당자"
+        sheet.cell(row=i, column=14).value = "연락처"
+        sheet.cell(row=i, column=15).value = "E-Mail"
+        sheet.cell(row=i, column=16).value = "INNO 영업 담당"
+        sheet.cell(row=i, column=17).value = "INNO SCM 담당"
+        sheet.cell(row=i, column=18).value = "고객관리등급"
+        i = i+1
+
+        for data in Employee.objects.all():
+            sheet.cell(row=i, column=1).value = data.customer_name
+            sheet.cell(row=i, column=2).value = data.company_registration_number
+            sheet.cell(row=i, column=3).value = data.representative
+            sheet.cell(row=i, column=4).value = data.address
+            sheet.cell(row=i, column=5).value = data.opening_date
+            sheet.cell(row=i, column=6).value = data.field1
+            sheet.cell(row=i, column=7).value = data.field2
+            sheet.cell(row=i, column=8).value = data.field3
+            sheet.cell(row=i, column=9).value = data.purchasing_manager
+            sheet.cell(row=i, column=10).value = data.purchasing_contact_number1
+            sheet.cell(row=i, column=11).value = data.purchasing_contact_number2
+            sheet.cell(row=i, column=12).value = data.purchasing_email
+            sheet.cell(row=i, column=13).value = data.settlement_manager
+            sheet.cell(row=i, column=14).value = data.settlement_contact_number
+            sheet.cell(row=i, column=15).value = data.settlement_email
+            sheet.cell(row=i, column=16).value = data.sales_manager
+            count_sales_charge_data = sales_charge_data.values('name').filter(name=data.sales_manager).count()
+                    # print(count_sales_charge_data)
+                    if count_sales_charge_data == 0:
+                        return "영업 담당 오류"
+            sheet.cell(row=i, column=17).value = data.scm_manager
+            count_scm_charge_data = scm_charge_data.values('name').filter(name=data.scm_manager).count()
+                    # print(count_scm_charge_data)
+                    if count_scm_charge_data == 0:
+                        return "SCM 담당 오류"
+            sheet.cell(row=i, column=18).value = data.rate
+            i = i+1
+            
+        wb.save('업체.xlsx')
+    except:
+        isSuccess = "실패"
+    return isSuccess
