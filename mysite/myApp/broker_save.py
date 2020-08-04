@@ -70,3 +70,43 @@ def upload(request):
                     broker.save()
                     isSuccess = "성공"
     return isSuccess
+
+def download(request):
+    isSuccess = "성공"
+    try:
+        # 워크북(엑셀파일)을 새로 만듭니다.
+        wb = openpyxl.Workbook()
+
+        # 현재 활성화된 시트를 선택합니다.
+        sheet = wb.active
+        # A1셀에 hello world!를 입력합니다.
+        sheet['A1'] = '알선사'
+
+        # 워크북(엑셀파일)을 원하는 이름으로 저장합니다.
+
+        i = 1
+        sheet.cell(row=i, column=1).value = "성명(회사명)"
+        sheet.cell(row=i, column=2).value = "주민(사업)번호"
+        sheet.cell(row=i, column=3).value = "주소"
+        sheet.cell(row=i, column=4).value = "연락처"
+        sheet.cell(row=i, column=5).value = "소속"
+        sheet.cell(row=i, column=6).value = "담당자"
+        i = i+1
+
+        for data in Employee.objects.all():
+            sheet.cell(row=i, column=1).value = data.team
+            sheet.cell(row=i, column=2).value = data.manager
+            count_manager = Employee.objects.all().values('name').filter(name=broker.manager).count()
+                print(count_manager)
+                if count_manager == 0:
+                    return "담당자 오류"
+            sheet.cell(row=i, column=3).value = data.name
+            sheet.cell(row=i, column=4).value = data.resident_registration_number
+            sheet.cell(row=i, column=5).value = data.contact_number
+            sheet.cell(row=i, column=6).value = data.fee
+            i = i+1
+
+        wb.save('알선사.xlsx')
+    except:
+        isSuccess = "성공"
+    return isSuccess
