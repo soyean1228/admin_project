@@ -137,3 +137,56 @@ def upload(request):
     except:
         isSuccess = "실패"
     return isSuccess
+
+def download(request):
+    isSuccess = "성공"
+    try:
+        # 워크북(엑셀파일)을 새로 만듭니다.
+        wb = openpyxl.Workbook()
+
+        # 현재 활성화된 시트를 선택합니다.
+        sheet = wb.active
+        # A1셀에 hello world!를 입력합니다.
+        sheet['A1'] = '임직원'
+
+        # 워크북(엑셀파일)을 원하는 이름으로 저장합니다.
+
+        i = 1
+        sheet.cell(row=i, column=1).value = "이름"
+        sheet.cell(row=i, column=2).value = "소속"
+        sheet.cell(row=i, column=3).value = "직위"
+        sheet.cell(row=i, column=4).value = "부서"
+        sheet.cell(row=i, column=5).value = "주민등록번호"
+        sheet.cell(row=i, column=6).value = "수수료율"
+        sheet.cell(row=i, column=7).value = "휴대폰"
+        sheet.cell(row=i, column=8).value = "내선번호"
+        sheet.cell(row=i, column=9).value = "집주소"
+        sheet.cell(row=i, column=10).value = "이메일"
+        sheet.cell(row=i, column=11).value = "담당"
+        sheet.cell(row=i, column=12).value = "id"
+        sheet.cell(row=i, column=13).value = "passwd"
+        sheet.cell(row=i, column=14).value = "권한"
+        i = i+1
+
+        for data in Employee.objects.all():
+            sheet.cell(row=i, column=1).value = data.name
+            sheet.cell(row=i, column=2).value = data.team
+            sheet.cell(row=i, column=3).value = data.position
+            sheet.cell(row=i, column=4).value = data.department
+            sheet.cell(row=i, column=5).value = data.resident_registration_number
+            sheet.cell(row=i, column=6).value = data.rate
+            sheet.cell(row=i, column=7).value = data.phone_num
+            sheet.cell(row=i, column=8).value = data.office_num
+            sheet.cell(row=i, column=9).value = data.address
+            sheet.cell(row=i, column=10).value = data.email
+            sheet.cell(row=i, column=11).value = data.charge
+            sheet.cell(row=i, column=12).value = data.id
+            sheet.cell(row=i, column=13).value = data.passwd
+            sheet.cell(row=i, column=14).value = data.authority
+            i = i+1
+
+        wb.save('임직원.xlsx')
+    except:
+        isSuccess = "성공"
+    return isSuccess
+ 
