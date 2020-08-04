@@ -187,6 +187,6 @@ def download(request):
 
         wb.save('임직원.xlsx')
     except:
-        isSuccess = "성공"
+        isSuccess = "실패"
     return isSuccess
  
