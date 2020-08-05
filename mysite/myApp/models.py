@@ -216,6 +216,7 @@ class Settlement(models.Model):
     recipient = models.CharField(max_length=20)
     settlement_number = models.IntegerField()
     billing_data = models.DateTimeField(blank=True, null=True)
+    billing_amount = models.IntegerField(blank=True, null=True)
     settlement_month = models.CharField(max_length=30, blank=True, null=True)
 
     class Meta:

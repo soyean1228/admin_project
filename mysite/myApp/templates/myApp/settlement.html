@@ -17,7 +17,6 @@
 
                 <div class="container-search" style="overflow: auto;">
                   <div data-title="select_delivery_date_start" style="display:inline-block;">
-                    <!-- <label>납품완료일</label><input id= "select_delivery_date_start" name = "select_delivery_date_start" type='text' class="form-control form-control-sm" value= {{select_delivery_date|default_if_none:'' }} > -->
                     <label>납품완료일</label><input type='date' id='select_delivery_date_start' name = "select_delivery_date_start" style="max-width: 150px; margin: 0px;" class="form-control form-control-sm"  value= {{select_delivery_date_start|default_if_none:'' }} >
                   </div>
                   <span>~</span>
@@ -25,20 +24,20 @@
                     <input type='date' id='select_delivery_date_end' name = "select_delivery_date_end" style="max-width: 150px; margin: 0px;" class="form-control form-control-sm"  value= {{select_delivery_date_end|default_if_none:'' }} >
                   </div>
                   <div data-title="select_customer_name" style="display:inline-block; margin-left: 40px;">
-                    <label>업체명</label><input id= "select_customer_name" name = "select_customer_name" type='text' class="form-control form-control-sm" value= {{select_customer_name|default_if_none:"" }} >
+                    <label>업체명</label><input id= "select_customer_name" name = "select_customer_name" type='text' class="form-control form-control-sm" value= {{select_customer_name}} >
                   </div>
                   <p></p>
                   <input type="button" class = 'sub' value="조회" style="margin-top: 10px;" onclick='mySubmit(1)'/>
                 </div>
 
-                {% if proposal_data|length > 0 %}
+                {% if result_data|length > 0 %}
                   <div class="limiter">
                     <div class="container-table100" style="padding: 2px 20px;">
                       <div class="wrap-table100">
                         <div class="table">
                           <div class="row header">
                             <div class="cell">
-                       업체명
+                              업체명
                             </div>
                             <div class="cell">
                               ProductNo
@@ -63,9 +62,6 @@
                             </div>
                             <div class="cell">
                               인수자
-                            </div>
-                            <div class="cell">
-                              납품완료일
                             </div>
                             <div class="cell">
                               결제방식
@@ -93,22 +89,31 @@
                             </div>
                           </div>
                           <script>
-                            var f = -1; var quote_num = 'quote_num' + f; var productno = 'productno' + f; 
-                            var buy_place = 'buy_place' + f; var decision_quantity = 'decision_quantity' + f; 
-                            var approval_quantity = 'approval_quantity' + f; var approval_unit = 'approval_unit' + f; 
-                            var delivery_request_date = 'delivery_request_date' + f; var approval_balance = 'approval_balance' + f;
-                            var proposal_data_length = 'proposal_data_length'; var recipient = 'recipient' + f;
+                            var f = -1; var customer_name = 'customer_name' + f; var productno = 'productno' + f; 
+                            var buy_place = 'buy_place' + f; var order_quantity = 'order_quantity' + f; 
+                            var approval_unit = 'approval_unit' + f; var approval_price = 'approval_price' + f; 
+                            var sales_unit = 'sales_unit' + f; var sales_price = 'sales_price' + f;
+                            var recipient = 'recipient' + f; var payment_method = 'payment_method' + f;
+                            var in_date = 'in_date' + f; var in_amount = 'in_amount' + f;
+                            var etc = 'etc' + f; var billing_date = 'billing_date' + f;
+                            var billing_place = 'billing_place' + f; var sales_price = 'sales_price' + f;
+                            var settlement_month = 'settlement_month' + f; 
+                            var data_length = 'data_length'; 
 
-                            document.write('{% for list in proposal_data %}');
-                            f = f+1;  quote_num = 'quote_num' + f; productno = 'productno' + f; 
-                            buy_place = 'buy_place' + f; decision_quantity = 'decision_quantity' + f; 
-                            approval_quantity = 'approval_quantity' + f; approval_unit = 'approval_unit' + f; 
-                            delivery_request_date = 'delivery_request_date' + f; approval_balance = 'approval_balance' + f;
-                            recipient = 'recipient'+f
+                            document.write('{% for list in result_data %}');
+                            f = f+1; customer_name = 'customer_name' + f; productno = 'productno' + f; 
+                            buy_place = 'buy_place' + f;  order_quantity = 'order_quantity' + f; 
+                            approval_unit = 'approval_unit' + f;  approval_price = 'approval_price' + f; 
+                            sales_unit = 'sales_unit' + f;  sales_price = 'sales_price' + f;
+                            recipient = 'recipient' + f;  payment_method = 'payment_method' + f;
+                            in_date = 'in_date' + f;  in_amount = 'in_amount' + f;
+                            etc = 'etc' + f;  billing_date = 'billing_date' + f;
+                            billing_place = 'billing_place' + f;  sales_price = 'sales_price' + f;
+                            settlement_month = 'settlement_month' + f; 
 
                             document.write('<div class="row">');
-                            document.write('<div class="cell" data-title="quote_num">');
-                            document.write("<input id= "+ quote_num +" name = " + quote_num + " type='number' > ");  
+                            document.write('<div class="cell" data-title="customer_name">');
+                            document.write("<input id= "+ customer_name +" name = " + customer_name + " type='text'  value={{list.customer_name|default_if_none:'' }}> ");   
                             document.write("</div>");
                             document.write('<div class="cell" data-title="productno">');
                             document.write("<input id= "+ productno +" name = " + productno + " type='text' value={{list.productno|default_if_none:'' }}> ");    
@@ -116,24 +121,51 @@
                             document.write('<div class="cell" data-title="buy_place">');
                             document.write("<input id= "+ buy_place +" name = " + buy_place + " type='text' value={{list.buy_place|default_if_none:'' }}> ");   
                             document.write("</div>");
-                            document.write('<div class="cell" data-title="decision_quantity">');
-                            document.write("<input id= "+ decision_quantity +" name = " + decision_quantity + " type='number' value={{list.decision_quantity|default_if_none:'' }}> ");  
-                            document.write("</div>");
-                            document.write('<div class="cell" data-title="approval_quantity">');
-                            document.write("<input id= "+ approval_quantity +" name = " + approval_quantity + " type='number'> ");  
+                            document.write('<div class="cell" data-title="order_quantity">');
+                            document.write("<input id= "+ order_quantity +" name = " + order_quantity + " type='number'  value={{list.order_quantity|default_if_none:'' }}> ");  
                             document.write("</div>");
                             document.write('<div class="cell" data-title="approval_unit">');
-                            document.write("<input id= "+ approval_unit +" name = " + approval_unit + " type='number'> ");   
+                            document.write("<input id= "+ approval_unit +" name = " + approval_unit + " type='number' value={{list.approval_unit|default_if_none:'' }}> ");   
                             document.write("</div>");
-                            document.write('<div class="cell" data-title="delivery_request_date">');
-                            document.write("<input id= "+ delivery_request_date +" name = " + delivery_request_date + " type='date'  value='{{list.delivery_request_date|default_if_none:'' | date:'Y-m-d'}}'/>");    
+                            document.write('<div class="cell" data-title="approval_price">');
+                            document.write("<input id= "+ approval_price +" name = " + approval_price + " type='number' value={{list.approval_price|default_if_none:'' }}> ");
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="sales_unit">');
+                            document.write("<input id= "+ sales_unit +" name = " + sales_unit + " type='number' value={{list.sales_unit|default_if_none:'' }}> ");
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="sales_price">');
+                            document.write("<input id= "+ sales_price +" name = " + sales_price + " type='number' value={{list.sales_price|default_if_none:'' }}> ");
                             document.write("</div>");
                             document.write('<div class="cell" data-title="recipient">');
-                            document.write("<input id= "+ recipient +" name = " + recipient + " type='text' value={{list.recipient|default_if_none:'' }}> ");  
+                            document.write("<input id= "+ recipient +" name = " + recipient + " type='text' value={{list.recipient|default_if_none:''}}> ");   
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="payment_method">');
+                            document.write("<input id= "+ payment_method +" name = " + payment_method + " type='text' value={{list.payment_method|default_if_none:''  }}> ");  
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="in_date">');
+                            document.write("<input id= "+ in_date +" name = " + in_date + " type='date' value={{list.in_date|default_if_none:''  }}> ");  
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="in_amount">');
+                            document.write("<input id= "+ in_amount +" name = " + in_amount + " type='number' value={{list.in_amount|default_if_none:''  }}> ");  
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="etc">');
+                            document.write("<input id= "+ etc +" name = " + etc + " type='text' value={{list.etc|default_if_none:''  }}> "); 
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="billing_date">');
+                            document.write("<input id= "+ billing_date +" name = " + billing_date + " type='date' > ");  
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="billing_place">');
+                            document.write("<input id= "+ billing_place +" name = " + billing_place + " type='text' value={{list.billing_place|default_if_none:''  }}> "); 
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="sales_price">');
+                            document.write("<input id= "+ sales_price +" name = " + sales_price + " type='number' value={{list.sales_price|default_if_none:''  }}> ");  
+                            document.write("</div>");
+                            document.write('<div class="cell" data-title="settlement_month">');
+                            document.write("<input id= "+ settlement_month +" name = " + settlement_month + " type='text' > ");  
                             document.write("</div>");
                             document.write("</div>");
                             document.write('{% endfor %}');
-                            document.write("<input id= " + proposal_data_length + " name = "+ proposal_data_length + " type='hidden' value =" + f + "> ");
+                            document.write("<input id= " + data_length + " name = "+ data_length + " type='hidden' value =" + f + "> ");
                           </script>
                         </div>
                         <input type="submit" class='sub' value="저장" onclick='mySubmit(2)'/>
@@ -179,8 +211,6 @@
                       <th>매출액</th>
                       <th>인수자</th>
                       <th>납품완료일</th>
-                      <th>인수자</th>
-                      <th>납품완료일</th>
                       <th>결제방식</th>
                       <th>입금일</th>
                       <th>입금액</th>
@@ -201,8 +231,6 @@
                       <th>승인액</th>
                       <th>매출단가</th>
                       <th>매출액</th>
-                      <th>인수자</th>
-                      <th>납품완료일</th>
                       <th>인수자</th>
                       <th>납품완료일</th>
                       <th>결제방식</th>
@@ -268,24 +296,22 @@
   
 $(function() {
   $("#select_customer_name").autocomplete({
-    // 업체명을 보고 옆에 oppty 번호에 업체명에 해당되는 oppty가 입력됨 
-    source : '/customer_name_autocomplete_oppty_num/', 
-      select: function(event, ui) {
-        console.log(ui.item);
-        $("#select_oppty_num").val(ui.item.value.split(":")[1])
-        return false;
-      },
-      focus: function(event, ui) {
-        $("#select_customer_name").val(ui.item.id)
-        return false;
-      }       
-  }); 
-
+        source : '/customer_name_autocomplete/', 
+          select: function(event, ui) {
+            console.log(ui.item);
+            // $("#company_registration_number0").val(ui.item.value.split(":")[1])
+            return false;
+          },
+          focus: function(event, ui) {
+            $("#select_customer_name").val(ui.item.id)
+            return false;
+          }      
+      });  
 });
 
 function mySubmit(index){
   if(index == 1){
-    document.myForm.action = '/get_data_from_oppty/';
+    document.myForm.action = '/get_data_from_delivery_date/';
   }else if(index == 2){
     document.myForm.action = '/insert_check/settlement/'; 
   }

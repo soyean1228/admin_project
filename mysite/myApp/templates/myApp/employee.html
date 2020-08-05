@@ -277,6 +277,12 @@
     }else if(isUpload == "실패"){
       alert("엑셀 업로드에 실패했습니다");
     }
+    var isDownload = '{{isDownload}}'
+    if (isDownload == "성공"){
+      alert("엑셀 다운로드에 성공했습니다.");
+    }else if(isDownload == "실패"){
+      alert("엑셀 다운로드에 실패했습니다");
+    }
   </script>
 {% endblock %}
   

@@ -97,9 +97,9 @@ def download(request):
             sheet.cell(row=i, column=1).value = data.team
             sheet.cell(row=i, column=2).value = data.manager
             count_manager = Employee.objects.all().values('name').filter(name=broker.manager).count()
-                print(count_manager)
-                if count_manager == 0:
-                    return "담당자 오류"
+            print(count_manager)
+            if count_manager == 0:
+                return "담당자 오류"
             sheet.cell(row=i, column=3).value = data.name
             sheet.cell(row=i, column=4).value = data.resident_registration_number
             sheet.cell(row=i, column=5).value = data.contact_number

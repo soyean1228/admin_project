@@ -23,6 +23,9 @@ urlpatterns = [
     url(r'^productno_autocomplete/$', views.productno_autocomplete, name = 'productno_autocomplete'),
     url(r'^customer_name_autocomplete/$', views.customer_name_autocomplete, name = 'customer_name_autocomplete'),
     url(r'^customer_name_autocomplete_oppty_num/$', views.customer_name_autocomplete_oppty_num, name = 'customer_name_autocomplete_oppty_num'),
+    url(r'^customer_name_autocomplete_oppty_num/$', views.customer_name_autocomplete_oppty_num, name = 'customer_name_autocomplete_oppty_num'),
+
+
 
     # path('admin/', admin.site.urls),
     path('',views.index, name = 'select'),
@@ -52,5 +55,6 @@ urlpatterns = [
     path('get_approval_data_from_select_quote_num/', views.get_approval_data_from_select_quote_num, name='get_approval_data_from_select_quote_num'),
     path('get_deposit_data_from_company_registration_number/', views.get_deposit_data_from_company_registration_number, name='get_deposit_data_from_company_registration_number'),
     path('get_data_from_select_scheduled_delivery_date/', views.get_data_from_select_scheduled_delivery_date, name='get_data_from_select_scheduled_delivery_date'),
+    path('get_data_from_delivery_date/', views.get_data_from_delivery_date, name='get_data_from_delivery_date'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

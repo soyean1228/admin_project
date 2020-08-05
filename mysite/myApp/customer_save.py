@@ -2,6 +2,7 @@ from .models import Customer
 from .models import Employee
 from openpyxl import load_workbook
 from openpyxl import Workbook
+import openpyxl
 
 def save(request):
     print("customer_save")
@@ -194,14 +195,14 @@ def download(request):
             sheet.cell(row=i, column=15).value = data.settlement_email
             sheet.cell(row=i, column=16).value = data.sales_manager
             count_sales_charge_data = sales_charge_data.values('name').filter(name=data.sales_manager).count()
-                    # print(count_sales_charge_data)
-                    if count_sales_charge_data == 0:
-                        return "영업 담당 오류"
+            # print(count_sales_charge_data)
+            if count_sales_charge_data == 0:
+                return "영업 담당 오류"
             sheet.cell(row=i, column=17).value = data.scm_manager
             count_scm_charge_data = scm_charge_data.values('name').filter(name=data.scm_manager).count()
-                    # print(count_scm_charge_data)
-                    if count_scm_charge_data == 0:
-                        return "SCM 담당 오류"
+            # print(count_scm_charge_data)
+            if count_scm_charge_data == 0:
+                return "SCM 담당 오류"
             sheet.cell(row=i, column=18).value = data.rate
             i = i+1
             
