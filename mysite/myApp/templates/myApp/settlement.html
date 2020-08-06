@@ -97,8 +97,9 @@
                             var in_date = 'in_date' + f; var in_amount = 'in_amount' + f;
                             var etc = 'etc' + f; var billing_date = 'billing_date' + f;
                             var billing_place = 'billing_place' + f; var sales_price = 'sales_price' + f;
-                            var settlement_month = 'settlement_month' + f; 
-                            var data_length = 'data_length'; 
+                            var settlement_month = 'settlement_month' + f; var order_num = 'order_num' + f;
+                            var data_length = 'data_length'; var oppty_num = 'oppty_num' + f
+                            var quote_num = 'quote_num' + f;
 
                             document.write('{% for list in result_data %}');
                             f = f+1; customer_name = 'customer_name' + f; productno = 'productno' + f; 
@@ -109,8 +110,12 @@
                             in_date = 'in_date' + f;  in_amount = 'in_amount' + f;
                             etc = 'etc' + f;  billing_date = 'billing_date' + f;
                             billing_place = 'billing_place' + f;  sales_price = 'sales_price' + f;
-                            settlement_month = 'settlement_month' + f; 
-
+                            settlement_month = 'settlement_month' + f; oppty_num = 'oppty_num' + f
+                            order_num = 'order_num' + f; quote_num = 'quote_num' + f
+                            
+                            document.write("<input id= "+ quote_num +" name = " + quote_num + " type='hidden'  value={{list.quote_num|default_if_none:'' }}> ");  
+                            document.write("<input id= "+ oppty_num +" name = " + oppty_num + " type='hidden'  value={{list.oppty_num|default_if_none:'' }}> ");  
+                            document.write("<input id= "+ order_num +" name = " + order_num + " type='hidden'  value={{list.order_num|default_if_none:'' }}> ");    
                             document.write('<div class="row">');
                             document.write('<div class="cell" data-title="customer_name">');
                             document.write("<input id= "+ customer_name +" name = " + customer_name + " type='text'  value={{list.customer_name|default_if_none:'' }}> ");   
@@ -244,21 +249,27 @@
                     </tr>
                   </tfoot>
                   <tbody>
-                    {% for list in approval_data %}
+                    {% for list in all_data %}
                       <tr>
                         <style>td{font-size: 14px;};</style>
-                        <td>{{list.quote_num|default_if_none:"" }}</td>
-                        <td>{{list.oppty_num|default_if_none:"" }}</td>
+                        <td>{{list.customer_name|default_if_none:"" }}</td>
                         <td>{{list.productno|default_if_none:"" }}</td>
                         <td>{{list.buy_place|default_if_none:"" }}</td>
-                        <td>{{list.decision_quantity|default_if_none:"" }}</td>
-                        <td>{{list.approval_quantity|default_if_none:"" }}</td>
+                        <td>{{list.order_quantity|default_if_none:"" }}</td>
                         <td>{{list.approval_unit|default_if_none:"" }}</td>
                         <td>{{list.approval_price|default_if_none:"" }}</td>
-                        <td>{{list.delivery_request_date|default_if_none:""  |date:"Y-m-d"}}</td>
-                        <td>{{list.approval_balance|default_if_none:"" }}</td>
-                        <td>{{list.total_approval_balance|default_if_none:"" }}</td>
+                        <td>{{list.sales_unit|default_if_none:"" }}</td>
+                        <td>{{list.sales_price|default_if_none:"" }}</td>
                         <td>{{list.recipient|default_if_none:"" }}</td>
+                        <td>{{list.delivery_date|default_if_none:"" |date:"Y-m-d"}}</td>
+                        <td>{{list.payment_method|default_if_none:"" }}</td>
+                        <td>{{list.in_date|default_if_none:"" |date:"Y-m-d"}}</td>
+                        <td>{{list.in_amount|default_if_none:"" }}</td>
+                        <td>{{list.etc|default_if_none:"" }}</td>
+                        <td>{{list.billing_date|default_if_none:"" |date:"Y-m-d"}}</td>
+                        <td>{{list.billing_place|default_if_none:"" }}</td>
+                        <td>{{list.billing_amount|default_if_none:"" }}</td>
+                        <td>{{list.settlement_month|default_if_none:""  }}</td>
                       </tr>
                     {% endfor %}
                   </tbody>

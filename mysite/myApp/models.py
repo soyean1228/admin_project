@@ -214,16 +214,15 @@ class Settlement(models.Model):
     oppty_num = models.CharField(max_length=20)
     productno = models.CharField(max_length=50)
     recipient = models.CharField(max_length=20)
-    settlement_number = models.IntegerField()
-    billing_data = models.DateTimeField(blank=True, null=True)
+    billing_date = models.DateTimeField(blank=True, null=True)
     billing_amount = models.IntegerField(blank=True, null=True)
     settlement_month = models.CharField(max_length=30, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'settlement'
-        unique_together = (('order_num', 'quote_num', 'oppty_num', 'productno', 'recipient', 'settlement_number'),)
-
+        unique_together = (('order_num', 'quote_num', 'oppty_num', 'productno', 'recipient'),) 
+            
 class CustomerDepositBalance(models.Model):
     company_registration_number = models.CharField(primary_key=True, max_length=20)
     deposit_balance = models.IntegerField(blank=True, null=True)

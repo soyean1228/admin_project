@@ -28,11 +28,11 @@ urlpatterns = [
 
 
     # path('admin/', admin.site.urls),
-    path('',views.index, name = 'select'),
+    path('',views.index, name = 'index'),
     path('index/',views.index, name = 'index'),
     path('insert/',views.insert, name = 'insert'),
     
-    # path('select/',views.select, name = 'select'),
+    path('select/',views.select, name = 'select'),
     # path('select/<str:table_name>/',views.select_table, name = 'select_table'),
 
     # path('order_upload/',views.order_upload, name = 'order_upload'),

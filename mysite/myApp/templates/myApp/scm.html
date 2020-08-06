@@ -18,9 +18,9 @@
                   <div class="wrap-table100">
                       
                       <p style="margin-bottom: 10px;"> 
-                      <input type='date' id='oldDate' style="max-width: 150px; margin: 0px;"/>
+                      <!-- <input type='date' id='oldDate' style="max-width: 150px; margin: 0px;"/>
                       <span>~</span>
-                      <input type='date' id='currentDate'style="max-width: 150px;  margin: 0px;"/>
+                      <input type='date' id='currentDate'style="max-width: 150px;  margin: 0px;"/> -->
 
                       <div class="table">
                         <div class="row header">
@@ -120,16 +120,24 @@
                         </div>
                         <div class="row">
                           <div class="cell" data-title="order_date">
-                            <input id= "order_date" name = "order_date" type='number'/>
+                            <!-- <input id= "order_date" name = "order_date" type='number'/> -->
+                            <input type='date' id='order_date_start' name = "order_date_start" style="max-width: 150px; margin: 0px;"/>
+                            <input type='date' id='order_date_end' id='order_date_end' style="max-width: 150px;  margin: 0px;"/>
                           </div>
                           <div class="cell" data-title="delivery_request_date">
-                            <input id= "delivery_request_date" name = "delivery_request_date" type='number'/>
+                            <!-- <input id= "delivery_request_date" name = "delivery_request_date" type='number'/> -->
+                            <input type='date' id='delivery_request_date_start' name = "delivery_request_date_start" style="max-width: 150px; margin: 0px;"/>
+                            <input type='date' id='delivery_request_date_end' id='delivery_request_date_end' style="max-width: 150px;  margin: 0px;"/>
                           </div>
                           <div class="cell" data-title="scheduled_delivery_date">
-                            <input id= "scheduled_delivery_date" name = "scheduled_delivery_date" type='number'/>
+                            <!-- <input id= "scheduled_delivery_date" name = "scheduled_delivery_date" type='number'/> -->
+                            <input type='date' id='scheduled_delivery_date_start' name = "scheduled_delivery_date_start" style="max-width: 150px; margin: 0px;"/>
+                            <input type='date' id='scheduled_delivery_date_end' id='scheduled_delivery_date_end' style="max-width: 150px;  margin: 0px;"/>
                           </div>
                           <div class="cell" data-title="delivery_date">
-                            <input id= "delivery_date" name = "delivery_date" type='number'/>
+                            <!-- <input id= "delivery_date" name = "delivery_date" type='number'/> -->
+                            <input type='date' id='delivery_date_start' name = "delivery_date_start" style="max-width: 150px; margin: 0px; margin-top:4px;"/>
+                            <input type='date' id='delivery_date_end' id='delivery_date_end' style="max-width: 150px;  margin: 0px; margin-bottom: 4px;"/>
                           </div>
                         </div>
                       </div>
