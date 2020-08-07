@@ -25,24 +25,30 @@
                       <div class="table">
                         <div class="row header">
                           <div class="cell">
-                            OPPTY번호
+                            삼성코드
                           </div>
                           <div class="cell">
-                            견적번호
+                            삼성담당
                           </div>
                           <div class="cell">
-                            주문번호
+                            영업담당
+                          </div>
+                          <div class="cell">
+                            SCM담당
                           </div>
                         </div>
                         <div class="row">
-                          <div class="cell" data-title="oppty_num">
-                            <input id= "oppty_num" name = "oppty_num" type='number'/>
+                          <div class="cell" data-title="samsung_code">
+                            <input id= "samsung_code" name = "samsung_code" type='number'/>
                           </div>
-                          <div class="cell" data-title="quote_num ">
-                            <input id= "quote_num" name = "quote_num" type='number'/>
+                          <div class="cell" data-title="samsung_sales_manager ">
+                            <input id= "samsung_sales_manager" name = "samsung_sales_manager" type='text'/>
                           </div>
-                          <div class="cell" data-title="order_num">
-                            <input id= "order_num" name = "order_num" type='number'/>
+                          <div class="cell" data-title="sales_manager">
+                            <input id= "sales_manager" name = "sales_manager" type='text'/>
+                          </div>
+                          <div class="cell" data-title="scm_manager">
+                            <input id= "scm_manager" name = "scm_manager" type='text'/>
                           </div>
                         </div>
                         <p style="margin-bottom: 20px;"></p>
@@ -87,8 +93,8 @@
                           </div>
                         </div>
                         <div class="row">
-                          <div class="cell" data-title="customer">
-                            <input id= "customer" name = "customer" type='text'/>
+                          <div class="cell" data-title="customer_name">
+                            <input id= "customer_name" name = "customer_name" type='text'/>
                           </div>
                           <div class="cell" data-title="billing_place">
                             <input id= "billing_place" name = "billing_place" type='text'/>
@@ -141,7 +147,6 @@
                           </div>
                         </div>
                       </div>
-                      <!-- <button onclick="add_row()">행 추가하기</button> -->
                       <input class = "sub" type="submit" value="검색" onclick="javascript: form.action='/select_result/';"/>
 
                   </div> 
@@ -155,12 +160,6 @@
       <div id="content">
         <!-- Begin Page Content -->
         <div class="container-fluid">
-
-          <!-- Page Heading -->
-          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >조회</h1>
-          </div> -->
-          <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
@@ -190,8 +189,6 @@
                       <th>승인액</th>
                       <th>매출단가</th>
                       <th>매출액</th>
-                      <th>납품요청일</th>
-                      <th>납품예정일</th>
                       <th>할당</th>
                       <th>납품요청일</th>
                       <th>납품예정일</th>
@@ -222,8 +219,6 @@
                       <th>승인액</th>
                       <th>매출단가</th>
                       <th>매출액</th>
-                      <th>납품요청일</th>
-                      <th>납품예정일</th>
                       <th>할당</th>
                       <th>납품요청일</th>
                       <th>납품예정일</th>
@@ -239,35 +234,36 @@
                     {% for list in data %}
                       <tr>
                         <style>td{font-size: 12px;};</style>
-                        <td>{{list.samsung_code|default_if_none:"" }}</td>
-                        <td>{{list.samsung_manager|default_if_none:"" }}</td>
-                        <td>{{list.sales_manager|default_if_none:"" }}</td>
-                        <td>{{list.scm_manager|default_if_none:"" }}</td>
                         <td>{{list.customer_name|default_if_none:"" }}</td>
-
-                        <td>{{list.recipient|default_if_none:"" }}</td>
-                        <td>{{list.delivery_address|default_if_none:"" }}</td>
-                        <td>{{list.recipient_phone|default_if_none:"" }}</td>
-                        <td>{{list.product_model_name|default_if_none:"" }}</td>
-                        <td>{{list.beginning_purchase|default_if_none:"" }}</td>
-                        
-                        <td>{{list.order_quantity|default_if_none:"" }}</td>
-                        <td>{{list.approval_price|default_if_none:"" }}</td>
-                        <td>{{list.approval_total_price|default_if_none:"" }}</td>
-                        <td>{{list.sales_price|default_if_none:"" }}</td>
-                        <td>{{list.sales_total_price|default_if_none:"" }}</td>
-                        
                         <td>{{list.oppty_num|default_if_none:"" }}</td>
                         <td>{{list.quote_num|default_if_none:"" }}</td>
-                        <td>{{list.order_date|default_if_none:""|date:"Y-m-d"}}</td>
+                        <td>{{list.order_date|default_if_none:"" |date:"Y-m-d"}}</td>
                         <td>{{list.order_num|default_if_none:"" }}</td>
-                        <td>{{list.delivery_request_date|default_if_none:""|date:"Y-m-d"}}</td>
+                        <td>{{list.recipient|default_if_none:"" }}</td>
+
+                        <td>{{list.delivery_address|default_if_none:"" }}</td>
+                        <td>{{list.recipient_phone1|default_if_none:"" }}</td>
+                        <td>{{list.productno|default_if_none:"" }}</td>
+                        <td>{{list.buy_place|default_if_none:"" }}</td>
+                        <td>{{list.amount|default_if_none:"" }}</td>
                         
-                        <td>{{list.scheduled_delivery_date|default_if_none:"" |date:"Y-m-d"}}</td>
+                        <td>{{list.decision_unit|default_if_none:"" }}</td>
+                        <td>{{list.decision_price|default_if_none:"" }}</td>
+                        <td>{{list.approval_unit|default_if_none:"" }}</td>
+                        <td>{{list.approval_price|default_if_none:"" }}</td>
+                        <td>{{list.sales_unit|default_if_none:"" }}</td>
+                        
+                        <td>{{list.sales_price|default_if_none:"" }}</td>
                         <td>{{list.assignment|default_if_none:"" }}</td>
-                        <td>{{list.deposit_date|default_if_none:"" |date:"Y-m-d"}}</td>
-                        <td>{{list.deposit_amount|default_if_none:"" }}</td>
-                        <td>{{list.billing_place|default_if_none:"" }}</td>
+                        <td>{{list.delivery_request_date|default_if_none:""|date:"Y-m-d"}}</td>
+                        <td>{{list.scheduled_delivery_date|default_if_none:"" }}</td>
+                        <td>{{list.delivery_date|default_if_none:""|date:"Y-m-d"}}</td>
+                        
+                        <td>{{list.in_date|default_if_none:"" |date:"Y-m-d"}}</td>
+                        <td>{{list.in_amount|default_if_none:"" }}</td>
+                        <td>{{list.billing_place|default_if_none:""}}</td>
+                        <td>{{list.billing_date|default_if_none:""|date:"Y-m-d"}}</td>
+                        <td>{{list.billing_amount|default_if_none:"" }}</td>
                       </tr>
                     {% endfor %}
                   </tbody>

@@ -14,7 +14,6 @@ from django.contrib.auth import logout
 from django.contrib import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-# from .forms import UploadOrderFileModel
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 import json
@@ -22,43 +21,33 @@ import datetime
 
 from .models import Employee
 from .models import SamsungCode
-# from .models import Authority
 from .models import Product
 from .models import Customer
 from .models import Broker
 from .models import Proposal
-# from .models import CustomerPurchasing
-# from .models import CustomerSettlement
-# from .models import CoSalesman
-# from .models import Sales
-# from .models import SalesContent
 from .models import Approval
 from .models import OrderData
 from .models import Deposit
 from .models import Delivery
+from .models import Scm
 
 from . import employee_save
 from . import samsung_code_save
-# from . import authority_save
 from . import product_save
 from . import customer_save
-# from . import customer_purchasing_save
-# from . import customer_settlement_save
-# from . import co_salesman_save
 from . import broker_save
-# from . import sales_save
-# from . import sales_content_save
 from . import delivery_save
 from . import deposit_save
 from . import order_save
 from . import approval_save
-# from . import scm_select
+from . import scm_select
 from . import proposal_save
 from . import settlement_save
 
 # @login_required
 def index(request):
-    return render(request, 'myApp/scm.html')
+    data = scm_select.select(request)
+    return render(request, 'myApp/scm.html', { "data" : data })  
 
 def sales_autocomplete(request):
     print("자동완성")
