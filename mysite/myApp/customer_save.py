@@ -144,7 +144,7 @@ def upload(request):
     return isSuccess
 
 def download(request):
-    isSuccess = "성공"
+    isSuccess = "업체 다운로드에 성공했습니다"
     try:
         # 워크북(엑셀파일)을 새로 만듭니다.
         wb = openpyxl.Workbook()
@@ -155,7 +155,6 @@ def download(request):
         sheet['A1'] = '업체'
 
         # 워크북(엑셀파일)을 원하는 이름으로 저장합니다.
-
         i = 1
         sheet.cell(row=i, column=1).value = "업체명"
         sheet.cell(row=i, column=2).value = "사업자등록번호"
@@ -177,12 +176,18 @@ def download(request):
         sheet.cell(row=i, column=18).value = "고객관리등급"
         i = i+1
 
-        for data in Employee.objects.all():
+        sales_charge_data = Employee.objects.filter(charge='INNO 영업담당')
+        scm_charge_data = Employee.objects.filter(charge='INNO SCM담당')
+
+        for data in Customer.objects.all():
             sheet.cell(row=i, column=1).value = data.customer_name
             sheet.cell(row=i, column=2).value = data.company_registration_number
             sheet.cell(row=i, column=3).value = data.representative
             sheet.cell(row=i, column=4).value = data.address
-            sheet.cell(row=i, column=5).value = data.opening_date
+            if data.opening_date != None:
+                sheet.cell(row=i, column=5).value = data.opening_date.strftime('%Y-%m-%d')
+            else :
+                sheet.cell(row=i, column=5).value = None
             sheet.cell(row=i, column=6).value = data.field1
             sheet.cell(row=i, column=7).value = data.field2
             sheet.cell(row=i, column=8).value = data.field3
@@ -195,12 +200,10 @@ def download(request):
             sheet.cell(row=i, column=15).value = data.settlement_email
             sheet.cell(row=i, column=16).value = data.sales_manager
             count_sales_charge_data = sales_charge_data.values('name').filter(name=data.sales_manager).count()
-            # print(count_sales_charge_data)
             if count_sales_charge_data == 0:
                 return "영업 담당 오류"
             sheet.cell(row=i, column=17).value = data.scm_manager
             count_scm_charge_data = scm_charge_data.values('name').filter(name=data.scm_manager).count()
-            # print(count_scm_charge_data)
             if count_scm_charge_data == 0:
                 return "SCM 담당 오류"
             sheet.cell(row=i, column=18).value = data.rate
@@ -208,5 +211,5 @@ def download(request):
             
         wb.save('업체.xlsx')
     except:
-        isSuccess = "실패"
+        isSuccess = "업체 다운로드에 실패했습니다"
     return isSuccess

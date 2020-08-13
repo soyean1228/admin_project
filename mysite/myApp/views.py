@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 # from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-# from django.contrib.auth import login as auth_login
+# from django.contrib.auth import login as auth_loginz
 # from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import login
 from django.contrib.auth import logout 
@@ -44,10 +44,22 @@ from . import scm_select
 from . import proposal_save
 from . import settlement_save
 
+from django.db import connection
+
 # @login_required
 def index(request):
     data = scm_select.select(request)
     return render(request, 'myApp/scm.html', { "data" : data })  
+
+# @login_required
+def select(request):
+    data = scm_select.select(request)
+    return render(request, 'myApp/scm.html', { "data" : data })
+
+def select_result(request):
+    print("select_result")
+    data = scm_select.find(request)
+    return render(request, 'myApp/scm.html', { "data" : data })
 
 def sales_autocomplete(request):
     print("자동완성")
@@ -375,20 +387,22 @@ def download(request, table_name):
         isSuccess = product_save.download(request)
         product_data = Product.objects.all()
         return render(request, 'myApp/product.html', { "isDownload" : isSuccess , "product_data" : product_data })
-    # if(table_name == 'broker'):
-    #     broker_save.upload(request)
-    #     broker_data = Broker.objects.all()
-    #     return render(request, 'myApp/broker.html', { "isUpload" : isSuccess , "broker_data" : broker_data }) 
-    # if(table_name == 'customer'):
-    #     isSuccess = customer_save.upload(request)
-    #     customer_data = Customer.objects.all()
-    #     return render(request, 'myApp/customer.html', { "isUpload" : isSuccess , "customer_data" : customer_data }) 
+    if(table_name == 'broker'):
+        isSuccess = broker_save.download(request)
+        broker_data = Broker.objects.all()
+        return render(request, 'myApp/broker.html', { "error" : isSuccess , "broker_data" : broker_data }) 
+    if(table_name == 'customer'):
+        isSuccess = customer_save.download(request)
+        customer_data = Customer.objects.all()
+        return render(request, 'myApp/customer.html', { "error" : isSuccess , "customer_data" : customer_data })
+    if(table_name == 'scm'):
+        isSuccess = scm_select.download(request)
+        data = scm_select.find(request)
+        return render(request, 'myApp/scm.html', { "error" : isSuccess , "data" : data }) 
 
 def select_proposal(request):
     select_oppty_num = proposal_save.select(request)
-    # print(Proposal.objects.filter(oppty_num=select_oppty_num).count())
     proposal_data = Proposal.objects.filter(oppty_num=select_oppty_num).first()
-    # print(proposal_data.contact_conclusion_date)
     return render(request, 'myApp/proposal.html', { "select_oppty_num" : select_oppty_num, "proposal_data" : proposal_data })
 
 def modify_proposal(request):
@@ -448,15 +462,6 @@ def modify_proposal(request):
 #     if(table_name == 'delivery'):
 #         delivery_data = Delivery.objects.all()
 #         return render(request, 'myApp/delivery_select.html', { "delivery_data" : delivery_data })
-
-# @login_required
-def select(request):
-    return render(request, 'myApp/scm.html')
-
-# def select_result(request):
-#     print(request.POST.get('oppty_num'))
-#     data = scm_select.select(request)
-#     return render(request, 'myApp/select_result.html', { "data" : data })
 
 # def order_upload(request):
 #     if request.method == 'POST':

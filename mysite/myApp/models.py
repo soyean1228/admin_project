@@ -148,7 +148,7 @@ class Scm(models.Model):
     sales_type = models.CharField(max_length=20, blank=True, null=True)
     demand = models.CharField(max_length=20, blank=True, null=True)
     billing_place = models.CharField(max_length=20, blank=True, null=True)
-    oppty_num = models.CharField(primary_key=True, max_length=20)
+    oppty_num = models.CharField(max_length=20)
     productno = models.CharField(max_length=50)
     buy_place = models.CharField(max_length=20, blank=True, null=True)
     decision_quantity = models.IntegerField(blank=True, null=True)
@@ -175,12 +175,19 @@ class Scm(models.Model):
     delivery_date = models.DateTimeField(blank=True, null=True)
     billing_date = models.DateTimeField(blank=True, null=True)
     billing_amount = models.IntegerField(blank=True, null=True)
-    amount = models.IntegerField(blank=True, null=True)
+    scm_num = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = False
         db_table = 'scm'
-        unique_together = (('productno', 'recipient', 'oppty_num'),) 
+    
+    def get_num(self):
+        data = Scm.objects.all()
+        max = 0
+        for i in data: 
+            if(i.scm_num >= max):
+                max = i.scm_num
+        return max
 
 class Approval(models.Model):
     quote_num = models.IntegerField(primary_key=True)

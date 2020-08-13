@@ -2,6 +2,7 @@ from .models import Broker
 from .models import Employee
 from openpyxl import load_workbook
 from openpyxl import Workbook
+import openpyxl
 
 def save(request):
     print("broker_save")
@@ -50,10 +51,11 @@ def upload(request):
             wb = load_workbook(filename=request.FILES['file'].file)
             first_sheet = wb.get_sheet_names()[0]
             worksheet = wb.get_sheet_by_name(first_sheet)
-            print(worksheet)
             
             for row in worksheet.iter_rows(min_row=2): # Offset for header
                 broker = Broker()
+                if(row[0].value == None):
+                    break
                 broker.team = row[0].value
                 broker.manager = row[1].value
                 count_manager = Employee.objects.all().values('name').filter(name=broker.manager).count()
@@ -72,7 +74,7 @@ def upload(request):
     return isSuccess
 
 def download(request):
-    isSuccess = "성공"
+    isSuccess = "알선사 다운로드에 성공했습니다"
     try:
         # 워크북(엑셀파일)을 새로 만듭니다.
         wb = openpyxl.Workbook()
@@ -85,28 +87,30 @@ def download(request):
         # 워크북(엑셀파일)을 원하는 이름으로 저장합니다.
 
         i = 1
-        sheet.cell(row=i, column=1).value = "성명(회사명)"
-        sheet.cell(row=i, column=2).value = "주민(사업)번호"
-        sheet.cell(row=i, column=3).value = "주소"
-        sheet.cell(row=i, column=4).value = "연락처"
-        sheet.cell(row=i, column=5).value = "소속"
-        sheet.cell(row=i, column=6).value = "담당자"
+        sheet.cell(row=i, column=1).value = "소속"
+        sheet.cell(row=i, column=2).value = "담당자"
+        sheet.cell(row=i, column=3).value = "성명(회사명)"
+        sheet.cell(row=i, column=4).value = "주민(사업)번호"
+        sheet.cell(row=i, column=5).value = "주소"
+        sheet.cell(row=i, column=6).value = "연락처"
+        sheet.cell(row=i, column=7).value = "수수료율"
         i = i+1
 
-        for data in Employee.objects.all():
+        for data in Broker.objects.all():
             sheet.cell(row=i, column=1).value = data.team
             sheet.cell(row=i, column=2).value = data.manager
-            count_manager = Employee.objects.all().values('name').filter(name=broker.manager).count()
+            count_manager = Employee.objects.all().values('name').filter(name=data.manager).count()
             print(count_manager)
             if count_manager == 0:
                 return "담당자 오류"
             sheet.cell(row=i, column=3).value = data.name
-            sheet.cell(row=i, column=4).value = data.resident_registration_number
-            sheet.cell(row=i, column=5).value = data.contact_number
-            sheet.cell(row=i, column=6).value = data.fee
+            sheet.cell(row=i, column=4).value = data.addresss
+            sheet.cell(row=i, column=5).value = data.resident_registration_number
+            sheet.cell(row=i, column=6).value = data.contact_number
+            sheet.cell(row=i, column=7).value = data.fee
             i = i+1
 
         wb.save('알선사.xlsx')
     except:
-        isSuccess = "성공"
+        isSuccess = "알선사 다운로드에 실패했습니다."
     return isSuccess
