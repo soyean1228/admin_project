@@ -1,5 +1,6 @@
 from .models import Approval
 from .models import Proposal
+from .models import OrderData
 # from .models import SalesContent
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -9,9 +10,9 @@ def save(request):
 
     oppty_num = request.POST.get('select_oppty_num',0)
     proposal_data_length = request.POST.get('proposal_data_length',0)
-    print(proposal_data_length)
+    # print(proposal_data_length)
     for i in range(0, int(proposal_data_length) + 1):
-        print(i)
+        # print(i)
         productno = None; approval_quantity = None; 
         approval_price = None; quote_num = None; approval_balance = None; 
         decision_quantity = None; approval_unit = None; buy_place = None; 
@@ -29,8 +30,6 @@ def save(request):
         if approval_unit == '' : 
             approval_unit = 0
 
-        print(quote_num)
-        print(productno)
         if quote_num != '' and productno != '' and oppty_num != '' and recipient != '':
             # if balance == '' : 
                 # 입력이 안되었으면 자동으로 계산되도록 
@@ -51,10 +50,16 @@ def save(request):
                 #     print("예외")
                 #     balance = None
             # 미구현
-            approval_balance = 0
-            # approval_balance = approval_quantity - OrderData.approval_quantity 
+            approval_balance = approval_quantity
+            # 승인 잔량 = approval_quantity - - OrderData.order_quantity ( 그 견적번호의 주문수량의 합)
             # try :
-            #     row = SalesContent.objects.get(oppty_num=oppty_num)
+            #     quote_num_order_data = OrderData.objects.filter(quote_num=quote_num)
+            #     order_quantity_sum = 0
+            #     for i in quote_num_order_data : 
+            #         order_quantity_sum = order_quantity_sum + int(i.order_quantity)
+            #     print(approval_quantity)
+            #     print(order_quantity_sum)
+            #     approval_balance = approval_quantity - order_quantity_sum
             #     if approval_quantity != None and row.decision_quantity != None:  
             #         print(row.decision_quantity)
             #         print("-")
@@ -67,15 +72,29 @@ def save(request):
             # except ObjectDoesNotExist:
             #     print("예외")
             #     balance = None
-            total_approval_balance = 0
-
 
             approval_price = int(approval_quantity) * int(approval_unit)
-            print(approval_price)
+
+            total_approval_balance = 0
+            if Approval.objects.filter(quote_num=quote_num).count() == 0 :
+                total_approval_balance = int(approval_price)
+            else :
+                approval = Approval.objects.filter(quote_num=quote_num)
+                total_approval_balance = 0
+                for i in approval : 
+                    if i.approval_price != None :
+                        if i.oppty_num != oppty_num or i.productno != productno or i.recipient != recipient :
+                            total_approval_balance = total_approval_balance + int(i.approval_price)
+                total_approval_balance = total_approval_balance + int(approval_price)
+
+                # for i in Approval.objects.filter(quote_num=quote_num) : 
+                #     print(i.total_approval_balance)
+                #     i.total_approval_balance = total_approval_balance
+                #     i.save
+                
+                Approval.objects.filter(quote_num=quote_num).update(total_approval_balance=total_approval_balance)
 
             data_count = Approval.objects.filter(quote_num=quote_num, productno=productno,recipient=recipient, oppty_num=oppty_num).count()
-            print("data_count")
-            print(data_count)
             if data_count != 0 :
                 data = Approval.objects.get(quote_num=quote_num, productno=productno, recipient=recipient, oppty_num=oppty_num)
                 data.delete()

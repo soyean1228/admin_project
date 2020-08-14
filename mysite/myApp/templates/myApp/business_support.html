@@ -27,10 +27,16 @@
                             삼성담당
                           </div>
                           <div class="cell">
+                            소속
+                          </div>
+                          <div class="cell">
                             영업담당
                           </div>
                           <div class="cell">
                             SCM담당
+                          </div>
+                          <div class="cell">
+                            알선사
                           </div>
                         </div>
                         <div class="row">
@@ -40,34 +46,17 @@
                           <div class="cell" data-title="samsung_sales_manager ">
                             <input id= "samsung_sales_manager" name = "samsung_sales_manager" type='text'/>
                           </div>
+                          <div class="cell" data-title="team ">
+                            <input id= "team" name = "team" type='text'/>
+                          </div>
                           <div class="cell" data-title="sales_manager">
                             <input id= "sales_manager" name = "sales_manager" type='text'/>
                           </div>
                           <div class="cell" data-title="scm_manager">
                             <input id= "scm_manager" name = "scm_manager" type='text'/>
                           </div>
-                        </div>
-                        <p style="margin-bottom: 20px;"></p>
-                        <div class="row header">
-                          <div class="cell">
-                            OPPTY번호
-                          </div>
-                          <div class="cell">
-                            견적번호
-                          </div>
-                          <div class="cell">
-                            주문번호
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="cell" data-title="oppty_num">
-                            <input id= "oppty_num" name = "oppty_num" type='number'/>
-                          </div>
-                          <div class="cell" data-title="quote_num ">
-                            <input id= "quote_num" name = "quote_num" type='number'/>
-                          </div>
-                          <div class="cell" data-title="order_num">
-                            <input id= "order_num" name = "order_num" type='number'/>
+                          <div class="cell" data-title="broker">
+                            <input id= "broker" name = "broker" type='text'/>
                           </div>
                         </div>
                         <p style="margin-bottom: 20px;"></p>
@@ -76,71 +65,84 @@
                             업체명
                           </div>
                           <div class="cell">
-                            계산서발행업체명
+                            결제방식
                           </div>
                           <div class="cell">
-                            인수자
+                            인도처명
                           </div>
                           <div class="cell">
                             배송주소
                           </div>
                           <div class="cell">
-                            인수자 전화번호1
+                            매입처
+                          </div>
+                          <div class="cell">
+                            품목군
                           </div>
                         </div>
                         <div class="row">
                           <div class="cell" data-title="customer_name">
                             <input id= "customer_name" name = "customer_name" type='text'/>
                           </div>
-                          <div class="cell" data-title="billing_place">
-                            <input id= "billing_place" name = "billing_place" type='text'/>
+                          <div class="cell" data-title="payment_method ">
+                            <input id= "payment_method" name = "payment_method" type='text'/>
                           </div>
-                          <div class="cell" data-title="recipient">
+                          <div class="cell" data-title="recipient ">
                             <input id= "recipient" name = "recipient" type='text'/>
                           </div>
                           <div class="cell" data-title="delivery_address">
                             <input id= "delivery_address" name = "delivery_address" type='text'/>
                           </div>
-                          <div class="cell" data-title="recipient_phone1">
-                            <input id= "recipient_phone1" name = "recipient_phone1" type='text'/>
+                          <div class="cell" data-title="buy_place">
+                            <input id= "buy_place" name = "buy_place" type='text'/>
+                          </div>
+                          <div class="cell" data-title="main_category">
+                            <input id= "main_category" name = "main_category" type='text'/>
                           </div>
                         </div>
                         <p style="margin-bottom: 20px;"></p>
                         <div class="row header">
                           <div class="cell">
-                            주문일
-                          </div>
-                          <div class="cell">
-                            납품요청일
-                          </div>
-                          <div class="cell">
-                            납품예정일
-                          </div>
-                          <div class="cell">
                             납품완료일
+                          </div>
+                          <div class="cell">
+                            계산서발행일
+                          </div>
+                          <div class="cell">
+                            계산서발행처
+                          </div>
+                          <div class="cell">
+                            입금일
+                          </div>
+                          <div class="cell">
+                            입금자명
+                          </div>
+                          <div class="cell">
+                            정산월
                           </div>
                         </div>
                         <div class="row">
-                          <div class="cell" data-title="delivery_request_date">
-                            <input type='date' id='order_date_start' name = "order_date_start" style="max-width: 150px; margin: 0px;"/>
-                            <input type='date' id='order_date_end' name='order_date_end' style="max-width: 150px;  margin: 0px;"/>
-                          </div>
-                          <div class="cell" data-title="delivery_request_date">
-                            <input type='date' id='delivery_request_date_start' name = "delivery_request_date_start" style="max-width: 150px; margin: 0px;"/>
-                            <input type='date' id='delivery_request_date_end' name='delivery_request_date_end' style="max-width: 150px;  margin: 0px;"/>
-                          </div>
-                          <div class="cell" data-title="scheduled_delivery_date">
-                            <input type='date' id='scheduled_delivery_date_start' name = "scheduled_delivery_date_start" style="max-width: 150px; margin: 0px;"/>
-                            <input type='date' id='scheduled_delivery_date_end' name='scheduled_delivery_date_end' style="max-width: 150px;  margin: 0px;"/>
-                          </div>
                           <div class="cell" data-title="delivery_date">
-                            <input type='date' id='delivery_date_start' name = "delivery_date_start" style="max-width: 150px; margin: 0px; margin-top:4px;"/>
-                            <input type='date' id='delivery_date_end' name='delivery_date_end' style="max-width: 150px;  margin: 0px; margin-bottom: 4px;"/>
+                            <input id= "delivery_date" name = "delivery_date" type='date'/>
+                          </div>
+                          <div class="cell" data-title="billing_date">
+                            <input id= "billing_date" name = "billing_date" type='date'/>
+                          </div>
+                          <div class="cell" data-title="recipient">
+                            <input id= "recipient" name = "recipient" type='text'/>
+                          </div>
+                          <div class="cell" data-title="in_date">
+                            <input id= "in_date" name = "in_date" type='date'/>
+                          </div>
+                          <div class="cell" data-title="transaction_content">
+                            <input id= "transaction_content" name = "transaction_content" type='text'/>
+                          </div>
+                          <div class="cell" data-title="settlement_month">
+                            <input id= "settlement_month" name = "settlement_month" type='text'/>
                           </div>
                         </div>
                       </div>
-                      <input class = "sub" type="submit" value="검색" onclick="javascript: form.action='/business_support_select/';"/>
-
+                      <input class = "sub" type="submit" value="검색" onclick="javascript: form.action='/business_support_find/';"/>
                   </div> 
                 </div>
               </div>
@@ -164,62 +166,74 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>업체명</th>
-                      <th>OPPTY번호</th>
-                      <th>견적번호</th>
-                      <th>주문일</th>
+                      <th>소속</th>
+                      <th>영업담당</th>
+                      <th>결제방식</th>
                       <th>주문번호</th>
-                      <th>인수자</th>
-                      <th>배송주소</th>
-                      <th>인수자 전화번호1</th>
-                      <th>Product No</th>
+                      <th>품목군</th>
                       <th>매입처</th>
-                      <th>수량</th>
-                      <th>품의단가</th>
-                      <th>품의액</th>
-                      <th>승인단가</th>
-                      <th>승인액</th>
-                      <th>매출단가</th>
                       <th>매출액</th>
-                      <th>할당</th>
-                      <th>납품요청일</th>
+                      <th>납품완료일</th>
+                      <th>계산서발행일</th>
+                      <th>계산서발행처</th>
+                      <th>품의단가</th>
+                      <th>계산서발행금액</th>
+                      <th>입금액</th>
+                      <th>입금일</th>
+                      <th>입금자명</th>
+                      <th>승인액 순매입</th>
+                      <!-- <th>주문액 순매입</th> -->
+                      <th>매출액 순매입</th>
+                      <th>선마진</th>
+                      <th>수수료 수입</th>
+                      <th>현업 수수료 수입</th>
+                      <th>알선사 수수료 비용</th>
+                      <th>순매출 이익</th>
+                      <th>현업 수수료 지출</th>
+                      <th>INNO 순이익</th>
+                      <th>미수/과입</th>
+                      <th>카드사 금융비용</th>
+                      <th>여신비용</th>
+                      <th>여신일</th>
                       <th>납품예정일</th>
                       <th>납품완료일</th>
-                      <th>입금일</th>
-                      <th>입금액</th>
-                      <th>계산서발행처</th>
-                      <th>계산서발행일</th>
-                      <th>계산서발행금액</th>
+                      <th>정산월</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>업체명</th>
-                      <th>OPPTY번호</th>
-                      <th>견적번호</th>
-                      <th>주문일</th>
+                      <th>소속</th>
+                      <th>영업담당</th>
+                      <th>결제방식</th>
                       <th>주문번호</th>
-                      <th>인수자</th>
-                      <th>배송주소</th>
-                      <th>인수자 전화번호1</th>
-                      <th>Product No</th>
+                      <th>품목군</th>
                       <th>매입처</th>
-                      <th>수량</th>
-                      <th>품의단가</th>
-                      <th>품의액</th>
-                      <th>승인단가</th>
-                      <th>승인액</th>
-                      <th>매출단가</th>
                       <th>매출액</th>
-                      <th>할당</th>
-                      <th>납품요청일</th>
+                      <th>납품완료일</th>
+                      <th>계산서발행일</th>
+                      <th>계산서발행처</th>
+                      <th>품의단가</th>
+                      <th>계산서발행금액</th>
+                      <th>입금액</th>
+                      <th>입금일</th>
+                      <th>입금자명</th>
+                      <th>승인액 순매입</th>
+                      <!-- <th>주문액 순매입</th> -->
+                      <th>매출액 순매입</th>
+                      <th>선마진</th>
+                      <th>수수료 수입</th>
+                      <th>현업 수수료 수입</th>
+                      <th>알선사 수수료 비용</th>
+                      <th>순매출 이익</th>
+                      <th>현업 수수료 지출</th>
+                      <th>INNO 순이익</th>
+                      <th>미수/과입</th>
+                      <th>카드사 금융비용</th>
+                      <th>여신비용</th>
+                      <th>여신일</th>
                       <th>납품예정일</th>
                       <th>납품완료일</th>
-                      <th>입금일</th>
-                      <th>입금액</th>
-                      <th>계산서발행처</th>
-                      <th>계산서발행일</th>
-                      <th>계산서발행금액</th>
+                      <th>정산월</th>
                     </tr>
                   </tfoot>
                   <tbody>

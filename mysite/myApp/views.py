@@ -31,8 +31,6 @@ from .models import Deposit
 from .models import Delivery
 from .models import Scm
 
-from . import business_support_select
-
 from . import employee_save
 from . import samsung_code_save
 from . import product_save
@@ -42,25 +40,26 @@ from . import delivery_save
 from . import deposit_save
 from . import order_save
 from . import approval_save
-from . import scm_select
 from . import proposal_save
 from . import settlement_save
+from . import scm
+from . import business_support
 
 from django.db import connection
 
 # @login_required
 def index(request):
-    data = scm_select.select(request)
+    data = scm.select(request)
     return render(request, 'myApp/scm.html', { "data" : data })  
 
 # @login_required
 def select(request):
-    data = scm_select.select(request)
+    data = scm.select(request)
     return render(request, 'myApp/scm.html', { "data" : data })
 
 def select_result(request):
     print("select_result")
-    data = scm_select.find(request)
+    data = scm.find(request)
     return render(request, 'myApp/scm.html', { "data" : data })
 
 def sales_autocomplete(request):
@@ -291,7 +290,7 @@ def insert_check(request, table_name):
     if(table_name == 'order'):
         isSuccess = order_save.save(request)
         order_data = OrderData.objects.raw('SELECT * FROM ( SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ) temp inner JOIN order_data ON temp.productno=order_data.productno AND temp.oppty_num=order_data.oppty_num AND temp.recipient=order_data.recipient AND temp.quote_num=order_data.quote_num;')
-        return render(request, 'myApp/order.html', { "isSave" : isSuccess, "order_data" : order_data })
+        return render(request, 'myApp/order.html', { "error" : isSuccess, "order_data" : order_data })
     if(table_name == 'deposit'):
         deposit_data = Deposit.objects.all()
         isSuccess = deposit_save.save(request)
@@ -373,7 +372,11 @@ def upload(request, table_name):
         isSuccess = customer_save.upload(request)
         customer_data = Customer.objects.all()
         return render(request, 'myApp/customer.html', { "isUpload" : isSuccess , "customer_data" : customer_data })   
-
+    if(table_name == 'order'):
+        isSuccess = order_save.upload(request)
+        order_data = OrderData.objects.raw('SELECT * FROM ( SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ) temp inner JOIN order_data ON temp.productno=order_data.productno AND temp.oppty_num=order_data.oppty_num AND temp.recipient=order_data.recipient AND temp.quote_num=order_data.quote_num;')
+        return render(request, 'myApp/order.html', { "isUpload" : isSuccess, "order_data" : order_data })
+    
 # @login_required
 def download(request, table_name):
     print(table_name)
@@ -398,8 +401,8 @@ def download(request, table_name):
         customer_data = Customer.objects.all()
         return render(request, 'myApp/customer.html', { "error" : isSuccess , "customer_data" : customer_data })
     if(table_name == 'scm'):
-        isSuccess = scm_select.download(request)
-        data = scm_select.find(request)
+        isSuccess = scm.download(request)
+        data = scm.find(request)
         return render(request, 'myApp/scm.html', { "error" : isSuccess , "data" : data }) 
 
 def select_proposal(request):
@@ -664,11 +667,11 @@ def get_data_from_delivery_date(request):
 
     return render(request, 'myApp/settlement.html', {'error' : "납품완료일에 해당하는 정보가 없습니다.", "select_delivery_date_start":select_delivery_date_start, "select_delivery_date_end" : select_delivery_date_end, "all_data":all_data, "result_data" : result_data})  
 
-def business_support(request):
-    data = scm_select.select(request)
-    # data = business_support_select.find(request)
+def business_support_select(request):
+    # data = scm_select.select(request)
+    data = business_support.select(request)
     return render(request, 'myApp/business_support.html', {"data" : data})  
 
-def business_support_select(request):
-    result_data = business_support_select.find(request)
+def business_support_find(request):
+    data = business_support.find(request)
     return render(request, 'myApp/business_support.html', {"data" : data})  

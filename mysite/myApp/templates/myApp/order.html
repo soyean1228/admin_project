@@ -12,6 +12,14 @@
               <h6 class="m-0 font-weight-bold text-primary">주문 등록</h6>
             </div>
             <div class="card-body">
+
+              <!-- 파일업로드 --> 
+              <form action="/upload/order/" method="post" enctype="multipart/form-data" style="margin-left: 20px;" novalidate> {% csrf_token %} 
+                File : 
+                <input type="file" name="file" id="id_file" style="margin-right: 5px;"/>
+                <input type="submit" value="업로드" /> 
+              </form> 
+
               <!-- The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS! -->
               <form id='myForm' name = 'myForm' method="post">{% csrf_token %} 
 
@@ -296,7 +304,13 @@
   if ( error != ''){
     alert(error);
   }
-
+  var isUpload = '{{isUpload}}'
+  if (isUpload == "성공"){
+    alert("엑셀 업로드에 성공했습니다.");
+  }else if(isUpload == "실패"){
+    alert("엑셀 업로드에 실패했습니다");
+  }
+  
 function mySubmit(index){
   if(index == 1){
     document.myForm.action = '/get_approval_data_from_select_quote_num/';
