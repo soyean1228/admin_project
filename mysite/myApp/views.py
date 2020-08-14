@@ -31,6 +31,8 @@ from .models import Deposit
 from .models import Delivery
 from .models import Scm
 
+from . import business_support_select
+
 from . import employee_save
 from . import samsung_code_save
 from . import product_save
@@ -661,3 +663,12 @@ def get_data_from_delivery_date(request):
                     result_data.append(i)
 
     return render(request, 'myApp/settlement.html', {'error' : "납품완료일에 해당하는 정보가 없습니다.", "select_delivery_date_start":select_delivery_date_start, "select_delivery_date_end" : select_delivery_date_end, "all_data":all_data, "result_data" : result_data})  
+
+def business_support(request):
+    data = scm_select.select(request)
+    # data = business_support_select.find(request)
+    return render(request, 'myApp/business_support.html', {"data" : data})  
+
+def business_support_select(request):
+    result_data = business_support_select.find(request)
+    return render(request, 'myApp/business_support.html', {"data" : data})  
