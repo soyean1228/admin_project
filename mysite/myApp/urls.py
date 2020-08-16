@@ -45,6 +45,9 @@ urlpatterns = [
     path('upload/<str:table_name>/',views.upload, name = 'upload'),
     path('download/<str:table_name>/',views.download, name = 'download'),
 
+    path('modify/<str:table_name>/',views.modify, name = 'modify'),
+    path('modify_check/<str:table_name>/',views.modify_check, name = 'modify_check'),
+    # path('get_data_for_modify/<str:table_name>/',views.get_data_for_modify, name = 'get_data_for_modify'),
     
     path('select_proposal/',views.select_proposal, name = 'select_proposal'),
     path('modify_proposal/',views.modify_proposal, name = 'modify_proposal'),

@@ -5,11 +5,11 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >입력</h1>
+            <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >승인</h1>
           </div>
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">승인 테이블 입력</h6>
+              <h6 class="m-0 font-weight-bold text-primary">승인 입력</h6>
             </div>
             <div class="card-body">
               <!-- The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS! -->
@@ -70,9 +70,9 @@
                             buy_place = 'buy_place' + f; decision_quantity = 'decision_quantity' + f; 
                             approval_quantity = 'approval_quantity' + f; approval_unit = 'approval_unit' + f; 
                             delivery_request_date = 'delivery_request_date' + f; approval_balance = 'approval_balance' + f;
-                            recipient = 'recipient'+f
+                            recipient = 'recipient'+f ; 
 
-                            document.write('<div class="row">');
+                            document.write('<div class="row">'); 
                             document.write('<div class="cell" data-title="quote_num">');
                             document.write("<input id= "+ quote_num +" name = " + quote_num + " type='number' > ");  
                             document.write("</div>");
@@ -107,11 +107,158 @@
                     </div> 
                   </div>
                   {% endif %}
-              </form>
+              <!-- </form> -->
             </div>
           </div>
         </div>
         <!-- /.container-fluid -->
+
+      <!-- Main Content  -->
+      <div id="content">
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">승인 수정</h6>
+            </div>
+
+            <div class="card-body">
+              <!-- The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS! -->
+              <div class="container-search" style="overflow: auto;">
+                <div data-title="modify_select_quote_num" style="display:inline-block; margin-right: 20px;">
+                  <label>견적번호</label><input id= "modify_select_quote_num" name = "modify_select_quote_num" type='number' class="form-control form-control-sm" value= {{modify_select_quote_num|default_if_none:"" }} >
+                </div>
+
+                <div data-title="modify_select_oppty_num" style="display:inline-block; margin-right: 20px;">
+                  <label>OPPTY번호</label><input id= "modify_select_oppty_num" name = "modify_select_oppty_num" type='text' class="form-control form-control-sm" value= {{modify_select_oppty_num|default_if_none:'' }} >
+                </div>
+
+                <div data-title="modify_select_product_no" style="display:inline-block; margin-right: 20px;">
+                  <label>ProductNo</label><input id= "modify_select_product_no" name = "modify_select_product_no" type='text' class="form-control form-control-sm" value= {{modify_select_product_no|default_if_none:'' }} >
+                </div>
+
+                <div data-title="modify_select_recipient" style="display:inline-block; margin-right: 20px;">
+                  <label>인수자</label><input id= "modify_select_recipient" name = "modify_select_recipient" type='text' class="form-control form-control-sm" value= {{modify_select_recipient|default_if_none:'' }} >
+                </div>
+                <p></p>
+                <input type="button" class = 'sub' value="조회" style="margin-top: 10px;" onclick='mySubmit(3)'/>
+              </div>
+
+              {% if modify_select_data|length > 0 %}
+                <div class="limiter">
+                  <div class="container-table100" style="padding: 2px 20px;">
+                    <div class="wrap-table100">
+                      <div class="table">
+                        <div class="row header">
+                          <div class="cell">
+                            견적번호
+                          </div>
+                          <div class="cell">
+                            ProductNo
+                          </div>
+                          <div class="cell">
+                            매입처
+                          </div>
+                          <div class="cell">
+                            품의수량
+                          </div>
+                          <div class="cell">
+                            승인수량
+                          </div>
+                          <div class="cell">
+                            승인단가
+                          </div>
+                          <div class="cell">
+                            승인액
+                          </div>
+                          <div class="cell">
+                            납품요청일
+                          </div>
+                          <div class="cell">
+                            인수자
+                          </div>
+                          <div class="cell">
+                            승인잔량
+                          </div>
+                          <div class="cell">
+                            총승인액
+                          </div>
+                        </div>
+                        <script>
+                          var f = -1; var quote_num = 'modify_quote_num' + f; var productno = 'modify_productno' + f; 
+                          var buy_place = 'modify_buy_place' + f; var decision_quantity = 'modify_decision_quantity' + f; 
+                          var approval_quantity = 'modify_approval_quantity' + f; var approval_unit = 'modify_approval_unit' + f; 
+                          var delivery_request_date = 'modify_delivery_request_date' + f; var approval_balance = 'modify_approval_balance' + f;
+                          var modify_select_data_length = 'modify_select_data_length'; var recipient = 'modify_recipient' + f;
+                          var approval_balance = 'modify_approval_balance'+f; var total_approval_balance = 'modify_total_approval_balance'+f; 
+                          var approval_price = 'modify_approval_price'+f;  var oppty_num= 'modify_oppty_num'+f
+                          var decision_quantity= 'modify_decision_quantity'+f
+
+                          document.write('{% for list in modify_select_data %}');
+                          f = f+1;  quote_num = 'modify_quote_num' + f; productno = 'modify_productno' + f; 
+                          buy_place = 'modify_buy_place' + f; decision_quantity = 'modify_decision_quantity' + f; 
+                          approval_quantity = 'modify_approval_quantity' + f; approval_unit = 'modify_approval_unit' + f; 
+                          delivery_request_date = 'modify_delivery_request_date' + f; approval_balance = 'modify_approval_balance' + f;
+                          recipient = 'modify_recipient'+f ; approval_balance = 'modify_approval_balance'+f; total_approval_balance = 'modify_total_approval_balance'+f; 
+                          approval_price = 'modify_approval_price'+f; oppty_num= 'modify_oppty_num'+f
+                          decision_quantity= 'modify_decision_quantity'+f
+
+                          document.write('<div class="row">');
+                          document.write("<input id= "+ oppty_num +" name = " + oppty_num + " type='hidden' value={{list.oppty_num|default_if_none:'' }}> ");    
+                          document.write("<input id= "+ decision_quantity +" name = " + decision_quantity + " type='hidden' value={{list.decision_quantity|default_if_none:'' }}> ");    
+                          document.write('<div class="cell" data-title="quote_num">');
+                          document.write("<input id= "+ quote_num +" name = " + quote_num + " type='number' value={{list.quote_num|default_if_none:'' }}> ");    
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="productno">');
+                          document.write("<input id= "+ productno +" name = " + productno + " type='text' value={{list.productno|default_if_none:'' }}> ");    
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="buy_place">');
+                          document.write("<input id= "+ buy_place +" name = " + buy_place + " type='text' value={{list.buy_place|default_if_none:'' }}> ");   
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="decision_quantity">');
+                          document.write("<input id= "+ decision_quantity +" name = " + decision_quantity + " type='number' value={{list.decision_quantity|default_if_none:'' }}> ");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="approval_quantity">');
+                          document.write("<input id= "+ approval_quantity +" name = " + approval_quantity + " type='number' value={{list.approval_quantity|default_if_none:'' }}> ");    
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="approval_unit">');
+                          document.write("<input id= "+ approval_unit +" name = " + approval_unit + " type='number' value={{list.approval_unit|default_if_none:'' }}> ");    
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="approval_price">');
+                          document.write("<input id= "+ approval_price +" name = " + approval_price + " type='number' value={{list.approval_price|default_if_none:'' }}> ");    
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="delivery_request_date">');
+                          document.write("<input id= "+ delivery_request_date +" name = " + delivery_request_date + " type='date' value='{{list.delivery_request_date|default_if_none:'' | date:'Y-m-d'}}'/>");    
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="recipient">');
+                          document.write("<input id= "+ recipient +" name = " + recipient + " type='text' value={{list.recipient|default_if_none:'' }}> ");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="approval_balance">');
+                          document.write("<input id= "+ approval_balance +" name = " + approval_balance + " type='number' value={{list.approval_balance|default_if_none:'' }}> ");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="total_approval_balance">');
+                          document.write("<input id= "+ total_approval_balance +" name = " + total_approval_balance + " type='number' value={{list.total_approval_balance|default_if_none:'' }}> ");  
+                          document.write("</div>");
+                          document.write("</div>");
+                          document.write('{% endfor %}');
+                          document.write("<input id= " + modify_select_data_length + " name = "+ modify_select_data_length + " type='hidden' value =" + f + "> ");
+                        </script>
+                      </div>
+                      <input type="submit" class='sub' value="저장" onclick='mySubmit(4)'/>
+                    </div>
+                  </div> 
+                </div>
+                {% endif %}
+                </form>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- nd of Main Content -->
 
         <!-- Main Content  -->
       <div id="content">
@@ -119,15 +266,15 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >조회</h1>
-          </div>
+          </div> -->
           <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">승인 테이블</h6>
+              <h6 class="m-0 font-weight-bold text-primary">승인 조회</h6>
             </div>
 
             <div class="card-body">
@@ -169,7 +316,7 @@
                     {% for list in approval_data %}
                       <tr>
                         <style>td{font-size: 14px;};</style>
-                        <td>{{list.quote_num|default_if_none:"" }}</td>
+                        <td href='/index/'>{{list.quote_num|default_if_none:"" }}</td>
                         <td>{{list.oppty_num|default_if_none:"" }}</td>
                         <td>{{list.productno|default_if_none:"" }}</td>
                         <td>{{list.buy_place|default_if_none:"" }}</td>
@@ -194,7 +341,6 @@
 
       </div>
       <!-- nd of Main Content -->
-
         
         <!-- Footer -->
         <footer class="sticky-footer bg-white">
@@ -238,6 +384,10 @@ function mySubmit(index){
     document.myForm.action = '/get_propoal_data_from_oppty/';
   }else if(index == 2){
     document.myForm.action = '/insert_check/approval/'; 
+  }else if(index == 3){
+    document.myForm.action = '/modify/approval/'; 
+  }else if(index == 4){
+    document.myForm.action = '/modify_check/approval/'; 
   }
   document.myForm.submit();
 }

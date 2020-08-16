@@ -44,8 +44,7 @@ def save(request):
         if recipient == '' : 
             recipient = None
 
-        #미구현
-        order_balance =0
+        order_balance = order_quantity
 
         if order_num != '' :
             # if balance == '' : 
@@ -75,6 +74,7 @@ def save(request):
             if data_count != 0 :
                 data = OrderData.objects.get(quote_num=quote_num, productno=productno, recipient=recipient, oppty_num=oppty_num, order_num=order_num)
                 data.delete()
+            
             OrderData.objects.create(quote_num=quote_num, oppty_num=oppty_num, productno=productno, recipient=recipient, order_num=order_num,order_date=order_date,assignment=assignment,
                                     order_quantity=order_quantity, scheduled_delivery_date=scheduled_delivery_date, order_balance=order_balance )
             
