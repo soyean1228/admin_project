@@ -17,7 +17,6 @@ def select(request):
     for i in rawdata:
         scm = Scm()
         scm.scm_num = Scm.get_num(scm) + 1 
-        print(scm.scm_num)
         scm.customer_name = i.customer_name
         scm.oppty_num = i.oppty_num
         scm.quote_num = i.quote_num
@@ -61,7 +60,6 @@ def select(request):
         scm.save()
 
     data = Scm.objects.all()
-    print(data)
     for i in data:
         if i.order_num:
             i.decision_quantity = i.order_quantity

@@ -128,8 +128,8 @@
                           <div class="cell" data-title="billing_date">
                             <input id= "billing_date" name = "billing_date" type='date'/>
                           </div>
-                          <div class="cell" data-title="recipient">
-                            <input id= "recipient" name = "recipient" type='text'/>
+                          <div class="cell" data-title="billing_place">
+                            <input id= "billing_place" name = "billing_place" type='text'/>
                           </div>
                           <div class="cell" data-title="in_date">
                             <input id= "in_date" name = "in_date" type='date'/>
@@ -240,36 +240,41 @@
                     {% for list in data %}
                       <tr>
                         <style>td{font-size: 12px;};</style>
-                        <td>{{list.customer_name|default_if_none:"" }}</td>
-                        <td>{{list.oppty_num|default_if_none:"" }}</td>
-                        <td>{{list.quote_num|default_if_none:"" }}</td>
-                        <td>{{list.order_date|default_if_none:"" |date:"Y-m-d"}}</td>
-                        <td>{{list.order_num|default_if_none:"" }}</td>
-                        <td>{{list.recipient|default_if_none:"" }}</td>
-
-                        <td>{{list.delivery_address|default_if_none:"" }}</td>
-                        <td>{{list.recipient_phone1|default_if_none:"" }}</td>
-                        <td>{{list.productno|default_if_none:"" }}</td>
+                        <td>{{list.team|default_if_none:"" }}</td>
+                        <td>{{list.sales_manager|default_if_none:"" }}</td>
+                        <td>{{list.payment_method|default_if_none:"" }}</td>
+                        <td>{{list.order_num|default_if_none:"" |date:"Y-m-d"}}</td>
+                        <td>{{list.main_category|default_if_none:"" }}</td>
                         <td>{{list.buy_place|default_if_none:"" }}</td>
-                        <td>{{list.decision_quantity|default_if_none:"" }}</td>
-                        
-                        <td>{{list.decision_unit|default_if_none:"" }}</td>
-                        <td>{{list.decision_price|default_if_none:"" }}</td>
-                        <td>{{list.approval_unit|default_if_none:"" }}</td>
-                        <td>{{list.approval_price|default_if_none:"" }}</td>
-                        <td>{{list.sales_unit|default_if_none:"" }}</td>
-                        
+
                         <td>{{list.sales_price|default_if_none:"" }}</td>
-                        <td>{{list.assignment|default_if_none:"" }}</td>
-                        <td>{{list.delivery_request_date|default_if_none:""|date:"Y-m-d"}}</td>
-                        <td>{{list.scheduled_delivery_date|default_if_none:""|date:"Y-m-d"}}</td>
-                        <td>{{list.delivery_date|default_if_none:""|date:"Y-m-d"}}</td>
+                        <td>{{list.delivery_date|default_if_none:"" }}</td>
+                        <td>{{list.billing_date|default_if_none:"" }}</td>
+                        <td>{{list.billing_place|default_if_none:"" }}</td>
+                        <td>{{list.decision_unit|default_if_none:"" }}</td>
                         
-                        <td>{{list.in_date|default_if_none:"" |date:"Y-m-d"}}</td>
-                        <td>{{list.in_amount|default_if_none:"" }}</td>
-                        <td>{{list.billing_place|default_if_none:""}}</td>
-                        <td>{{list.billing_date|default_if_none:""|date:"Y-m-d"}}</td>
                         <td>{{list.billing_amount|default_if_none:"" }}</td>
+                        <td>{{list.in_amount|default_if_none:"" }}</td>
+                        <td>{{list.in_date|default_if_none:"" }}</td>
+                        <td>{{list.transaction_content|default_if_none:"" }}</td>
+                        <td>{{list.approval_price_net|default_if_none:"" }}</td>
+                        
+                        <td>{{list.sales_price_net|default_if_none:"" }}</td>
+                        <td>{{list.first_margin|default_if_none:"" }}</td>
+                        <td>{{list.commission_income|default_if_none:""|date:"Y-m-d"}}</td>
+                        <td>{{list.collaboration_income|default_if_none:""|date:"Y-m-d"}}</td>
+                        <td>{{list.broker_income|default_if_none:""|date:"Y-m-d"}}</td>
+                        
+                        <td>{{list.net_sales_profit|default_if_none:"" |date:"Y-m-d"}}</td>
+                        <td>{{list.collaboration_cost|default_if_none:"" }}</td>
+                        <td>{{list.inno_profit|default_if_none:""}}</td>
+                        <td>{{list.overload|default_if_none:""|date:"Y-m-d"}}</td>
+                        <td>{{list.credit_card_financial_cost|default_if_none:"" }}</td>
+                        <td>{{list.credit_cost|default_if_none:"" }}</td>
+                        <td>{{list.credit_date|default_if_none:"" }}</td>
+                        <td>{{list.scheduled_delivery_month|default_if_none:"" }}</td>
+                        <td>{{list.delivery_month|default_if_none:"" }}</td>
+                        <td>{{list.settlement_month|default_if_none:"" }}</td>
                       </tr>
                     {% endfor %}
                   </tbody>

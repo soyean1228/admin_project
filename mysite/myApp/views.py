@@ -6,9 +6,9 @@ from openpyxl import Workbook
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
-# from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-# from django.contrib.auth import login as auth_loginz
-# from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login as auth_loginz
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import login
 from django.contrib.auth import logout 
 from django.contrib import auth
@@ -50,21 +50,122 @@ from django.db import connection
 # @login_required
 def index(request):
     data = scm.select(request)
-    return render(request, 'myApp/scm.html', { "data" : data })  
+    scm_data = Scm.objects.all()
+    decision_price_sum = 0
+    decision_quantity_sum = 0
+    approval_price_sum = 0
+    sales_price_sum = 0
+    in_amount_sum = 0
+    for i in scm_data:
+        if i.decision_price != None:
+            decision_price_sum = decision_price_sum + i.decision_price
+        if i.decision_quantity != None:
+            decision_quantity_sum = decision_quantity_sum + i.decision_quantity
+        if i.approval_price != None:
+            approval_price_sum = approval_price_sum + i.approval_price
+        if i.sales_price != None:
+            sales_price_sum = sales_price_sum + i.sales_price
+        if i.in_amount != None:
+            in_amount_sum = in_amount_sum + i.in_amount
+    return render(request, 'myApp/scm.html', { "decision_price_sum" : decision_price_sum, "decision_quantity_sum" : decision_quantity_sum, "approval_price_sum" : approval_price_sum, "sales_price_sum" : sales_price_sum, "in_amount_sum" : in_amount_sum, "data" : data })  
 
-# @login_required
+@login_required
 def select(request):
+    if request.user.is_authenticated:
+        print(request.user.email)
     data = scm.select(request)
-    return render(request, 'myApp/scm.html', { "data" : data })
+    scm_data = Scm.objects.all()
+    decision_price_sum = 0
+    decision_quantity_sum = 0
+    approval_price_sum = 0
+    sales_price_sum = 0
+    in_amount_sum = 0
+    for i in scm_data:
+        if i.decision_price != None:
+            decision_price_sum = decision_price_sum + i.decision_price
+        if i.decision_quantity != None:
+            decision_quantity_sum = decision_quantity_sum + i.decision_quantity
+        if i.approval_price != None:
+            approval_price_sum = approval_price_sum + i.approval_price
+        if i.sales_price != None:
+            sales_price_sum = sales_price_sum + i.sales_price
+        if i.in_amount != None:
+            in_amount_sum = in_amount_sum + i.in_amount
+    return render(request, 'myApp/scm.html', { "decision_price_sum" : decision_price_sum, "decision_quantity_sum" : decision_quantity_sum, "approval_price_sum" : approval_price_sum, "sales_price_sum" : sales_price_sum, "in_amount_sum" : in_amount_sum, "data" : data })  
 
+@login_required
 def select_result(request):
     print("select_result")
     data = scm.find(request)
-    return render(request, 'myApp/scm.html', { "data" : data })
+    scm_data = Scm.objects.all()
+    decision_price_sum = 0
+    decision_quantity_sum = 0
+    approval_price_sum = 0
+    sales_price_sum = 0
+    in_amount_sum = 0
+    for i in scm_data:
+        if i.decision_price != None:
+            decision_price_sum = decision_price_sum + i.decision_price
+        if i.decision_quantity != None:
+            decision_quantity_sum = decision_quantity_sum + i.decision_quantity
+        if i.approval_price != None:
+            approval_price_sum = approval_price_sum + i.approval_price
+        if i.sales_price != None:
+            sales_price_sum = sales_price_sum + i.sales_price
+        if i.in_amount != None:
+            in_amount_sum = in_amount_sum + i.in_amount
+    return render(request, 'myApp/scm.html', { "decision_price_sum" : decision_price_sum, "decision_quantity_sum" : decision_quantity_sum, "approval_price_sum" : approval_price_sum, "sales_price_sum" : sales_price_sum, "in_amount_sum" : in_amount_sum, "data" : data })  
+
+def recipient_autocomplete(request):
+    print("자동완성")
+    recipient_data = Proposal.objects.filter(recipient__icontains=request.GET['term'])
+    print(recipient_data)
+    results = []
+    for i in recipient_data : 
+        i_json = {}
+        i_json['id'] = i.recipient
+        i_json['label'] = i.recipient
+        i_json['value'] = i.recipient
+        if i_json not in results:
+            results.append(i_json)
+    data = json.dumps(results)
+    mimetype = 'application/json'
+    return HttpResponse(data,mimetype)
+
+def recipient_phone1_autocomplete(request):
+    print("자동완성")
+    recipient_data = Proposal.objects.filter(recipient_phone1__icontains=request.GET['term'])
+    print(recipient_data)
+    results = []
+    for i in recipient_data : 
+        i_json = {}
+        i_json['id'] = i.recipient_phone1
+        i_json['label'] = i.recipient_phone1
+        i_json['value'] = i.recipient_phone1
+        if i_json not in results:
+            results.append(i_json)
+    data = json.dumps(results)
+    mimetype = 'application/json'
+    return HttpResponse(data,mimetype)
+
+def delivery_address_autocomplete(request):
+    print("자동완성")
+    data = Proposal.objects.filter(delivery_address__icontains=request.GET['term'])
+    results = []
+    for i in data : 
+        i_json = {}
+        i_json['id'] = i.delivery_address
+        i_json['label'] = i.delivery_address
+        i_json['value'] = i.delivery_address
+        if i_json not in results:
+            results.append(i_json)
+    data = json.dumps(results)
+    mimetype = 'application/json'
+    return HttpResponse(data,mimetype)
 
 def sales_autocomplete(request):
     print("자동완성")
-    sales_data = Employee.objects.filter(name__istartswith=request.GET['term'], charge="INNO 영업담당")
+    sales_data = Employee.objects.filter(name__icontains=request.GET['term'], charge="INNO 영업담당")
     print(sales_data)
     results = []
     for i in sales_data : 
@@ -79,7 +180,7 @@ def sales_autocomplete(request):
 
 def scm_autocomplete(request):
     print("자동완성")
-    scm_data = Employee.objects.filter(name__istartswith=request.GET['term'], charge="INNO SCM담당")
+    scm_data = Employee.objects.filter(name__icontains=request.GET['term'], charge="INNO SCM담당")
     print(scm_data)
     results = []
     for i in scm_data : 
@@ -94,7 +195,7 @@ def scm_autocomplete(request):
 
 def samsung_code_autocomplete(request):
     print("자동완성")
-    samsung_code_data = SamsungCode.objects.filter(samsung_code__istartswith=request.GET['term'])
+    samsung_code_data = SamsungCode.objects.filter(samsung_code__icontains=request.GET['term'])
     print(samsung_code_data)
     results = []
     for i in samsung_code_data : 
@@ -109,7 +210,7 @@ def samsung_code_autocomplete(request):
 
 def employee_autocomplete(request):
     print("자동완성")
-    manager_data = Employee.objects.filter(name__istartswith=request.GET['term'])
+    manager_data = Employee.objects.filter(name__icontains=request.GET['term'])
     print(manager_data)
     results = []
     for i in manager_data : 
@@ -124,7 +225,7 @@ def employee_autocomplete(request):
 
 def samsung_sales_manager_autocomplete(request):
     print("자동완성")
-    samsung_sales_manager_data = SamsungCode.objects.filter(manager__istartswith=request.GET['term'])
+    samsung_sales_manager_data = SamsungCode.objects.filter(manager__icontains=request.GET['term'])
     print(samsung_sales_manager_data)
     results = []
     for i in samsung_sales_manager_data : 
@@ -139,7 +240,7 @@ def samsung_sales_manager_autocomplete(request):
 
 def broker_autocomplete(request):
     print("자동완성")
-    sales_manager_data = Broker.objects.filter(name__istartswith=request.GET['term'])
+    sales_manager_data = Broker.objects.filter(name__icontains=request.GET['term'])
     print(sales_manager_data)
     results = []
     for i in sales_manager_data : 
@@ -154,7 +255,7 @@ def broker_autocomplete(request):
     
 def productno_autocomplete(request):
     print("자동완성")
-    product_data = Product.objects.filter(productno__istartswith=request.GET['term'])
+    product_data = Product.objects.filter(productno__icontains=request.GET['term'])
     print(product_data)
     results = []
     for i in product_data : 
@@ -169,7 +270,7 @@ def productno_autocomplete(request):
 
 def customer_name_autocomplete(request):
     print("자동완성")
-    customer_name_data = Customer.objects.filter(customer_name__istartswith=request.GET['term'])
+    customer_name_data = Customer.objects.filter(customer_name__icontains=request.GET['term'])
     print(customer_name_data)
     results = []
     for i in customer_name_data : 
@@ -185,7 +286,7 @@ def customer_name_autocomplete(request):
 def customer_name_autocomplete_oppty_num(request):
     # approval에서 사용
     print("자동완성")
-    customer_name_data = Proposal.objects.filter(customer_name__istartswith=request.GET['term'])
+    customer_name_data = Proposal.objects.filter(customer_name__icontains=request.GET['term'])
     # print(customer_name_data)
     results = []
     for i in customer_name_data : 
@@ -200,7 +301,7 @@ def customer_name_autocomplete_oppty_num(request):
     mimetype = 'application/json'
     return HttpResponse(data,mimetype)
 
-# @login_required
+@login_required
 def insert(request, table_name):
     if(table_name == 'employee'):
         employee_data = Employee.objects.all() 
@@ -250,7 +351,7 @@ def insert(request, table_name):
     if(table_name == 'approval'):
         return render(request, 'myApp/approval_insert.html')
 
-# @login_required
+@login_required
 def insert_check(request, table_name):
     print(table_name)
     if(table_name == 'employee'):
@@ -286,7 +387,7 @@ def insert_check(request, table_name):
     if(table_name == 'approval'):
         isSuccess = approval_save.save(request)
         approval_data = Approval.objects.raw('SELECT approval. *,  proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ;')    
-        return render(request, 'myApp/approval.html', { "isSave" : isSuccess , "approval_data" : approval_data })   
+        return render(request, 'myApp/approval.html', { "error" : isSuccess , "approval_data" : approval_data })   
     if(table_name == 'order'):
         isSuccess = order_save.save(request)
         order_data = OrderData.objects.raw('SELECT * FROM ( SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ) temp inner JOIN order_data ON temp.productno=order_data.productno AND temp.oppty_num=order_data.oppty_num AND temp.recipient=order_data.recipient AND temp.quote_num=order_data.quote_num;')
@@ -349,7 +450,7 @@ def insert_check(request, table_name):
     #     except IntegrityError as e:
     #         return render(request, 'myApp/delivery_insert.html', { "isIntegrity" : True })
 
-# @login_required
+@login_required
 def upload(request, table_name):
     print(table_name)
     if(table_name == 'employee'):
@@ -377,7 +478,7 @@ def upload(request, table_name):
         order_data = OrderData.objects.raw('SELECT * FROM ( SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ) temp inner JOIN order_data ON temp.productno=order_data.productno AND temp.oppty_num=order_data.oppty_num AND temp.recipient=order_data.recipient AND temp.quote_num=order_data.quote_num;')
         return render(request, 'myApp/order.html', { "isUpload" : isSuccess, "order_data" : order_data })
     
-# @login_required
+@login_required
 def download(request, table_name):
     print(table_name)
     if(table_name == 'employee'):
@@ -405,11 +506,13 @@ def download(request, table_name):
         data = scm.find(request)
         return render(request, 'myApp/scm.html', { "error" : isSuccess , "data" : data }) 
 
+@login_required
 def select_proposal(request):
     select_oppty_num = proposal_save.select(request)
     proposal_data = Proposal.objects.filter(oppty_num=select_oppty_num).first()
     return render(request, 'myApp/proposal.html', { "select_oppty_num" : select_oppty_num, "proposal_data" : proposal_data })
 
+@login_required
 def modify_proposal(request):
     isSuccess = proposal_save.modify(request)
     if isSuccess == "중개사 등록 필요":
@@ -443,8 +546,25 @@ def signin(request):
             if login_user is not None:
                 print(login_user)
                 login(request, login_user)
-                print("성공")
-                return render(request,"myApp/main.html")
+                data = scm.select(request)
+                scm_data = Scm.objects.all()
+                decision_price_sum = 0
+                decision_quantity_sum = 0
+                approval_price_sum = 0
+                sales_price_sum = 0
+                in_amount_sum = 0
+                for i in scm_data:
+                    if i.decision_price != None:
+                        decision_price_sum = decision_price_sum + i.decision_price
+                    if i.decision_quantity != None:
+                        decision_quantity_sum = decision_quantity_sum + i.decision_quantity
+                    if i.approval_price != None:
+                        approval_price_sum = approval_price_sum + i.approval_price
+                    if i.sales_price != None:
+                        sales_price_sum = sales_price_sum + i.sales_price
+                    if i.in_amount != None:
+                        in_amount_sum = in_amount_sum + i.in_amount
+                return render(request, 'myApp/scm.html', { "decision_price_sum" : decision_price_sum, "decision_quantity_sum" : decision_quantity_sum, "approval_price_sum" : approval_price_sum, "sales_price_sum" : sales_price_sum, "in_amount_sum" : in_amount_sum, "data" : data })  
             else:
                 error = '아이디나 비밀번호가 일치하지 않습니다.'
                 print('User not found')
@@ -456,7 +576,7 @@ def signin(request):
         print("error")
         return render(request, 'myApp/login.html', {'form': form, 'error': error})
 
-# @login_required
+@login_required
 def signout(request):
     logout(request)
     return signin(request)
@@ -487,11 +607,33 @@ def get_approval_data_from_select_quote_num(request):
     # elect_quote_num를 통해서 Approval 등록된 정보를 가져옴 
     # select_quote_num
     # approval_data = Approval.objects.all()
-    select_quote_num = request.POST.get('select_quote_num',None)
+    try:
+        select_quote_num = request.POST.get('select_quote_num',None)
+        print(select_quote_num)
+        
+        optty_num = request.POST.get('optty_num',None)
+        print(optty_num)
+
+        order_data = OrderData.objects.raw('SELECT * FROM ( SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ) temp inner JOIN order_data ON temp.productno=order_data.productno AND temp.oppty_num=order_data.oppty_num AND temp.recipient=order_data.recipient AND temp.quote_num=order_data.quote_num;')
+        isQuoteNumRight = Approval.objects.filter(quote_num=select_quote_num).count()
+
+        if isQuoteNumRight != 0:
+            approval_data = Approval.objects.filter(quote_num=select_quote_num)
+            print(approval_data)
+            print(approval_data.first().oppty_num)
+            return render(request, 'myApp/order.html', {"select_quote_num" : select_quote_num, "approval_data" : approval_data, "order_data" : order_data })  
+        else:
+            return render(request, 'myApp/order.html', {'error' : "견적번호가 유효하지 않습니다.", "order_data" : order_data })   
+    except:
+        return render(request, 'myApp/order.html', {'error' : "견적번호가 유효하지 않습니다.", "order_data" : order_data })   
+
+def get_approval_data_from_select_quote_num_from_approval(request,quote_num):
+    # order.html에서 사용
+    # elect_quote_num를 통해서 Approval 등록된 정보를 가져옴 
+    # select_quote_num
+    # approval_data = Approval.objects.all()
+    select_quote_num = int(quote_num)
     print(select_quote_num)
-    
-    optty_num = request.POST.get('optty_num',None)
-    print(optty_num)
 
     order_data = OrderData.objects.raw('SELECT * FROM ( SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ) temp inner JOIN order_data ON temp.productno=order_data.productno AND temp.oppty_num=order_data.oppty_num AND temp.recipient=order_data.recipient AND temp.quote_num=order_data.quote_num;')
     isQuoteNumRight = Approval.objects.filter(quote_num=select_quote_num).count()
@@ -506,6 +648,7 @@ def get_approval_data_from_select_quote_num(request):
             return render(request, 'myApp/order.html', {'error' : "견적번호가 유효하지 않습니다.", "order_data" : order_data })   
     except:
         return render(request, 'myApp/order.html', {'error' : "견적번호가 유효하지 않습니다.", "order_data" : order_data })   
+
 
 def get_deposit_data_from_company_registration_number(request):
     # deposit.html에서 사용
@@ -572,15 +715,18 @@ def get_data_from_delivery_date(request):
 
     return render(request, 'myApp/settlement.html', {'error' : "납품완료일에 해당하는 정보가 없습니다.", "select_delivery_date_start":select_delivery_date_start, "select_delivery_date_end" : select_delivery_date_end, "all_data":all_data, "result_data" : result_data})  
 
+@login_required
 def business_support_select(request):
     # data = scm_select.select(request)
     data = business_support.select(request)
     return render(request, 'myApp/business_support.html', {"data" : data})  
 
+@login_required
 def business_support_find(request):
     data = business_support.find(request)
     return render(request, 'myApp/business_support.html', {"data" : data})  
 
+@login_required
 def modify(request, table_name):
     if(table_name == 'approval'):
         modify_select_quote_num = request.POST.get('modify_select_quote_num','')
@@ -590,9 +736,23 @@ def modify(request, table_name):
         modify_select_data = approval_save.modify(request)
         approval_data = Approval.objects.raw('SELECT approval. *,  proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ;')        
         return render(request, 'myApp/approval.html', { "modify_select_quote_num":modify_select_quote_num, "modify_select_oppty_num":modify_select_oppty_num,"modify_select_product_no":modify_select_product_no,"modify_select_recipient":modify_select_recipient, "modify_select_data" : modify_select_data, "approval_data" : approval_data })     
-    
+    if(table_name == 'order'):
+        modify_select_order_num = request.POST.get('modify_select_order_num','')
+        modify_select_quote_num = request.POST.get('modify_select_quote_num','')
+        modify_select_oppty_num = request.POST.get('modify_select_oppty_num','')
+        modify_select_product_no = request.POST.get('modify_select_product_no','')
+        modify_select_recipient = request.POST.get('modify_select_recipient','')
+        modify_select_data = order_save.modify(request)
+        order_data = OrderData.objects.raw('SELECT * FROM ( SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ) temp right JOIN order_data ON temp.productno=order_data.productno AND temp.oppty_num=order_data.oppty_num AND temp.recipient=order_data.recipient AND temp.quote_num=order_data.quote_num;')
+        return render(request, 'myApp/order.html', { "modify_select_order_num":modify_select_order_num, "modify_select_quote_num":modify_select_quote_num, "modify_select_oppty_num":modify_select_oppty_num,"modify_select_product_no":modify_select_product_no,"modify_select_recipient":modify_select_recipient, "modify_select_data" : modify_select_data, "order_data" : order_data})  
+
+@login_required
 def modify_check(request, table_name):
     if(table_name == 'approval'):
         error = approval_save.modify_save(request)
         approval_data = Approval.objects.raw('SELECT approval. *,  proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ;')
-        return render(request, 'myApp/approval.html', { "isSave" : error, "approval_data" : approval_data })   
+        return render(request, 'myApp/approval.html', { "error" : error, "approval_data" : approval_data })   
+    if(table_name == 'order'):
+        error = order_save.modify_save(request)
+        order_data = OrderData.objects.raw('SELECT * FROM ( SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ) temp right JOIN order_data ON temp.productno=order_data.productno AND temp.oppty_num=order_data.oppty_num AND temp.recipient=order_data.recipient AND temp.quote_num=order_data.quote_num;')
+        return render(request, 'myApp/order.html', { "error" : error, "order_data" : order_data })   

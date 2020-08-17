@@ -14,6 +14,9 @@ app_name = 'myApp'
 urlpatterns = [
     
     # 자동완성
+    url(r'^recipient_autocomplete/$', views.recipient_autocomplete, name = 'recipient_autocomplete'),
+    url(r'^delivery_address_autocomplete/$', views.delivery_address_autocomplete, name = 'delivery_address_autocomplete'),
+    url(r'^recipient_phone1_autocomplete/$', views.recipient_phone1_autocomplete, name = 'recipient_phone1_autocomplete'),
     url(r'^sales_autocomplete/$', views.sales_autocomplete, name = 'sales_autocomplete'),
     url(r'^scm_autocomplete/$', views.scm_autocomplete, name = 'scm_autocomplete'),
     url(r'^samsung_code_autocomplete/$', views.samsung_code_autocomplete, name = 'samsung_code_autocomplete'),
@@ -24,7 +27,6 @@ urlpatterns = [
     url(r'^customer_name_autocomplete/$', views.customer_name_autocomplete, name = 'customer_name_autocomplete'),
     url(r'^customer_name_autocomplete_oppty_num/$', views.customer_name_autocomplete_oppty_num, name = 'customer_name_autocomplete_oppty_num'),
     url(r'^customer_name_autocomplete_oppty_num/$', views.customer_name_autocomplete_oppty_num, name = 'customer_name_autocomplete_oppty_num'),
-
 
 
     # path('admin/', admin.site.urls),
@@ -57,6 +59,7 @@ urlpatterns = [
 
     path('get_propoal_data_from_oppty/', views.get_propoal_data_from_oppty, name='get_propoal_data_from_oppty'),
     path('get_approval_data_from_select_quote_num/', views.get_approval_data_from_select_quote_num, name='get_approval_data_from_select_quote_num'),
+    path('get_approval_data_from_select_quote_num_from_approval/<str:quote_num>/', views.get_approval_data_from_select_quote_num_from_approval, name='get_approval_data_from_select_quote_num_from_approval'),
     path('get_deposit_data_from_company_registration_number/', views.get_deposit_data_from_company_registration_number, name='get_deposit_data_from_company_registration_number'),
     path('get_data_from_select_scheduled_delivery_date/', views.get_data_from_select_scheduled_delivery_date, name='get_data_from_select_scheduled_delivery_date'),
     path('get_data_from_delivery_date/', views.get_data_from_delivery_date, name='get_data_from_delivery_date'),

@@ -316,7 +316,7 @@
                     {% for list in approval_data %}
                       <tr>
                         <style>td{font-size: 14px;};</style>
-                        <td href='/index/'>{{list.quote_num|default_if_none:"" }}</td>
+                        <td onClick='mySubmit({{list.quote_num|default_if_none:"" }})'>{{list.quote_num|default_if_none:"" }}</td>
                         <td>{{list.oppty_num|default_if_none:"" }}</td>
                         <td>{{list.productno|default_if_none:"" }}</td>
                         <td>{{list.buy_place|default_if_none:"" }}</td>
@@ -356,7 +356,7 @@
 {% block script %}
 <script language="javascript">
 
-  var error = '{{isSave}}'
+  var error = '{{error}}'
   console.log(error)
   if ( error != ''){
     alert(error);
@@ -388,6 +388,8 @@ function mySubmit(index){
     document.myForm.action = '/modify/approval/'; 
   }else if(index == 4){
     document.myForm.action = '/modify_check/approval/'; 
+  }else{
+    document.myForm.action = '/get_approval_data_from_select_quote_num_from_approval/'+index+'/'; 
   }
   document.myForm.submit();
 }

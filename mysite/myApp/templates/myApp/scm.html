@@ -204,19 +204,19 @@
                       <th>인수자 전화번호1</th>
                       <th>Product No</th>
                       <th>매입처</th>
-                      <th>수량</th>
+                      <th>수량 {{decision_quantity_sum|default_if_none:"" }} </th>
                       <th>품의단가</th>
-                      <th>품의액</th>
+                      <th>품의액 총합 {{decision_price_sum|default_if_none:"" }} </th>
                       <th>승인단가</th>
-                      <th>승인액</th>
+                      <th>승인액 총합 {{approval_price_sum|default_if_none:"" }} </th>
                       <th>매출단가</th>
-                      <th>매출액</th>
+                      <th>매출액 총합 {{sales_price_sum|default_if_none:"" }} </th>
                       <th>할당</th>
                       <th>납품요청일</th>
                       <th>납품예정일</th>
                       <th>납품완료일</th>
                       <th>입금일</th>
-                      <th>입금액</th>
+                      <th>입금액 총합 {{in_amount_sum|default_if_none:"" }} </th>
                       <th>계산서발행처</th>
                       <th>계산서발행일</th>
                       <th>계산서발행금액</th>
@@ -299,7 +299,35 @@
   if ( isSave != ''){
     alert(isSave);
   }
-
+  $(function() {
+    $("#recipient").autocomplete({
+      source : '/recipient_autocomplete/', 
+        select: function(event, ui) {
+          console.log(ui.item);
+        },
+        focus: function(event, ui) {
+          return false;
+        }       
+    }); 
+    $("#recipient_phone1").autocomplete({
+      source : '/recipient_phone1_autocomplete/', 
+        select: function(event, ui) {
+          console.log(ui.item);
+        },
+        focus: function(event, ui) {
+          return false;
+        }       
+    }); 
+    $("#delivery_address").autocomplete({
+      source : '/delivery_address_autocomplete/', 
+        select: function(event, ui) {
+          console.log(ui.item);
+        },
+        focus: function(event, ui) {
+          return false;
+        }       
+    }); 
+  });
 
 function mySubmit(index){
   if(index == 1){

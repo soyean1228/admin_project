@@ -3,6 +3,7 @@ from .models import OrderData
 from .models import Deposit
 from .models import Delivery
 from .models import Scm
+from .models import BusinessSupport
 from openpyxl import load_workbook
 from openpyxl import Workbook
 import openpyxl
@@ -10,66 +11,63 @@ import datetime
 
 def select(request):
 
-    queryset = Scm.objects.all()
+    queryset = BusinessSupport.objects.all()
     queryset.delete() # 일괄 delete 요청    
-    rawdata = Approval.objects.raw('SELECT tmp3.*, settlement.billing_date, settlement.billing_amount FROM ( SELECT tmp2.*, delivery.in_date, delivery.in_amount, delivery.delivery_date FROM ( SELECT tmp1.*,order_data.order_num, order_data.order_date, order_data.order_quantity, order_data.assignment, order_data.scheduled_delivery_date FROM ( SELECT proposal.*, approval.approval_quantity, approval.quote_num, approval.approval_unit, approval.approval_price FROM proposal LEFT JOIN approval ON proposal.oppty_num=approval.oppty_num AND proposal.productno=approval.productno AND proposal.recipient=approval.recipient) tmp1 LEFT JOIN order_data ON tmp1.oppty_num=order_data.oppty_num AND tmp1.productno=order_data.productno AND tmp1.recipient=order_data.recipient AND tmp1.quote_num=order_data.quote_num ) tmp2 LEFT JOIN delivery ON delivery.order_num=tmp2.order_num AND delivery.company_registration_number=tmp2.company_registration_number) tmp3 LEFT JOIN settlement ON settlement.order_num=tmp3.order_num AND settlement.quote_num=tmp3.quote_num AND settlement.oppty_num=tmp3.oppty_num AND settlement.productno=tmp3.productno AND settlement.recipient=tmp3.recipient;')
+    rawdata = Approval.objects.raw('select tmp4.*, deposit.transaction_content, deposit.deposit_number FROM ( select tmp3.*, settlement.billing_date, settlement.billing_amount FROM ( SELECT tmp2.*, delivery.in_date, delivery.in_amount, delivery.delivery_date FROM ( SELECT tmp1.*,order_data.order_num, order_data.order_date, order_data.order_quantity, order_data.assignment, order_data.scheduled_delivery_date FROM ( SELECT proposal.*, approval.approval_quantity, approval.quote_num, approval.approval_unit, approval.approval_price FROM proposal LEFT JOIN approval ON proposal.oppty_num=approval.oppty_num AND proposal.productno=approval.productno AND proposal.recipient=approval.recipient) tmp1 LEFT JOIN order_data ON tmp1.oppty_num=order_data.oppty_num AND tmp1.productno=order_data.productno AND tmp1.recipient=order_data.recipient AND tmp1.quote_num=order_data.quote_num ) tmp2 LEFT JOIN delivery ON delivery.order_num=tmp2.order_num AND delivery.company_registration_number=tmp2.company_registration_number) tmp3 LEFT JOIN settlement ON settlement.order_num=tmp3.order_num AND settlement.quote_num=tmp3.quote_num AND settlement.oppty_num=tmp3.oppty_num AND settlement.productno=tmp3.productno AND settlement.recipient=tmp3.recipient ) tmp4 LEFT JOIN deposit ON tmp4.company_registration_number = deposit.company_registration_number')
     
     for i in rawdata:
-        scm = Scm()
-        scm.scm_num = Scm.get_num(scm) + 1 
-        print(scm.scm_num)
-        scm.customer_name = i.customer_name
-        scm.oppty_num = i.oppty_num
-        scm.quote_num = i.quote_num
-        scm.order_date = i.order_date
-        scm.order_num = i.order_num
-        scm.recipient = i.recipient
-        scm.delivery_address = i.delivery_address
-        scm.recipient_phone1 = i.recipient_phone1
-        scm.recipient_phone2 = i.recipient_phone2
-        scm.productno = i.productno
-        scm.buy_place = i.buy_place
-        scm.decision_quantity = i.decision_quantity
-        scm.decision_unit = i.decision_unit
-        scm.decision_price = i.decision_price
-        scm.approval_unit = i.approval_unit
-        scm.approval_price = i.approval_price
-        scm.sales_unit = i.sales_unit
-        scm.sales_price = i.sales_price
-        scm.assignment = i.assignment
-        scm.delivery_request_date = i.delivery_request_date
-        scm.scheduled_delivery_date = i.scheduled_delivery_date
-        scm.delivery_date = i.delivery_date
-        scm.in_date = i.in_date
-        scm.in_amount = i.in_amount
-        scm.billing_place = i.billing_place
-        scm.billing_date = i.billing_date
-        scm.billing_amount = i.billing_amount
-        scm.contact_conclusion_date = i.contact_conclusion_date
-        scm.samsung_code = i.samsung_code
-        scm.samsung_sales_manager = i.samsung_sales_manager
-        scm.team = i.team
-        scm.sales_manager = i.sales_manager
-        scm.broker = i.broker
-        scm.scm_manager = i.scm_manager
-        scm.company_registration_number = i.company_registration_number
-        scm.payment_method = i.payment_method
-        scm.sales_type = i.sales_type
-        scm.demand = i.demand
-        scm.approval_quantity = i.approval_quantity
-        scm.order_quantity = i.order_quantity
-        scm.save()
+        data = BusinessSupport()
+        data.team = i.team
+        data.sales_manager = i.sales_manager
+        data.payment_method = i.payment_method
+        data.main_category = i.main_category
+        data.buy_place = i.buy_place
+        data.sales_price = i.sales_price
+        data.delivery_date = i.delivery_date
+        data.billing_date = i.billing_date
+        data.billing_place = i.billing_place
+        data.billing_amount = i.billing_amount
+        data.in_amount = i.in_amount
+        data.in_date = i.in_date
+        data.transaction_content = i.transaction_content
+        data.approval_price_net = (i.approval_price / 1.1)
+        data.sales_price_net = (i.sales_price / 1.1)
+        #주문액 순매입
+        ##########################################################################
 
-    data = Scm.objects.all()
-    print(data)
-    for i in data:
-        if i.order_num:
-            i.decision_quantity = i.order_quantity
-        elif i.quote_num:
-            i.decision_quantity = i.approval_quantity
-        i.save()
+        data.first_margin = (i.sales_price / 1.1) 
+        # 
+        data.commission_income = 0
+        # commission_income = 주문액순매입*(제품등록내 전문성수수료+잠재력수수료)
+        ##########################################################################
+
+        data.collaboration_income = (i.approval_price / 1.1) * 0
+        # =승인액순매입*임직원등록내 수수료율
+        ##########################################################################
+
+        data.broker_income = i.broker_income
+        data.net_sales_profit = i.net_sales_profit
+        data.collaboration_cost = i.collaboration_cost
+        data.inno_profit = i.inno_profit
+        data.overload = i.overload
+        data.credit_card_financial_cost = i.credit_card_financial_cost
+        data.credit_cost = i.credit_cost
+        data.credit_date = i.credit_date
+        data.scheduled_delivery_month = i.scheduled_delivery_month
+        data.delivery_month = i.delivery_month
+        data.settlement_month = i.settlement_month
+        data.order_num = i.order_num
+        data.quote_num = i.quote_num
+        data.oppty_num = i.oppty_num
+        data.productno = i.productno
+        data.recipient = i.recipient
+        data.company_registration_number = i.company_registration_number
+        data.deposit_number = i.deposit_number
+        data.save()
+
+    business_support_data = BusinessSupport.objects.all()
     
-    return data
+    return business_support_data
 
 def find(request):
 

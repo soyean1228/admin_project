@@ -64,12 +64,14 @@ def save(request):
                 # 있으면
                 user = User.objects.get(username=id)
                 user.password = passwd
+                user.email = authority
                 user.save()
             else:
                 # 없으면
                 User.objects.create(username=id, password=passwd, first_name=id)
                 user = User.objects.get(username=id)
                 user.first_name=id
+                user.email = authority
                 user.set_password(passwd) # 비밀번호 변경 함수
                 user.save()
 
@@ -87,47 +89,51 @@ def save(request):
 
 def upload(request):
     isSuccess = "실패"
-    try:
-        if request.method == 'POST':
-            if 'file' in request.FILES:
-                wb = load_workbook(filename=request.FILES['file'].file)
-                first_sheet = wb.get_sheet_names()[0]
-                worksheet = wb.get_sheet_by_name(first_sheet)
-                print(worksheet)
+    # try:
+    if request.method == 'POST':
+        if 'file' in request.FILES:
+            wb = load_workbook(filename=request.FILES['file'].file)
+            first_sheet = wb.get_sheet_names()[0]
+            worksheet = wb.get_sheet_by_name(first_sheet)
+            print(worksheet)
+            
+            for row in worksheet.iter_rows(min_row=2): # Offset for header
+                if(row[0].value == None):
+                    break
+                employee = Employee()
+                employee.name = row[0].value
+                employee.team = row[1].value
+                employee.position = row[2].value
+                employee.department = row[3].value
+                employee.resident_registration_number = row[4].value
+                employee.rate = row[5].value
+                employee.phone_num = row[6].value
+                employee.office_num = row[7].value
+                employee.address = row[8].value
+                employee.email = row[9].value
+                employee.charge = row[10].value
+                employee.id = row[11].value
+                employee.passwd = row[12].value
+                employee.authority = row[13].value
                 
-                for row in worksheet.iter_rows(min_row=2): # Offset for header
-                    employee = Employee()
-                    employee.name = row[0].value
-                    employee.team = row[1].value
-                    employee.position = row[2].value
-                    employee.department = row[3].value
-                    employee.resident_registration_number = row[4].value
-                    employee.rate = row[5].value
-                    employee.phone_num = row[6].value
-                    employee.office_num = row[7].value
-                    employee.address = row[8].value
-                    employee.email = row[9].value
-                    employee.charge = row[10].value
-                    employee.id = row[11].value
-                    employee.passwd = row[12].value
-                    employee.authority = row[13].value
-                    
-                    if employee.name != '' and employee.name != None:
-                        employee.save()
-                        isSuccess = "성공"
-                        if employee.id != '' and employee.id != None:
-                            if User.objects.all().filter(username=employee.id).count() != 0:
-                                # 있으면
-                                user = User.objects.get(username=employee.id)
-                                user.set_password(employee.passwd) # 비밀번호 변경 함수
-                                user.save()
-                            else:
-                                # 없으면
-                                User.objects.create(username=employee.id, password=employee.passwd, first_name=employee.id)
-                                user = User.objects.get(username=employee.id)
-                                user.first_name=employee.id
-                                user.set_password(employee.passwd) # 비밀번호 변경 함수
-                                user.save()
+                if employee.name != '' and employee.name != None:
+                    employee.save()
+                    isSuccess = "성공"
+                    if employee.id != '' and employee.id != None:
+                        if User.objects.all().filter(username=employee.id).count() != 0:
+                            # 있으면
+                            user = User.objects.get(username=employee.id)
+                            user.set_password(employee.passwd) # 비밀번호 변경 함수
+                            user.email = employee.authority
+                            user.save()
+                        else:
+                            # 없으면
+                            User.objects.create(username=employee.id, password=employee.passwd, first_name=employee.id)
+                            user = User.objects.get(username=employee.id)
+                            user.first_name=employee.id
+                            user.set_password(employee.passwd) # 비밀번호 변경 함수
+                            user.email = employee.authority
+                            user.save()
 
                             # login_user = authenticate(username=employee.id, password=employee.passwd)
                             # print(login_user)
@@ -135,8 +141,8 @@ def upload(request):
                             #     print("등록 성공")
                             # else : 
                             #     print("등록 실패")
-    except:
-        isSuccess = "실패"
+    # except:
+    #     isSuccess = "실패"
     return isSuccess
 
 def download(request):

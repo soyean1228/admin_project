@@ -258,3 +258,47 @@ class CustomerDepositBalance(models.Model):
     class Meta:
         managed = False
         db_table = 'customer_deposit_balance'
+
+class BusinessSupport(models.Model):
+    team = models.CharField(max_length=20, blank=True, null=True)
+    sales_manager = models.CharField(max_length=20, blank=True, null=True)
+    payment_method = models.CharField(max_length=20, blank=True, null=True)
+    main_category = models.CharField(max_length=20, blank=True, null=True)
+    buy_place = models.CharField(max_length=20, blank=True, null=True)
+    sales_price = models.IntegerField(blank=True, null=True)
+    delivery_date = models.DateTimeField(blank=True, null=True)
+    billing_date = models.DateTimeField(blank=True, null=True)
+    billing_place = models.CharField(max_length=20, blank=True, null=True)
+    billing_amount = models.IntegerField(blank=True, null=True)
+    in_amount = models.IntegerField(blank=True, null=True)
+    in_date = models.DateTimeField(blank=True, null=True)
+    transaction_content = models.CharField(max_length=100, blank=True, null=True)
+    approval_price_net = models.IntegerField(blank=True, null=True)
+    sales_price_net = models.IntegerField(blank=True, null=True)
+    first_margin = models.IntegerField(blank=True, null=True)
+    commission_income = models.IntegerField(blank=True, null=True)
+    collaboration_income = models.IntegerField(blank=True, null=True)
+    broker_income = models.IntegerField(blank=True, null=True)
+    net_sales_profit = models.IntegerField(blank=True, null=True)
+    collaboration_cost = models.IntegerField(blank=True, null=True)
+    inno_profit = models.IntegerField(blank=True, null=True)
+    overload = models.IntegerField(blank=True, null=True)
+    credit_card_financial_cost = models.IntegerField(blank=True, null=True)
+    credit_cost = models.IntegerField(blank=True, null=True)
+    credit_date = models.DateTimeField(blank=True, null=True)
+    scheduled_delivery_month = models.DateTimeField(blank=True, null=True)
+    delivery_month = models.DateTimeField(blank=True, null=True)
+    settlement_month = models.DateTimeField(blank=True, null=True)
+    order_num = models.IntegerField(primary_key=True)
+    quote_num = models.IntegerField()
+    oppty_num = models.CharField(max_length=20)
+    productno = models.CharField(max_length=50)
+    recipient = models.CharField(max_length=20)
+    company_registration_number = models.CharField(max_length=20)
+    deposit_number = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'business_support'
+        unique_together = (('order_num', 'quote_num', 'oppty_num', 'productno', 'recipient', 'company_registration_number', 'deposit_number'),)
+

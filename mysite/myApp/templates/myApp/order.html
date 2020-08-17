@@ -5,7 +5,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >입력</h1>
+            <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >주문</h1>
           </div>
           <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -178,21 +178,213 @@
                     </div> 
                   </div>
                   {% endif %}
-              </form>
             </div>
           </div>
         </div>
         <!-- /.container-fluid -->
+      <!-- Begin Page Content -->
+      <div class="container-fluid" >
 
-        <!-- Main Content  -->
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">주문 수정</h6>
+          </div>
+          <div class="card-body">
+            <div class="container-search" style="overflow: auto;">
+              <div data-title="modify_select_order_num" style="display:inline-block; margin-right: 20px;">
+                <label>주문번호</label><input id= "modify_select_order_num" name = "modify_select_order_num" type='number' class="form-control form-control-sm" value= {{modify_select_order_num|default_if_none:"" }} >
+              </div>
+
+              <div data-title="modify_select_quote_num" style="display:inline-block; margin-right: 20px;">
+                <label>견적번호</label><input id= "modify_select_quote_num" name = "modify_select_quote_num" type='number' class="form-control form-control-sm" value= {{modify_select_quote_num|default_if_none:"" }} >
+              </div>
+
+              <div data-title="modify_select_oppty_num" style="display:inline-block; margin-right: 20px;">
+                <label>OPPTY번호</label><input id= "modify_select_oppty_num" name = "modify_select_oppty_num" type='text' class="form-control form-control-sm" value= {{modify_select_oppty_num|default_if_none:'' }} >
+              </div>
+
+              <div data-title="modify_select_product_no" style="display:inline-block; margin-right: 20px;">
+                <label>ProductNo</label><input id= "modify_select_product_no" name = "modify_select_product_no" type='text' class="form-control form-control-sm" value= {{modify_select_product_no|default_if_none:'' }} >
+              </div>
+
+              <div data-title="modify_select_recipient" style="display:inline-block; margin-right: 20px;">
+                <label>인수자</label><input id= "modify_select_recipient" name = "modify_select_recipient" type='text' class="form-control form-control-sm" value= {{modify_select_recipient|default_if_none:'' }} >
+              </div>
+              <p></p>
+              <input type="button" class = 'sub' value="조회" style="margin-top: 10px;" onclick='mySubmit(3)'/>
+            </div>
+
+            {% if modify_select_data|length > 0 %}
+              <div class="limiter">
+                <div class="container-table100" style="padding: 2px 20px;">
+                  <div class="wrap-table100">
+                    <div class="table">
+                      <div class="row header">
+                        <div class="cell">
+                          주문일자
+                        </div>
+                        <div class="cell">
+                          주문번호
+                        </div>
+                        <div class="cell">
+                          할당
+                        </div>
+                        <div class="cell">
+                          ProductNo
+                        </div>
+                        <div class="cell">
+                          매입처
+                        </div>
+                        <div class="cell">
+                          승인수량
+                        </div>
+                        <div class="cell">
+                          주문수량
+                        </div>
+                        <div class="cell">
+                          승인단가
+                        </div>
+                        <div class="cell">
+                          승인액
+                        </div>
+                        <div class="cell">
+                          매출단가
+                        </div>
+                        <div class="cell">
+                          매출액
+                        </div>
+                        <div class="cell">
+                          납품요청일
+                        </div>
+                        <div class="cell">
+                          납품예정일
+                        </div>
+                        <div class="cell">
+                          인수자
+                        </div>
+                        <div class="cell">
+                          인수자 전화번호1
+                        </div>
+                        <div class="cell">
+                          인수자 전화번호2
+                        </div>
+                        <div class="cell">
+                          배송주소
+                        </div>
+                        <div class="cell">
+                          주문 잔량
+                        </div>
+                      </div>
+                      <script>
+                        var f = -1; 
+                        var order_date = 'modify_order_date' + f; var order_num = 'modify_order_num' + f;
+                        var assignment = 'modify_assignment' + f; var productno = 'modify_productno' + f;
+                        var buy_place = 'modify_buy_place' + f; var approval_quantity = 'modify_approval_quantity' + f;
+                        var order_quantity = 'modify_order_quantity' + f; var approval_unit = 'modify_approval_unit' + f;
+                        var approval_price = 'modify_approval_price' + f; var sales_unit = 'modify_sales_unit' + f;
+                        var sales_price = 'modify_sales_price' + f; var delivery_request_date = 'modify_delivery_request_date' + f;
+                        var scheduled_delivery_date = 'modify_scheduled_delivery_date' + f; var recipient = 'modify_recipient' + f;
+                        var recipient_phone1 = 'modify_recipient_phone1' + f; var recipient_phone2 = 'modify_recipient_phone2' + f;
+                        var delivery_address = 'modify_delivery_address' + f; var quote_num = 'modify_quote_num' + f; 
+                        var order_balance = 'order_balance' + f;
+                        var oppty_num = 'modify_oppty_num' + f;
+                        var modify_select_data_length = 'modify_select_data_length'; 
+
+                        document.write('{% for list in modify_select_data %}');
+                        f = f+1;  
+                        order_date = 'modify_order_date' + f;  order_num = 'modify_order_num' + f;
+                        assignment = 'modify_assignment' + f;  productno = 'modify_productno' + f;
+                        buy_place = 'modify_buy_place' + f;  approval_quantity = 'modify_approval_quantity' + f;
+                        order_quantity = 'modify_order_quantity' + f;  approval_unit = 'modify_approval_unit' + f;
+                        approval_price = 'modify_approval_price' + f;  sales_unit = 'modify_sales_unit' + f;
+                        sales_price = 'modify_sales_price' + f;  delivery_request_date = 'modify_delivery_request_date' + f;
+                        scheduled_delivery_date = 'modify_scheduled_delivery_date' + f;  recipient = 'modify_recipient' + f;
+                        recipient_phone1 = 'modify_recipient_phone1' + f; recipient_phone2 = 'modify_recipient_phone2' + f;
+                        delivery_address = 'modify_delivery_address' + f; quote_num = 'modify_quote_num' + f; 
+                        oppty_num = 'modify_oppty_num' + f; order_balance = 'order_balance' + f;
+
+                        document.write('<div class="row">');
+                        document.write("<input id= "+ quote_num +" name = " + quote_num + " type='hidden'  value={{list.quote_num|default_if_none:'' }}> ");  
+                        document.write('<div class="cell" data-title="order_date">');
+                        document.write("<input id= "+ order_date +" name = " + order_date + " type='date'  value={{list.order_date|default_if_none:'' }}> ");  
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="order_num">');
+                        document.write("<input id= "+ order_num +" name = " + order_num + " type='number'  value={{list.order_num|default_if_none:'' }}> ");  
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="assignment">');
+                        document.write("<input id= "+ assignment +" name = " + assignment + " type='text'  value={{list.assignment|default_if_none:'' }}> ");    
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="productno">');
+                        document.write("<input id= "+ productno +" name = " + productno + " type='text' value={{list.productno|default_if_none:'' }}> ");  
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="buy_place">');
+                        document.write("<input id= "+ buy_place +" name = " + buy_place + " type='text' value={{list.buy_place|default_if_none:'' }}> ");  
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="approval_quantity">');
+                        document.write("<input id= "+ approval_quantity +" name = " + approval_quantity + " type='text' value={{list.approval_quantity|default_if_none:'' }}> ");
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="order_quantity">');
+                        document.write("<input id= "+ order_quantity +" name = " + order_quantity + " type='number' value={{list.order_quantity|default_if_none:'' }}> ");
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="approval_unit">');
+                        document.write("<input id= "+ approval_unit +" name = " + approval_unit + " type='number' value={{list.approval_unit|default_if_none:'' }}> ");
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="approval_price">');
+                        document.write("<input id= "+ approval_price +" name = " + approval_price + " type='number' value={{list.approval_price|default_if_none:'' }}> ");
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="sales_unit">');
+                        document.write("<input id= "+ sales_unit +" name = " + sales_unit + " type='number' value={{list.sales_unit|default_if_none:'' }}> ");
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="sales_price">');
+                        document.write("<input id= "+ sales_price +" name = " + sales_price + " type='number' value={{list.sales_price|default_if_none:'' }}> ");
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="delivery_request_date">');
+                        document.write("<input id= "+ delivery_request_date +" name = " + delivery_request_date + " type='date' value='{{list.delivery_request_date|default_if_none:'' | date:'Y-m-d'}}'/>");    
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="scheduled_delivery_date">');
+                        document.write("<input id= "+ scheduled_delivery_date +" name = " + scheduled_delivery_date + " type='date' value='{{list.scheduled_delivery_date|default_if_none:'' | date:'Y-m-d'}}'/>");    
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="recipient">');
+                        document.write("<input id= "+ recipient +" name = " + recipient + " type='text' value={{list.recipient|default_if_none:'' }}> "); 
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="recipient_phone1">');
+                        document.write("<input id= "+ recipient_phone1 +" name = " + recipient_phone1 + " type='text' value={{list.recipient_phone1|default_if_none:'' }}> "); 
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="recipient_phone2">');
+                        document.write("<input id= "+ recipient_phone2 +" name = " + recipient_phone2 + " type='text' value={{list.recipient_phone2|default_if_none:'' }}> "); 
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="delivery_address">');
+                        document.write("<input id= "+ delivery_address +" name = " + delivery_address + " type='text' value={{list.delivery_address|default_if_none:'' }}> "); 
+                        document.write("</div>");
+                        document.write('<div class="cell" data-title="order_balance">');
+                        document.write("<input id= "+ order_balance +" name = " + order_balance + " type='number' value={{list.order_balance|default_if_none:'' }}> "); 
+                        document.write("</div>");
+                        document.write("<input id= " + oppty_num + " name = "+ oppty_num + " type='hidden' value={{list.oppty_num|default_if_none:'' }}> ");
+                        document.write("</div>");
+                        document.write('{% endfor %}');
+                        document.write("<input id= " + modify_select_data_length + " name = "+ modify_select_data_length + " type='hidden' value =" + f + "> ");
+                      </script>
+                    </div>
+                    <input type="submit" class='sub' value="저장" onclick='mySubmit(4)'/>
+                  </div>
+                </div> 
+              </div>
+              {% endif %}
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+
+      <!-- Main Content  -->
       <div id="content">
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >조회</h1>
-          </div>
+          </div> -->
           <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
 
           <!-- DataTales Example -->
@@ -316,6 +508,10 @@ function mySubmit(index){
     document.myForm.action = '/get_approval_data_from_select_quote_num/';
   }else if(index == 2){
     document.myForm.action = '/insert_check/order/'; 
+  }else if(index == 3){
+    document.myForm.action = '/modify/order/'; 
+  }else if(index == 4){
+    document.myForm.action = '/modify_check/order/'; 
   }
   document.myForm.submit();
 }
