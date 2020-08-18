@@ -15,6 +15,7 @@ def save(request):
         contact_conclusion_date = None; samsung_code = None; samsung_sales_manager = None;  
         team = None;  sales_manager = None;  company_registration_number = None
         address = None; email = None; resident_registration_number = None; team = None; rate = None; decision_price = None; sales_price = None
+        proposal_balance = None
 
         contact_conclusion_date = request.POST.get('contact_conclusion_date' + str(i), None)
         if contact_conclusion_date == '' : 
@@ -47,14 +48,14 @@ def save(request):
             team = None
 
         sales_manager = request.POST.get('sales_manager'+ str(i), None)
-        print(sales_manager)
-        # count_//sales_manager_data = SamsungCode.objects.values('manager').filter(manager=sales_manager).count()
-        count_sales_manager_data = Employee.objects.filter(charge="INNO 영업담당",name=sales_manager)
-        print(count_sales_manager_data)
+        # print(sales_manager)
+        # # count_//sales_manager_data = SamsungCode.objects.values('manager').filter(manager=sales_manager).count()
+        # count_sales_manager_data = Employee.objects.filter(charge="INNO 영업담당",name=sales_manager)
+        # print(count_sales_manager_data)
         if sales_manager == '' : 
             sales_manager = None
-        elif count_sales_manager_data == 0:
-            return "등록되지 않은 영업담당입니다."
+        # elif count_sales_manager_data == 0:
+        #     return "등록되지 않은 영업담당입니다."
 
         broker = request.POST.get('broker'+ str(i), None)
         count_broker_data = Broker.objects.values('name').filter(name=broker).count()
@@ -102,85 +103,95 @@ def save(request):
         billing_place = request.POST.get('billing_place'+ str(i), None)
         if billing_place == '' : 
             billing_place = None
-        oppty_num = request.POST.get('oppty_num'+ str(i), None)
-        if oppty_num == '' : 
-            oppty_num = None
 
-        productno = request.POST.get('productno'+ str(i), None)
-        print(productno)
-        count_productno_data = Product.objects.values('productno').filter(productno=productno).count()
-        print(count_productno_data)
-        if count_productno_data == 0:
-            return "등록되지 않은 productno입니다."
+        for j in range(0,9):
+            contact_conclusion_date = None; samsung_code = None; samsung_sales_manager = None;  
+            team = None;  sales_manager = None;  company_registration_number = None
+            address = None; email = None; resident_registration_number = None; rate = None; decision_price = None; sales_price = None
+            proposal_balance = None; oppty_num = None; productno = None; 
+            buy_place = None; count_productno_data = None; decision_quantity = None; 
+            decision_unit = None; sales_unit = None; delivery_request_date = None; 
 
-        buy_place = request.POST.get('buy_place'+ str(i), None)
-        if buy_place == '' : 
-            buy_place = None
-        decision_quantity = request.POST.get('decision_quantity'+ str(i), None)
-        decision_unit = request.POST.get('decision_unit'+ str(i), None)
-        sales_unit = request.POST.get('sales_unit'+ str(i), None)
-        
-        # 자동 계산 decision_quantity * decision_unit
-        # 자동 계산 decision_quantity * sales_unit
-        if decision_quantity == '' and sales_unit != '' :
-            sales_price = sales_unit
-        elif decision_quantity == '' and decision_unit != '' : 
-            decision_price = decision_unit
-        elif decision_quantity != '' and sales_unit == '' : 
-            sales_price = decision_quantity
-        elif decision_quantity != '' and decision_unit == '' : 
-            decision_price = decision_quantity
-        elif decision_quantity == '' and sales_unit == '' : 
-            sales_price = None
-        elif decision_quantity == '' and decision_unit == '' : 
-            decision_price = None
-        else:
-            decision_price = int(decision_quantity) * int(decision_unit)
-            sales_price = int(decision_quantity) * int(sales_unit)
-        
-        if decision_quantity == '' : 
-            decision_quantity = None
-        if decision_unit == '' : 
-            decision_unit = None
-        if sales_unit == '' : 
-            sales_unit = None
+            oppty_num = request.POST.get('oppty_num'+ str(j), None)
+            if oppty_num == '' : 
+                continue
 
-        delivery_request_date = request.POST.get('delivery_request_date'+ str(i), None)
-        if delivery_request_date == '' : 
-            delivery_request_date = None
-        recipient = request.POST.get('recipient'+ str(i), None)
-        if recipient == '' : 
-            recipient = None
+            productno = request.POST.get('productno'+ str(j), None)
+            print(productno)
+            count_productno_data = Product.objects.values('productno').filter(productno=productno).count()
+            print(count_productno_data)
+            if count_productno_data == 0:
+                return "등록되지 않은 productno입니다."
 
-        recipient_phone1 = request.POST.get('recipient_phone1'+ str(i), None)
-        
-        recipient_phone2 = request.POST.get('recipient_phone2'+ str(i), None)
-        if recipient_phone2 == '' : 
-            recipient_phone2 = None
-        delivery_address = request.POST.get('delivery_address'+ str(i), None)
-        if delivery_address == '' : 
-            delivery_address = None
+            buy_place = request.POST.get('buy_place'+ str(j), None)
+            if buy_place == '' : 
+                buy_place = None
+            decision_quantity = request.POST.get('decision_quantity'+ str(j), None)
+            decision_unit = request.POST.get('decision_unit'+ str(j), None)
+            sales_unit = request.POST.get('sales_unit'+ str(j), None)
+            
+            # 자동 계산 decision_quantity * decision_unit
+            # 자동 계산 decision_quantity * sales_unit
+            if decision_quantity == '' and sales_unit != '' :
+                sales_price = sales_unit
+            elif decision_quantity == '' and decision_unit != '' : 
+                decision_price = decision_unit
+            elif decision_quantity != '' and sales_unit == '' : 
+                sales_price = decision_quantity
+            elif decision_quantity != '' and decision_unit == '' : 
+                decision_price = decision_quantity
+            elif decision_quantity == '' and sales_unit == '' : 
+                sales_price = None
+            elif decision_quantity == '' and decision_unit == '' : 
+                decision_price = None
+            else:
+                decision_price = int(decision_quantity) * int(decision_unit)
+                sales_price = int(decision_quantity) * int(sales_unit)
+            
+            if decision_quantity == '' : 
+                decision_quantity = None
+            if decision_unit == '' : 
+                decision_unit = None
+            if sales_unit == '' : 
+                sales_unit = None
 
-        if oppty_num != '' and oppty_num != None and recipient != '' and recipient != None and productno != '' and productno != None:
-            data_count = Proposal.objects.filter(oppty_num=oppty_num, recipient=recipient, productno=productno).count()
-            if data_count != 0 :
-                data = Proposal.objects.get(oppty_num=oppty_num, recipient=recipient, productno=productno)
-                data.delete()
-            Proposal.objects.create(contact_conclusion_date=contact_conclusion_date, samsung_code=samsung_code, samsung_sales_manager=samsung_sales_manager, team=team, 
-                                    sales_manager=sales_manager, broker=broker, scm_manager=scm_manager, customer_name=customer_name, company_registration_number=company_registration_number,
-                                    payment_method=payment_method, sales_type=sales_type, demand=demand,  billing_place=billing_place, oppty_num=oppty_num, productno=productno, buy_place=buy_place,  decision_quantity=decision_quantity,
-                                    decision_unit=decision_unit, decision_price=decision_price, sales_unit=sales_unit, sales_price=sales_price, delivery_request_date=delivery_request_date, recipient=recipient, 
-                                    recipient_phone1=recipient_phone1, recipient_phone2=recipient_phone2, delivery_address=delivery_address)
-            isSuccess = "저장되었습니다"
-        else :
-            print("oppty_num")
-            isSuccess = "저장에 실패했습니다"
+            delivery_request_date = request.POST.get('delivery_request_date'+ str(j), None)
+            if delivery_request_date == '' : 
+                delivery_request_date = None
+            recipient = request.POST.get('recipient'+ str(j), None)
+            if recipient == '' : 
+                recipient = None
+
+            recipient_phone1 = request.POST.get('recipient_phone1'+ str(j), None)
+            
+            recipient_phone2 = request.POST.get('recipient_phone2'+ str(j), None)
+            if recipient_phone2 == '' : 
+                recipient_phone2 = None
+            delivery_address = request.POST.get('delivery_address'+ str(j), None)
+            if delivery_address == '' : 
+                delivery_address = None
+
+            proposal_balance = decision_quantity
+
+            if oppty_num != '' and oppty_num != None and recipient != '' and recipient != None and productno != '' and productno != None:
+                data_count = Proposal.objects.filter(oppty_num=oppty_num, recipient=recipient, productno=productno).count()
+                if data_count != 0 :
+                    data = Proposal.objects.get(oppty_num=oppty_num, recipient=recipient, productno=productno)
+                    data.delete()
+                Proposal.objects.create(contact_conclusion_date=contact_conclusion_date, samsung_code=samsung_code, samsung_sales_manager=samsung_sales_manager, team=team, 
+                                        sales_manager=sales_manager, broker=broker, scm_manager=scm_manager, customer_name=customer_name, company_registration_number=company_registration_number,
+                                        payment_method=payment_method, sales_type=sales_type, demand=demand,  billing_place=billing_place, oppty_num=oppty_num, productno=productno, buy_place=buy_place,  decision_quantity=decision_quantity,
+                                        decision_unit=decision_unit, decision_price=decision_price, sales_unit=sales_unit, sales_price=sales_price, delivery_request_date=delivery_request_date, recipient=recipient, 
+                                        recipient_phone1=recipient_phone1, recipient_phone2=recipient_phone2, delivery_address=delivery_address, proposal_balance=proposal_balance)
+                isSuccess = "저장되었습니다"
+            else :
+                print("oppty_num")
+                isSuccess = "저장에 실패했습니다"
+                return  isSuccess
     return isSuccess
 
 def select(request):
     select_oppty_num = request.POST.get('select_oppty_num', None)
-    print("select = ")
-    print(select_oppty_num)
     if select_oppty_num == '' : 
             select_oppty_num = None
     return select_oppty_num
@@ -218,13 +229,16 @@ def select(request):
 
 def modify(request):
 
-    print("proposal_save")
+    print("proposal_modify")
+    isSuccess = "수정에 실패했습니다"
+    proposal_data_length = Proposal.objects.filter(oppty_num=request.POST.get('select_oppty_num', None)).count()
 
-    for i in range(0,1):
+    for i in range(1,proposal_data_length+1):
 
         contact_conclusion_date = None; samsung_code = None; samsung_sales_manager = None;  
         team = None;  sales_manager = None;  company_registration_number = None
         address = None; email = None; resident_registration_number = None; team = None; rate = None; decision_price = None; sales_price = None
+        proposal_balance = None
 
         contact_conclusion_date = request.POST.get('modify_contact_conclusion_date' + str(i), None)
         if contact_conclusion_date == '' : 
@@ -257,13 +271,13 @@ def modify(request):
             team = None
 
         sales_manager = request.POST.get('modify_sales_manager'+ str(i), None)
-        print(sales_maneger)
-        count_sales_manager_data = SamsungCode.objects.values('manager').filter(manager=sales_manager).count()
-        print(count_sales_manager_data)
-        if sales_manager == '' : 
-            sales_manager = None
-        elif count_sales_manager_data == 0:
-            return "등록되지 않은 영업담당입니다."
+        # print(sales_manager)
+        # count_sales_manager_data = Employee.objects.filter(charge="INNO 영업담당", name=sales_manager).count()
+        # print(count_sales_manager_data)
+        # if sales_manager == '' : 
+        #     sales_manager = None
+        # elif count_sales_manager_data == 0:
+        #     return "등록되지 않은 영업담당입니다."
 
         broker = request.POST.get('modify_broker'+ str(i), None)
         count_broker_data = Broker.objects.values('name').filter(name=broker).count()
@@ -274,7 +288,7 @@ def modify(request):
             return "등록되지 않은 중개사입니다. 중개사를 등록해주세요."
 
         scm_manager = request.POST.get('modify_scm_manager'+ str(i), None)
-        count_scm_manager_data = SamsungCode.objects.values('manager').filter(manager=scm_manager).count()
+        count_scm_manager_data = Employee.objects.filter(name=scm_manager, charge="INNO SCM담당")
         print(count_scm_manager_data)
         if scm_manager == '' : 
             scm_manager = None
@@ -310,6 +324,7 @@ def modify(request):
         billing_place = request.POST.get('modify_billing_place'+ str(i), None)
         if billing_place == '' : 
             billing_place = None
+            
         oppty_num = request.POST.get('modify_oppty_num'+ str(i), None)
         if oppty_num == '' : 
             oppty_num = None
@@ -370,16 +385,21 @@ def modify(request):
         if delivery_address == '' : 
             delivery_address = None
 
+        proposal_balance = request.POST.get('modify_proposal_balance'+ str(i), 0)
+        if proposal_balance == '' : 
+            proposal_balance = 0
+
         if oppty_num != '' and oppty_num != None and recipient != '' and recipient != None and productno != '' and productno != None:
             data_count = Proposal.objects.filter(oppty_num=oppty_num, recipient=recipient, productno=productno).count()
             if data_count != 0 :
                 data = Proposal.objects.get(oppty_num=oppty_num, recipient=recipient, productno=productno)
                 data.delete()
+                print("삭제")
             Proposal.objects.create(contact_conclusion_date=contact_conclusion_date, samsung_code=samsung_code, samsung_sales_manager=samsung_sales_manager, team=team, 
                                     sales_manager=sales_manager, broker=broker, scm_manager=scm_manager, customer_name=customer_name, company_registration_number=company_registration_number,
                                     payment_method=payment_method, sales_type=sales_type, demand=demand,  billing_place=billing_place, oppty_num=oppty_num, productno=productno, buy_place=buy_place,  decision_quantity=decision_quantity,
                                     decision_unit=decision_unit, decision_price=decision_price, sales_unit=sales_unit, sales_price=sales_price, delivery_request_date=delivery_request_date, recipient=recipient, 
-                                    recipient_phone1=recipient_phone1, recipient_phone2=recipient_phone2, delivery_address=delivery_address)
+                                    recipient_phone1=recipient_phone1, recipient_phone2=recipient_phone2, delivery_address=delivery_address, proposal_balance=proposal_balance)
             isSuccess = "수정되었습니다"
         else :
             print("oppty_num")

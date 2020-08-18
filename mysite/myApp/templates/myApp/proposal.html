@@ -265,239 +265,252 @@
                   <input type="button" class = 'sub' value="조회" style="margin-top: 10px;" onclick='mySubmit(2)'/>
                 </div>
               </div>
+              
+              {% if all_proposal_data|length > 0 %}
 
-              <!-- <form id='proposal' name = 'proposal' method="post">{% csrf_token %}  -->
-                <div class="container-search" style="overflow: auto; padding-top: 5px; padding-left: 20px;">
-                  <p style="margin-bottom: 20px;"></p>
-                  <div class="wrap-table100">
-                    <div class="table">
-                      <div class="row header">
-                        <div class="cell">
-                          계약체결일
+                <!-- <form id='proposal' name = 'proposal' method="post">{% csrf_token %}  -->
+                {% for proposal_data in all_proposal_data %}
+                  <div class="container-search" style="overflow: auto; padding-top: 5px; padding-left: 20px;">
+                    <p style="margin-bottom: 20px;"></p>
+                    <div class="wrap-table100">
+                      <div class="table">
+                        <div class="row header">
+                          <div class="cell">
+                            계약체결일
+                          </div>
                         </div>
-                      </div>
-                      <script>
-                        for(var f=0;f<1;f++){
-                        var contact_conclusion_date = 'modify_contact_conclusion_date' + f;
-                        document.write('<div class="row">');
-                        document.write('<div class="cell" data-title="contact_conclusion_date">');
-                        document.write("<input id= "+ contact_conclusion_date +" name = " + contact_conclusion_date + " type='date' value='{{proposal_data.contact_conclusion_date|default_if_none:'' | date:'Y-m-d'}}'/>");    
-                        document.write("</div>");
-                        document.write("</div>");
-                        console.log(dateControl.value);
-                        }
-                      </script>
-                      <p style="margin-bottom: 20px;"></p>
-                      <div class="row header">
-                        <div class="cell">
-                          삼성코드
+                        <script>
+                          for(var f=0;f<1;f++){
+                          var contact_conclusion_date = 'modify_contact_conclusion_date' + {{forloop.counter}};
+                          document.write('<div class="row">');
+                          document.write('<div class="cell" data-title="contact_conclusion_date">');
+                          document.write("<input id= "+ contact_conclusion_date +" name = " + contact_conclusion_date + " type='date' value='{{proposal_data.contact_conclusion_date|default_if_none:'' | date:'Y-m-d'}}'/>");    
+                          document.write("</div>");
+                          document.write("</div>");
+                          // console.log({{forloop.counter}})
+                          console.log(dateControl.value);
+                          }
+                        </script>
+                        <p style="margin-bottom: 20px;"></p>
+                        <div class="row header">
+                          <div class="cell">
+                            삼성코드
+                          </div>
+                          <div class="cell">
+                            삼성영업담당
+                          </div>
+                          <div class="cell">
+                            지점
+                          </div>
+                          <div class="cell">
+                            영업담당
+                          </div>
+                          <div class="cell">
+                            중개사
+                          </div>
+                          <div class="cell">
+                            SCM담당
+                          </div>
                         </div>
-                        <div class="cell">
-                          삼성영업담당
-                        </div>
-                        <div class="cell">
-                          지점
-                        </div>
-                        <div class="cell">
-                          영업담당
-                        </div>
-                        <div class="cell">
-                          중개사
-                        </div>
-                        <div class="cell">
-                          SCM담당
-                        </div>
-                      </div>
-                      <script>
-                        for(var f=0;f<1;f++){
-                        var samsung_code = 'modify_samsung_code' + f; 
-                        var samsung_sales_manager = 'modify_samsung_sales_manager' + f; var team = 'modify_team' + f; 
-                        var sales_manager = 'modify_sales_manager' + f; var broker = 'modify_broker' + f;  
-                        var scm_manager = 'modify_scm_manager' + f; var customer_name = 'modify_customer_name' + f;  
-                        var payment_method = 'modify_payment_method' + f; var sales_type = 'modify_sales_type' + f;  
-                        var demand = 'modify_demand' + f; var billing_place = 'modify_billing_place' + f;  
-                        var oppty_num = 'modify_oppty_num' + f; 
-  
-                        document.write('<div class="row">');
-                        document.write('<div class="cell" data-title="samsung_code">');
-                        document.write("<input id= "+ samsung_code +" name = " + samsung_code + " type='number' value='{{proposal_data.samsung_code|default_if_none:'' }}'/>");  
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="samsung_sales_manager">');
-                        document.write("<input id= "+ samsung_sales_manager +" name = " + samsung_sales_manager + " type='text' value='{{proposal_data.samsung_sales_manager|default_if_none:'' }}'/>");    
-                        document.write("</div>");
+                        <script>
+                          for(var f=0;f<1;f++){
+                          var samsung_code = 'modify_samsung_code' + {{forloop.counter}}; 
+                          var samsung_sales_manager = 'modify_samsung_sales_manager' + {{forloop.counter}}; var team = 'modify_team' + {{forloop.counter}};
+                          var sales_manager = 'modify_sales_manager' + {{forloop.counter}}; var broker = 'modify_broker' + {{forloop.counter}};  
+                          var scm_manager = 'modify_scm_manager' + {{forloop.counter}}; var customer_name = 'modify_customer_name' + {{forloop.counter}};  
+                          var payment_method = 'modify_payment_method' + f; var sales_type = 'modify_sales_type' + {{forloop.counter}};  
+                          var demand = 'modify_demand' + {{forloop.counter}}; var billing_place = 'modify_billing_place' + {{forloop.counter}};
+                          var oppty_num = 'modify_oppty_num' + {{forloop.counter}};
+    
+                          document.write('<div class="row">');
+                          document.write('<div class="cell" data-title="samsung_code">');
+                          document.write("<input id= "+ samsung_code +" name = " + samsung_code + " type='number' value='{{proposal_data.samsung_code|default_if_none:'' }}'/>");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="samsung_sales_manager">');
+                          document.write("<input id= "+ samsung_sales_manager +" name = " + samsung_sales_manager + " type='text' value='{{proposal_data.samsung_sales_manager|default_if_none:'' }}'/>");    
+                          document.write("</div>");
 
-                        document.write('<div class="cell" data-title="소속">');
-                        console.log("{{proposal_data.samsung_sales_manager}}")
-                        console.log("{{proposal_data.team}}")
-                        document.write("<select id="+ team +" name=" + team + "/>");
-                        document.write("<option value='직판'>직판</option>");   
-                        document.write("<option value='INNO'>INNO</option>");   
-                        document.write("<option value='협업'>협업</option>");   
-                        document.write(" </select>");
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="sales_manager">');
-                        document.write("<input id= "+ sales_manager +" name = " + sales_manager + " type='text' value='{{proposal_data.sales_manager|default_if_none:'' }}'/>");    
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="broker">');
-                        document.write("<input id= "+ broker +" name = " + broker + " type='text' value='{{proposal_data.broker|default_if_none:'' }}'/>");    
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="scm_manager">');
-                        document.write("<input id= "+ scm_manager +" name = " + scm_manager + " type='text' value='{{proposal_data.scm_manager|default_if_none:'' }}'/>");    
-                        document.write("</div>");
-                        document.write("</div>");
-                        }
-                      </script>
-                      <p style="margin-bottom: 20px;"></p>
-                      <div class="row header">
-                        <div class="cell">
-                          거래처명
+                          document.write('<div class="cell" data-title="소속">');
+                          // console.log("{{proposal_data.samsung_sales_manager}}")
+                          // console.log("{{proposal_data.team}}")
+                          document.write("<select id="+ team +" name=" + team + "/>");
+                          document.write("<option value='직판'>직판</option>");   
+                          document.write("<option value='INNO'>INNO</option>");   
+                          document.write("<option value='협업'>협업</option>");   
+                          document.write(" </select>");
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="sales_manager">');
+                          document.write("<input id= "+ sales_manager +" name = " + sales_manager + " type='text' value='{{proposal_data.sales_manager|default_if_none:'' }}'/>");    
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="broker">');
+                          document.write("<input id= "+ broker +" name = " + broker + " type='text' value='{{proposal_data.broker|default_if_none:'' }}'/>");    
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="scm_manager">');
+                          document.write("<input id= "+ scm_manager +" name = " + scm_manager + " type='text' value='{{proposal_data.scm_manager|default_if_none:'' }}'/>");    
+                          document.write("</div>");
+                          document.write("</div>");
+                          }
+                        </script>
+                        <p style="margin-bottom: 20px;"></p>
+                        <div class="row header">
+                          <div class="cell">
+                            거래처명
+                          </div>
+                          <div class="cell">
+                            사업자등록번호
+                          </div>
+                          <div class="cell">
+                            결제방식
+                          </div>
+                          <div class="cell">
+                            판매유형
+                          </div>
+                          <div class="cell">
+                            수요구분
+                          </div>
+                          <div class="cell">
+                            계산서발행처
+                          </div>
                         </div>
-                        <div class="cell">
-                          사업자등록번호
+                        <script >
+                          for(var f=0;f<1;f++){
+                          var samsung_code = 'modify_samsung_code' + {{forloop.counter}}; var company_registration_number = 'modify_company_registration_number' + {{forloop.counter}};
+                          var samsung_manager = 'modify_samsung_manager' + {{forloop.counter}}; var team = 'modify_team' + {{forloop.counter}};
+                          var sales_manager = 'modify_sales_manager' + {{forloop.counter}}; var broker_name = 'modify_broker_name' + {{forloop.counter}}; 
+                          var scm_manager = 'modify_scm_manager' + {{forloop.counter}}; var customer_name = 'modify_customer_name' + {{forloop.counter}};  
+                          var payment_method = 'modify_payment_method' + {{forloop.counter}}; var sales_type = 'modify_sales_type' + {{forloop.counter}}; 
+                          var demand = 'modify_demand' + {{forloop.counter}}; var billing_place = 'modify_billing_place' + {{forloop.counter}}; 
+    
+                          document.write('<div class="row">');
+                          document.write('<div class="cell" data-title="customer_name">');
+                          document.write("<input id= "+ customer_name +" name = " + customer_name + " type='text'value='{{proposal_data.customer_name|default_if_none:'' }}'/>"); 
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="company_registration_number">');
+                          document.write("<input id= "+ company_registration_number +" name = " + company_registration_number + " type='text'value='{{proposal_data.company_registration_number|default_if_none:'' }}'/>"); 
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="payment_method">');
+                          document.write("<select id="+ payment_method +" name=" + payment_method + ">");   
+                          document.write("<option value='현금'>현금</option>");   
+                          document.write("<option value='카드'>카드</option>");   
+                          document.write("<option value='여신'>여신</option>");   
+                          document.write("<option value='특약'>특약</option>");   
+                          document.write(" </select>");
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="sales_type">');
+                          document.write("<input id= "+ sales_type +" name = " + sales_type + " type='text' value='{{proposal_data.sales_type|default_if_none:'' }}'/>"); 
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="demand">');
+                          document.write("<select id="+ demand +" name=" + demand + ">");   
+                          document.write("<option value='사업용'>사업용</option>");   
+                          document.write("<option value='업무용'>업무용</option>");   
+                          document.write("<option value='임직원용'>임직원용</option>");   
+                          document.write("<option value='사업장용'>사업장용</option>");    
+                          document.write("<option value='협력사용'>협력사용</option>"); 
+                          document.write("</select>");
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="billing_place">');
+                          document.write("<input id= "+ billing_place +" name = " + billing_place + " type='text' value='{{proposal_data.billing_place|default_if_none:'' }}'/>");  
+                          document.write("</div>");
+                          document.write("</div>");
+                          }
+                        </script>
+                        <p style="margin-bottom: 20px;"></p>
+
+                        <div class="row header">
+                          <div class="cell">
+                            OPPTY번호
+                          </div>
+                          <div class="cell">
+                            제품모델명
+                          </div>
+                          <div class="cell">
+                            매입처
+                          </div>
+                          <div class="cell">
+                            품의수량
+                          </div>
+                          <div class="cell">
+                            품의단가
+                          </div>
+                          <div class="cell">
+                            매출단가
+                          </div>
+                          <div class="cell">
+                            납품요청일
+                          </div>
+                          <div class="cell">
+                            인수자
+                          </div>
+                          <div class="cell">
+                            인수자전화1
+                          </div>
+                          <div class="cell">
+                            인수자전화2
+                          </div>
+                          <div class="cell">
+                            배송주소
+                          </div>
+                          <div class="cell">
+                            품의잔량
+                          </div>
                         </div>
-                        <div class="cell">
-                          결제방식
-                        </div>
-                        <div class="cell">
-                          판매유형
-                        </div>
-                        <div class="cell">
-                          수요구분
-                        </div>
-                        <div class="cell">
-                          계산서발행처
-                        </div>
+                        <script>
+                          for(var f=0;f<1;f++){
+                          var oppty_num = 'modify_oppty_num' + {{forloop.counter}}; var productno = 'modify_productno' + {{forloop.counter}};
+                          var decision_quantity = 'modify_decision_quantity' + {{forloop.counter}}; var decision_unit = 'modify_decision_unit' + {{forloop.counter}}; var decision_price = 'modify_decision_price' + {{forloop.counter}};
+                          var sales_price = 'modify_sales_price' + {{forloop.counter}};  var sales_unit = 'modify_sales_unit' + {{forloop.counter}}; var buy_place = 'modify_buy_place' + {{forloop.counter}};
+                          var delivery_request_date = 'modify_delivery_request_date' + {{forloop.counter}}; var recipient = 'modify_recipient' + {{forloop.counter}};  
+                          var recipient_phone1 = 'modify_recipient_phone1' + {{forloop.counter}}; var recipient_phone2 = 'modify_recipient_phone2' + {{forloop.counter}};var delivery_address = 'modify_delivery_address' + {{forloop.counter}}; 
+                          var proposal_balance = 'modify_proposal_balance' + {{forloop.counter}};
+
+                          document.write('<div class="row">');
+                          document.write('<div class="cell" data-title="oppty_num">');
+                          document.write("<input id= "+ oppty_num +" name = " + oppty_num + " type='text'value='{{proposal_data.oppty_num|default_if_none:'' }}'/>");   
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="productno">');
+                          document.write("<input id= "+ productno +" name = " + productno + " type='text'value='{{proposal_data.productno|default_if_none:'' }}'/>");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="buy_place">');
+                          document.write("<input id= "+ buy_place +" name = " + buy_place + " type='text'value='{{proposal_data.buy_place|default_if_none:'' }}'/>");   
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="decision_quantity">');
+                          document.write("<input id= "+ decision_quantity +" name = " + decision_quantity + " type='number'value='{{proposal_data.decision_quantity|default_if_none:'' }}'/>"); 
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="decision_unit">');
+                          document.write("<input id= "+ decision_unit +" name = " + decision_unit + " type='number'value='{{proposal_data.decision_unit|default_if_none:'' }}'/>"); 
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="sales_unit">');
+                          document.write("<input id= "+ sales_unit +" name = " + sales_unit + " type='number' value='{{proposal_data.sales_unit|default_if_none:'' }}'/>");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="delivery_request_date">');
+                          document.write("<input id= "+ delivery_request_date +" name = " + delivery_request_date + " type='date' value='{{proposal_data.delivery_request_date|default_if_none:'' | date:'Y-m-d'}}'/>");    
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="recipient">');
+                          document.write("<input id= "+ recipient +" name = " + recipient + " type='text' value='{{proposal_data.recipient|default_if_none:'' }}'/>");  
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="recipient_phone1">');
+                          document.write("<input id= "+ recipient_phone1 +" name = " + recipient_phone1 + " type='text' value='{{proposal_data.recipient_phone1|default_if_none:'' }}'/>");    
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="recipient_phone2">');
+                          document.write("<input id= "+ recipient_phone2 +" name = " + recipient_phone2 + " type='text' value='{{proposal_data.recipient_phone2|default_if_none:'' }}'/>");   
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="delivery_address">');
+                          document.write("<input id= "+ delivery_address +" name = " + delivery_address + " type='text' value='{{proposal_data.delivery_address|default_if_none:'' }}'/>");   
+                          document.write("</div>");
+                          document.write('<div class="cell" data-title="proposal_balance">');
+                          document.write("<input id= "+ proposal_balance +" name = " + proposal_balance + " type='text' value='{{proposal_data.proposal_balance|default_if_none:'' }}'/>");   
+                          document.write("</div>");
+                          document.write("</div>");
+                          }
+                        </script>
                       </div>
-                      <script >
-                        for(var f=0;f<1;f++){
-                        var samsung_code = 'modify_samsung_code' + f; var company_registration_number = 'modify_company_registration_number' + f; 
-                        var samsung_manager = 'modify_samsung_manager' + f; var team = 'modify_team' + f; 
-                        var sales_manager = 'modify_sales_manager' + f; var broker_name = 'modify_broker_name' + f;  
-                        var scm_manager = 'modify_scm_manager' + f; var customer_name = 'modify_customer_name' + f;  
-                        var payment_method = 'modify_payment_method' + f; var sales_type = 'modify_sales_type' + f;  
-                        var demand = 'modify_demand' + f; var billing_place = 'modify_billing_place' + f;  
-                        var oppty_num = 'modify_oppty_num' + f; 
-  
-                        document.write('<div class="row">');
-                        document.write('<div class="cell" data-title="customer_name">');
-                        document.write("<input id= "+ customer_name +" name = " + customer_name + " type='text'value='{{proposal_data.customer_name|default_if_none:'' }}'/>"); 
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="company_registration_number">');
-                        document.write("<input id= "+ company_registration_number +" name = " + company_registration_number + " type='text'value='{{proposal_data.company_registration_number|default_if_none:'' }}'/>"); 
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="payment_method">');
-                        document.write("<select id="+ payment_method +" name=" + payment_method + ">");   
-                        document.write("<option value='현금'>현금</option>");   
-                        document.write("<option value='카드'>카드</option>");   
-                        document.write("<option value='여신'>여신</option>");   
-                        document.write("<option value='특약'>특약</option>");   
-                        document.write(" </select>");
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="sales_type">');
-                        document.write("<input id= "+ sales_type +" name = " + sales_type + " type='text' value='{{proposal_data.sales_type|default_if_none:'' }}'/>"); 
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="demand">');
-                        document.write("<select id="+ demand +" name=" + demand + ">");   
-                        document.write("<option value='사업용'>사업용</option>");   
-                        document.write("<option value='업무용'>업무용</option>");   
-                        document.write("<option value='임직원용'>임직원용</option>");   
-                        document.write("<option value='사업장용'>사업장용</option>");    
-                        document.write("<option value='협력사용'>협력사용</option>"); 
-                        document.write("</select>");
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="billing_place">');
-                        document.write("<input id= "+ billing_place +" name = " + billing_place + " type='text' value='{{proposal_data.billing_place|default_if_none:'' }}'/>");  
-                        document.write("</div>");
-                        document.write("</div>");
-                        }
-                      </script>
-                      <p style="margin-bottom: 20px;"></p>
-                      <div class="row header">
-                        <div class="cell">
-                          OPPTY번호
-                        </div>
-                        <div class="cell">
-                          제품모델명
-                        </div>
-                        <div class="cell">
-                          매입처
-                        </div>
-                        <div class="cell">
-                          품의수량
-                        </div>
-                        <div class="cell">
-                          품의단가
-                        </div>
-                        <div class="cell">
-                          매출단가
-                        </div>
-                        <div class="cell">
-                          납품요청일
-                        </div>
-                        <div class="cell">
-                          인수자
-                        </div>
-                        <div class="cell">
-                          인수자전화1
-                        </div>
-                        <div class="cell">
-                          인수자전화2
-                        </div>
-                        <div class="cell">
-                          배송주소
-                        </div>
-                      </div>
-                      <script>
-                        for(var f=0;f<1;f++){
-                        var oppty_num = 'modify_oppty_num' + f; var productno = 'modify_productno' + f; 
-                        var decision_quantity = 'modify_decision_quantity' + f; var decision_unit = 'modify_decision_unit' + f; var decision_price = 'modify_decision_price' + f; 
-                        var sales_price = 'modify_sales_price' + f; var sales_unit = 'modify_sales_unit' + f; var buy_place = 'modify_buy_place' + f;  
-                        var delivery_request_date = 'modify_delivery_request_date' + f; var recipient = 'modify_recipient' + f;  
-                        var recipient_phone1 = 'modify_recipient_phone1' + f; var recipient_phone2 = 'modify_recipient_phone2' + f;var delivery_address = 'modify_delivery_address' + f;  
-  
-                        document.write('<div class="row">');
-                        document.write('<div class="cell" data-title="oppty_num">');
-                        document.write("<input id= "+ oppty_num +" name = " + oppty_num + " type='text'value='{{proposal_data.oppty_num|default_if_none:'' }}'/>");   
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="productno">');
-                        document.write("<input id= "+ productno +" name = " + productno + " type='text'value='{{proposal_data.productno|default_if_none:'' }}'/>");  
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="buy_place">');
-                        document.write("<input id= "+ buy_place +" name = " + buy_place + " type='text'value='{{proposal_data.buy_place|default_if_none:'' }}'/>");   
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="decision_quantity">');
-                        document.write("<input id= "+ decision_quantity +" name = " + decision_quantity + " type='number'value='{{proposal_data.decision_quantity|default_if_none:'' }}'/>"); 
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="decision_unit">');
-                        document.write("<input id= "+ decision_unit +" name = " + decision_unit + " type='number'value='{{proposal_data.decision_unit|default_if_none:'' }}'/>"); 
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="sales_unit">');
-                        document.write("<input id= "+ sales_unit +" name = " + sales_unit + " type='number' value='{{proposal_data.sales_unit|default_if_none:'' }}'/>");  
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="delivery_request_date">');
-                        document.write("<input id= "+ delivery_request_date +" name = " + delivery_request_date + " type='date' value='{{proposal_data.delivery_request_date|default_if_none:'' | date:'Y-m-d'}}'/>");    
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="recipient">');
-                        document.write("<input id= "+ recipient +" name = " + recipient + " type='text' value='{{proposal_data.recipient|default_if_none:'' }}'/>");  
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="recipient_phone1">');
-                        document.write("<input id= "+ recipient_phone1 +" name = " + recipient_phone1 + " type='text' value='{{proposal_data.recipient_phone1|default_if_none:'' }}'/>");    
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="recipient_phone2">');
-                        document.write("<input id= "+ recipient_phone2 +" name = " + recipient_phone2 + " type='text' value='{{proposal_data.recipient_phone2|default_if_none:'' }}'/>");   
-                        document.write("</div>");
-                        document.write('<div class="cell" data-title="delivery_address">');
-                        document.write("<input id= "+ delivery_address +" name = " + delivery_address + " type='text' value='{{proposal_data.delivery_address|default_if_none:'' }}'/>");   
-                        document.write("</div>");
-                        document.write("</div>");
-                        }
-                      </script>
                     </div>
-                    <input type="button" class = 'sub' value="저장" onclick='mySubmit(3)'/>
-                  </div>
-                </div> 
-              <!-- </form> -->
+                  </div> 
+                {% endfor %}
+                <input type="button" class = 'sub' value="저장" onclick='mySubmit(3)'/>
+                <!-- </form> -->
             </div>
+            {% endif %}
           </div>
 
         </div>

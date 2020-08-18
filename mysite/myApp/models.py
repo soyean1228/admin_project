@@ -111,6 +111,7 @@ class Proposal(models.Model):
     recipient_phone1 = models.CharField(max_length=20, blank=True, null=True)
     recipient_phone2 = models.CharField(max_length=20, blank=True, null=True)
     delivery_address = models.CharField(max_length=100, blank=True, null=True)
+    proposal_balance = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

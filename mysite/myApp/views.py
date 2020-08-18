@@ -47,7 +47,7 @@ from . import business_support
 
 from django.db import connection
 
-# @login_required
+@login_required
 def index(request):
     data = scm.select(request)
     scm_data = Scm.objects.all()
@@ -71,8 +71,6 @@ def index(request):
 
 @login_required
 def select(request):
-    if request.user.is_authenticated:
-        print(request.user.email)
     data = scm.select(request)
     scm_data = Scm.objects.all()
     decision_price_sum = 0
@@ -509,8 +507,8 @@ def download(request, table_name):
 @login_required
 def select_proposal(request):
     select_oppty_num = proposal_save.select(request)
-    proposal_data = Proposal.objects.filter(oppty_num=select_oppty_num).first()
-    return render(request, 'myApp/proposal.html', { "select_oppty_num" : select_oppty_num, "proposal_data" : proposal_data })
+    all_proposal_data = Proposal.objects.filter(oppty_num=select_oppty_num)
+    return render(request, 'myApp/proposal.html', { "select_oppty_num" : select_oppty_num, "all_proposal_data" : all_proposal_data})
 
 @login_required
 def modify_proposal(request):

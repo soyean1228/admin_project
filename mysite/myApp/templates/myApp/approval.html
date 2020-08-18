@@ -1,5 +1,14 @@
 {% extends 'myApp/base.html' %}  
 {% block content %}
+  {% if user.email == "품의" %}
+      <!-- Begin Page Content -->
+      <div class="container-fluid" >
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >승인</h1>
+        </div>
+      </div>
+  {% else %}
       <!-- Begin Page Content -->
       <div class="container-fluid" >
 
@@ -7,9 +16,10 @@
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >승인</h1>
           </div>
+
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">승인 입력</h6>
+              <h6 class="m-0 font-weight-bold text-primary">입력</h6>
             </div>
             <div class="card-body">
               <!-- The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS! -->
@@ -121,7 +131,7 @@
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">승인 수정</h6>
+              <h6 class="m-0 font-weight-bold text-primary">수정</h6>
             </div>
 
             <div class="card-body">
@@ -259,22 +269,16 @@
 
       </div>
       <!-- nd of Main Content -->
+  {% endif %}
 
-        <!-- Main Content  -->
+      <!-- Main Content  -->
       <div id="content">
         <!-- Begin Page Content -->
         <div class="container-fluid">
-
-          <!-- Page Heading -->
-          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >조회</h1>
-          </div> -->
-          <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
-
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">승인 조회</h6>
+              <h6 class="m-0 font-weight-bold text-primary">조회</h6>
             </div>
 
             <div class="card-body">
@@ -338,7 +342,6 @@
 
         </div>
         <!-- /.container-fluid -->
-
       </div>
       <!-- nd of Main Content -->
         

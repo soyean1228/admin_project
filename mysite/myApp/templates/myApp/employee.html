@@ -1,16 +1,26 @@
 
 {% extends 'myApp/base.html' %}
 {% block content %}
+  {% if user.email == "품의" %}
+      <!-- Begin Page Content -->
+      <div class="container-fluid" >
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >임직원</h1>
+        </div>
+      </div>
+  {% else %}
       <!-- Begin Page Content -->
       <div class="container-fluid" >
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >입력</h1>
+          <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >임직원</h1>
         </div>
+
         <div class="card shadow mb-4">
           <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">임직원 등록</h6>
+            <h6 class="m-0 font-weight-bold text-primary">등록</h6>
           </div>
           <div class="card-body">
 
@@ -24,10 +34,10 @@
             <!-- The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS! -->
             <form id='empoyee' name = 'employee' method="post">{% csrf_token %} 
               <div class="limiter">
-                <div class="container-table100">
+                <div class="container-table100" style="padding: 2px 20px;">
                   <div class="wrap-table100">
-                      <div class="table">
-                        <div class="row header">
+                    <div class="table">
+                      <div class="row header">
                           <div class="cell">
                             이름
                           </div>
@@ -138,7 +148,7 @@
                           document.write("</div>");
                           document.write('<div class="cell" data-title="권한">');
                           document.write("<select id="+ authority +" name=" + authority + ">"); 
-                          document.write("<option value='모든 권한'>모든 권한</option>");   
+                          document.write("<option value='모든권한'>모든권한</option>");   
                           document.write("<option value='권한없음'>권한없음</option>");   
                           document.write("<option value='품의'>품의</option>");   
                           document.write(" </select>");
@@ -157,21 +167,15 @@
         </div>
       </div>
       <!-- /.container-fluid -->
+    {% endif %}
       <!-- Main Content  -->
       <div id="content">
         <!-- Begin Page Content -->
         <div class="container-fluid">
-
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800" style="margin-top: 40px; margin-left: 10px;" >조회</h1>
-          </div>
-          <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
-
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">임직원</h6>
+              <h6 class="m-0 font-weight-bold text-primary">조회</h6>
             </div>
 
             <div class="card-body">
