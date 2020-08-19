@@ -13,7 +13,7 @@ def select(request):
 
     queryset = BusinessSupport.objects.all()
     queryset.delete() # 일괄 delete 요청    
-    rawdata = Approval.objects.raw('select tmp4.*, deposit.transaction_content, deposit.deposit_number FROM ( select tmp3.*, settlement.billing_date, settlement.billing_amount FROM ( SELECT tmp2.*, delivery.in_date, delivery.in_amount, delivery.delivery_date FROM ( SELECT tmp1.*,order_data.order_num, order_data.order_date, order_data.order_quantity, order_data.assignment, order_data.scheduled_delivery_date FROM ( SELECT proposal.*, approval.approval_quantity, approval.quote_num, approval.approval_unit, approval.approval_price FROM proposal LEFT JOIN approval ON proposal.oppty_num=approval.oppty_num AND proposal.productno=approval.productno AND proposal.recipient=approval.recipient) tmp1 LEFT JOIN order_data ON tmp1.oppty_num=order_data.oppty_num AND tmp1.productno=order_data.productno AND tmp1.recipient=order_data.recipient AND tmp1.quote_num=order_data.quote_num ) tmp2 LEFT JOIN delivery ON delivery.order_num=tmp2.order_num AND delivery.company_registration_number=tmp2.company_registration_number) tmp3 LEFT JOIN settlement ON settlement.order_num=tmp3.order_num AND settlement.quote_num=tmp3.quote_num AND settlement.oppty_num=tmp3.oppty_num AND settlement.productno=tmp3.productno AND settlement.recipient=tmp3.recipient ) tmp4 LEFT JOIN deposit ON tmp4.company_registration_number = deposit.company_registration_number')
+    rawdata = Approval.objects.raw('select tmp7.*, broker.fee FROM ( SELECT tmp6.*, employee.rate FROM ( SELECT tmp5.*, product.main_category, product.professionalism_fee_rate, product.potential_fee_rate FROM ( select tmp4.*, deposit.transaction_content, deposit.deposit_number FROM ( select tmp3.*, settlement.billing_date, settlement.settlement_month, settlement.billing_amount FROM ( SELECT tmp2.*, delivery.in_date, delivery.in_amount, delivery.delivery_date FROM ( SELECT tmp1.*,order_data.order_num, order_data.order_date, order_data.order_quantity, order_data.assignment, order_data.scheduled_delivery_date FROM ( SELECT proposal.*, approval.approval_quantity, approval.quote_num, approval.approval_unit, approval.approval_price FROM proposal LEFT JOIN approval ON proposal.oppty_num=approval.oppty_num AND proposal.productno=approval.productno AND proposal.recipient=approval.recipient) tmp1 LEFT JOIN order_data ON tmp1.oppty_num=order_data.oppty_num AND tmp1.productno=order_data.productno AND tmp1.recipient=order_data.recipient AND tmp1.quote_num=order_data.quote_num ) tmp2 LEFT JOIN delivery ON delivery.order_num=tmp2.order_num AND delivery.company_registration_number=tmp2.company_registration_number) tmp3 LEFT JOIN settlement ON settlement.order_num=tmp3.order_num AND settlement.quote_num=tmp3.quote_num AND settlement.oppty_num=tmp3.oppty_num AND settlement.productno=tmp3.productno AND settlement.recipient=tmp3.recipient ) tmp4 LEFT JOIN deposit ON tmp4.company_registration_number = deposit.company_registration_number ) tmp5 INNER JOIN product ON tmp5.productno=product.productno ) tmp6 LEFT JOIN employee ON tmp6.sales_manager=employee.name ) tmp7 LEFT JOIN broker ON tmp7.broker=broker.name ')
     
     for i in rawdata:
         data = BusinessSupport()
@@ -30,32 +30,65 @@ def select(request):
         data.in_amount = i.in_amount
         data.in_date = i.in_date
         data.transaction_content = i.transaction_content
-        data.approval_price_net = (i.approval_price / 1.1)
+
+        #승인액 순매입 
+        data.approval_price_net = (i.approval_price / 1.1) 
+
+        #매출액 순매입
         data.sales_price_net = (i.sales_price / 1.1)
+
         #주문액 순매입
         ##########################################################################
 
-        data.first_margin = (i.sales_price / 1.1) 
-        # 
-        data.commission_income = 0
-        # commission_income = 주문액순매입*(제품등록내 전문성수수료+잠재력수수료)
+        #선마진 = 매출액순매입-주문액순매입
+        data.first_margin = data.sales_price_net - 0
+
+        # 수수료 수입 = 주문액순매입*(제품등록내 전문성수수료+잠재력수수료)
+        data.commission_income = 0 * (float(i.professionalism_fee_rate) + float(i.potential_fee_rate))
         ##########################################################################
 
-        data.collaboration_income = (i.approval_price / 1.1) * 0
-        # =승인액순매입*임직원등록내 수수료율
+        #협업수수료수입 = 승인액순매입*임직원등록내 수수료율
+        if i.rate == None : i.rate = 0
+        data.collaboration_income = data.approval_price_net * float(i.rate)
+        
+        #알선사 수수료 비용 = 승인액순매입*알선사등록내 수수료율
+        data.broker_income = data.approval_price_net * float(i.fee)
+
+        #순매출이익 = 선마진+수수료수입-협업수수료수입-알선사수수료비용
+        data.net_sales_profit = data.first_margin + float(data.commission_income) - data.collaboration_income - data.broker_income
+
+        #협업수수료지출 = 순매출이익-협업수수료지출-여신비용-카드사금융비용 
+        data.collaboration_cost =  0
         ##########################################################################
 
-        data.broker_income = i.broker_income
-        data.net_sales_profit = i.net_sales_profit
-        data.collaboration_cost = i.collaboration_cost
-        data.inno_profit = i.inno_profit
-        data.overload = i.overload
-        data.credit_card_financial_cost = i.credit_card_financial_cost
-        data.credit_cost = i.credit_cost
-        data.credit_date = i.credit_date
-        data.scheduled_delivery_month = i.scheduled_delivery_month
-        data.delivery_month = i.delivery_month
+        #INNO순이익 = 순매출이익-협업수수료지출
+        data.inno_profit = data.net_sales_profit - data.collaboration_cost
+
+        #미수/과입 = 매출액-입금액 (+일 경우 빨간색)
+        if i.in_amount == None : i.in_amount = 0
+        data.overload = i.sales_price - i.in_amount
+
+        #카드사금융비용 = 결제방식이 카드 일 경우 매출액*3%
+        if i.payment_method == '카드': 
+            data.credit_card_financial_cost = i.sales_price * 0.03
+        else:
+            data.credit_card_financial_cost = i.sales_price
+
+        #여신비용 
+        data.credit_cost = None
+
+        #여신일 = 납품완료일-입금일
+        data.credit_date = i.delivery_date - i.in_date
+
+        #납품예정월
+        data.scheduled_delivery_month = i.scheduled_delivery_date
+
+        #납품완료월
+        data.delivery_month = i.delivery_date
+
+        #정산월
         data.settlement_month = i.settlement_month
+
         data.order_num = i.order_num
         data.quote_num = i.quote_num
         data.oppty_num = i.oppty_num

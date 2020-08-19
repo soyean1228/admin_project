@@ -157,7 +157,7 @@
                             document.write("<input id= "+ payment_method +" name = " + payment_method + " type='text' value={{list.payment_method|default_if_none:''  }}> ");  
                             document.write("</div>");
                             document.write('<div class="cell" data-title="in_date">');
-                            document.write("<input id= "+ in_date +" name = " + in_date + " type='date' value={{list.in_date|default_if_none:''  }}> ");  
+                            document.write("<input id= "+ in_date +" name = " + in_date + " type='date' value={{list.in_date|default_if_none:'' | date:'Y-m-d'}} >");  
                             document.write("</div>");
                             document.write('<div class="cell" data-title="in_amount">');
                             document.write("<input id= "+ in_amount +" name = " + in_amount + " type='number' value={{list.in_amount|default_if_none:''  }}> ");  
@@ -175,7 +175,7 @@
                             document.write("<input id= "+ sales_price +" name = " + sales_price + " type='number' value={{list.sales_price|default_if_none:''  }}> ");  
                             document.write("</div>");
                             document.write('<div class="cell" data-title="settlement_month">');
-                            document.write("<input id= "+ settlement_month +" name = " + settlement_month + " type='text' > ");  
+                            document.write("<input id= "+ settlement_month +" name = " + settlement_month + " type='date' > ");  
                             document.write("</div>");
                             document.write("</div>");
                             document.write('{% endfor %}');
@@ -278,7 +278,7 @@
                         <td>{{list.billing_date|default_if_none:"" |date:"Y-m-d"}}</td>
                         <td>{{list.billing_place|default_if_none:"" }}</td>
                         <td>{{list.billing_amount|default_if_none:"" }}</td>
-                        <td>{{list.settlement_month|default_if_none:""  }}</td>
+                        <td>{{list.settlement_month|default_if_none:"" |date:"Y-m"}}</td>
                       </tr>
                     {% endfor %}
                   </tbody>

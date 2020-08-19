@@ -7,7 +7,7 @@ from openpyxl import load_workbook
 from openpyxl import Workbook
 from .models import Employee
 def save(request):
-
+    isSuccess = "저장에 실패했습니다"
     print("proposal_save")
 
     for i in range(0,1):
@@ -26,20 +26,14 @@ def save(request):
             samsung_code = None
         else :
             count_samsung_code_data = SamsungCode.objects.values('samsung_code').filter(samsung_code=samsung_code).count()
-            print("count_samsung_code_data")
-            print(count_samsung_code_data)
             if count_samsung_code_data == 0:
                 return "등록되지 않은 삼성코드입니다."
 
         samsung_sales_manager = request.POST.get('samsung_sales_manager'+ str(i), None)
-        print("samsung_sales_manager")
-        print(samsung_sales_manager)
         if samsung_sales_manager == '' : 
             samsung_sales_manager = None
         else :
             count_samsung_sales_manager_data = SamsungCode.objects.values('manager').filter(manager=samsung_sales_manager).count()
-            print("count_samsung_sales_manager_data")
-            print(count_samsung_sales_manager_data)
             if count_samsung_sales_manager_data == 0:
                 return "등록되지 않은 삼성영업담당입니다."
 
@@ -105,21 +99,21 @@ def save(request):
             billing_place = None
 
         for j in range(0,9):
-            contact_conclusion_date = None; samsung_code = None; samsung_sales_manager = None;  
-            team = None;  sales_manager = None;  company_registration_number = None
-            address = None; email = None; resident_registration_number = None; rate = None; decision_price = None; sales_price = None
-            proposal_balance = None; oppty_num = None; productno = None; 
-            buy_place = None; count_productno_data = None; decision_quantity = None; 
-            decision_unit = None; sales_unit = None; delivery_request_date = None; 
+            # contact_conclusion_date = None; samsung_code = None; samsung_sales_manager = None;  
+            # team = None;  sales_manager = None;  company_registration_number = None
+            # address = None; email = None; resident_registration_number = None; rate = None; decision_price = None; sales_price = None
+            # proposal_balance = None; oppty_num = None; productno = None; 
+            # buy_place = None; count_productno_data = None; decision_quantity = None; 
+            # decision_unit = None; sales_unit = None; delivery_request_date = None; 
 
             oppty_num = request.POST.get('oppty_num'+ str(j), None)
             if oppty_num == '' : 
                 continue
 
             productno = request.POST.get('productno'+ str(j), None)
-            print(productno)
+            # print(productno)
             count_productno_data = Product.objects.values('productno').filter(productno=productno).count()
-            print(count_productno_data)
+            # print(count_productno_data)
             if count_productno_data == 0:
                 return "등록되지 않은 productno입니다."
 
@@ -134,18 +128,26 @@ def save(request):
             # 자동 계산 decision_quantity * sales_unit
             if decision_quantity == '' and sales_unit != '' :
                 sales_price = sales_unit
-            elif decision_quantity == '' and decision_unit != '' : 
+            if decision_quantity == '' and decision_unit != '' : 
+                print("1")
                 decision_price = decision_unit
-            elif decision_quantity != '' and sales_unit == '' : 
+            if decision_quantity != '' and sales_unit == '' : 
                 sales_price = decision_quantity
-            elif decision_quantity != '' and decision_unit == '' : 
+            if decision_quantity != '' and decision_unit == '' : 
+                print("2")
                 decision_price = decision_quantity
-            elif decision_quantity == '' and sales_unit == '' : 
+            if decision_quantity == '' and sales_unit == '' : 
                 sales_price = None
-            elif decision_quantity == '' and decision_unit == '' : 
+            if decision_quantity == '' and decision_unit == '' : 
+                print("3")
                 decision_price = None
-            else:
+            if decision_quantity != '' and decision_unit != '': 
+                print("4")
                 decision_price = int(decision_quantity) * int(decision_unit)
+                # sales_price = int(decision_quantity) * int(sales_unit)
+            if decision_quantity != '' and sales_unit != '': 
+                print("5")
+                # decision_price = int(decision_quantity) * int(decision_unit)
                 sales_price = int(decision_quantity) * int(sales_unit)
             
             if decision_quantity == '' : 
@@ -348,18 +350,26 @@ def modify(request):
         # 자동 계산 decision_quantity * sales_unit
         if decision_quantity == '' and sales_unit != '' :
             sales_price = sales_unit
-        elif decision_quantity == '' and decision_unit != '' : 
+        if decision_quantity == '' and decision_unit != '' : 
+            print("1")
             decision_price = decision_unit
-        elif decision_quantity != '' and sales_unit == '' : 
+        if decision_quantity != '' and sales_unit == '' : 
             sales_price = decision_quantity
-        elif decision_quantity != '' and decision_unit == '' : 
+        if decision_quantity != '' and decision_unit == '' : 
+            print("2")
             decision_price = decision_quantity
-        elif decision_quantity == '' and sales_unit == '' : 
+        if decision_quantity == '' and sales_unit == '' : 
             sales_price = None
-        elif decision_quantity == '' and decision_unit == '' : 
+        if decision_quantity == '' and decision_unit == '' : 
+            print("3")
             decision_price = None
-        else:
+        if decision_quantity != '' and decision_unit != '': 
+            print("4")
             decision_price = int(decision_quantity) * int(decision_unit)
+            # sales_price = int(decision_quantity) * int(sales_unit)
+        if decision_quantity != '' and sales_unit != '': 
+            print("5")
+            # decision_price = int(decision_quantity) * int(decision_unit)
             sales_price = int(decision_quantity) * int(sales_unit)
         
         if decision_quantity == '' : 

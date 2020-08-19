@@ -27,7 +27,9 @@ def save(request):
         if approval_quantity == '' : 
             approval_quantity = 0
         decision_quantity = request.POST.get('decision_quantity' + str(i),0)
-        if approval_quantity > decision_quantity :
+        if int(approval_quantity) > int(decision_quantity) :
+            print(approval_quantity)
+            print(decision_quantity)
             return "승인수량은 품의수량보다 작아야 합니다"
 
         approval_unit = request.POST.get('approval_unit' + str(i),0)
@@ -61,7 +63,7 @@ def save(request):
             # proposal의 proposal_balance 구현
             proposal_data = Proposal.objects.filter(oppty_num=oppty_num,productno=productno,recipient=recipient)
             proposal_balance = proposal_data.first().proposal_balance - int(approval_quantity)
-            proposal_data.update(approval_balance=approval_balance)
+            proposal_data.update(proposal_balance=proposal_balance)
         isSuccess = "저장되었습니다"  
     
     return isSuccess
@@ -159,6 +161,10 @@ def modify_save(request):
                 data.delete()
             Approval.objects.create(quote_num=quote_num, oppty_num=oppty_num, productno=productno, recipient=recipient, approval_quantity=approval_quantity, approval_unit=approval_unit,
                                     approval_price=approval_price, approval_balance=approval_balance, total_approval_balance=total_approval_balance )
+            # proposal의 proposal_balance 구현
+            proposal_data = Proposal.objects.filter(oppty_num=oppty_num,productno=productno,recipient=recipient)
+            proposal_balance = proposal_data.first().proposal_balance - int(approval_quantity)
+            proposal_data.update(proposal_balance=proposal_balance)
             isSuccess = "수정되었습니다"  
         else :
             isSuccess = "수정에 실패했습니다"

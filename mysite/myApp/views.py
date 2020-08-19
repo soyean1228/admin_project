@@ -524,6 +524,13 @@ def modify_proposal(request):
 
 def signin(request):
     print("로그인")
+    
+    # User.objects.create(username=3, password=3, first_name=3)
+    # user = User.objects.get(username=3)
+    # user.first_name=3
+    # user.set_password(3) # 비밀번호 변경 함수
+    # user.email = '모든 권한'
+    # user.save()
     form = AuthenticationForm()
     try:
         if request.method == 'POST':
@@ -607,7 +614,6 @@ def get_approval_data_from_select_quote_num(request):
     # approval_data = Approval.objects.all()
     try:
         select_quote_num = request.POST.get('select_quote_num',None)
-        print(select_quote_num)
         
         optty_num = request.POST.get('optty_num',None)
         print(optty_num)
@@ -616,9 +622,15 @@ def get_approval_data_from_select_quote_num(request):
         isQuoteNumRight = Approval.objects.filter(quote_num=select_quote_num).count()
 
         if isQuoteNumRight != 0:
-            approval_data = Approval.objects.filter(quote_num=select_quote_num)
-            print(approval_data)
-            print(approval_data.first().oppty_num)
+            # approval_data = Approval.objects.filter(quote_num=select_quote_num)
+            raw_data = Approval.objects.raw('SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ')
+            approval_data = []
+            for i in raw_data : 
+                print(type(i.quote_num))
+                print(type(select_quote_num))
+                if i.quote_num == int(select_quote_num) : 
+                    print("D")
+                    approval_data.append(i)
             return render(request, 'myApp/order.html', {"select_quote_num" : select_quote_num, "approval_data" : approval_data, "order_data" : order_data })  
         else:
             return render(request, 'myApp/order.html', {'error' : "견적번호가 유효하지 않습니다.", "order_data" : order_data })   
@@ -630,6 +642,7 @@ def get_approval_data_from_select_quote_num_from_approval(request,quote_num):
     # elect_quote_num를 통해서 Approval 등록된 정보를 가져옴 
     # select_quote_num
     # approval_data = Approval.objects.all()
+    # 견적번호로 가져갈 때 
     select_quote_num = int(quote_num)
     print(select_quote_num)
 
@@ -638,9 +651,12 @@ def get_approval_data_from_select_quote_num_from_approval(request,quote_num):
 
     try:
         if isQuoteNumRight != 0:
-            approval_data = Approval.objects.filter(quote_num=select_quote_num)
-            print(approval_data)
-            print(approval_data.first().oppty_num)
+            # approval_data = Approval.objects.filter(quote_num=select_quote_num)
+            raw_data = Approval.objects.raw('SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ')
+            approval_data = []
+            for i in raw_data : 
+                if raw_data.quote_num == select_quote_num : 
+                    approval_data.append(i)
             return render(request, 'myApp/order.html', {"select_quote_num" : select_quote_num, "approval_data" : approval_data, "order_data" : order_data })  
         else:
             return render(request, 'myApp/order.html', {'error' : "견적번호가 유효하지 않습니다.", "order_data" : order_data })   
