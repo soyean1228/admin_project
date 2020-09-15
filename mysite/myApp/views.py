@@ -384,7 +384,7 @@ def insert_check(request, table_name):
         return render(request, 'myApp/proposal.html',  { "isSave" : isSuccess })  
     if(table_name == 'approval'):
         isSuccess = approval_save.save(request)
-        approval_data = Approval.objects.raw('SELECT approval. *,  proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ;')    
+        approval_data = Approval.objects.raw('SELECT approval. *,  proposal.buy_place, proposal.proposal_balance, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ;')    
         return render(request, 'myApp/approval.html', { "error" : isSuccess , "approval_data" : approval_data })   
     if(table_name == 'order'):
         isSuccess = order_save.save(request)
@@ -590,7 +590,7 @@ def get_propoal_data_from_oppty(request):
     # approval.html에서 사용
     # oppty넘버를 통해서 Proposal에 등록된 정보를 가져옴 
     # select_oppty_num
-    approval_data = Approval.objects.raw('SELECT approval. *,  proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ;')    
+    approval_data = Approval.objects.raw('SELECT approval. *,  proposal.buy_place, proposal.decision_quantity, proposal.proposal_balance,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ;')    
     select_oppty_num = request.POST.get('select_oppty_num',None)
     select_customer_name = request.POST.get('select_customer_name',None)
     print(select_oppty_num)
@@ -648,14 +648,16 @@ def get_approval_data_from_select_quote_num_from_approval(request,quote_num):
 
     order_data = OrderData.objects.raw('SELECT * FROM ( SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ) temp inner JOIN order_data ON temp.productno=order_data.productno AND temp.oppty_num=order_data.oppty_num AND temp.recipient=order_data.recipient AND temp.quote_num=order_data.quote_num;')
     isQuoteNumRight = Approval.objects.filter(quote_num=select_quote_num).count()
-
+    print(isQuoteNumRight)
+    
     try:
         if isQuoteNumRight != 0:
+            print("유효한 견적번호")
             # approval_data = Approval.objects.filter(quote_num=select_quote_num)
             raw_data = Approval.objects.raw('SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ')
             approval_data = []
             for i in raw_data : 
-                if raw_data.quote_num == select_quote_num : 
+                if i.quote_num == select_quote_num : 
                     approval_data.append(i)
             return render(request, 'myApp/order.html', {"select_quote_num" : select_quote_num, "approval_data" : approval_data, "order_data" : order_data })  
         else:
@@ -694,16 +696,20 @@ def get_data_from_select_scheduled_delivery_date(request):
     isScheduled_delivery_dateRight = OrderData.objects.filter(scheduled_delivery_date=scheduled_delivery_date).count()
     print(isScheduled_delivery_dateRight)
     data = OrderData.objects.raw('SELECT * FROM order_data INNER JOIN approval ON order_data.oppty_num=approval.oppty_num AND order_data.quote_num=approval.quote_num AND order_data.recipient=approval.recipient AND order_data.productno=approval.productno INNER JOIN (SELECT proposal.*, customer_deposit_balance.deposit_balance FROM proposal INNER JOIN customer_deposit_balance ON proposal.company_registration_number=customer_deposit_balance.company_registration_number) proposal_deposit ON order_data.oppty_num=proposal_deposit.oppty_num AND order_data.recipient=proposal_deposit.recipient AND order_data.productno=proposal_deposit.productno;')
-    all_data = OrderData.objects.raw('SELECT * FROM order_data  INNER JOIN approval ON order_data.oppty_num=approval.oppty_num AND order_data.quote_num=approval.quote_num AND order_data.recipient=approval.recipient AND order_data.productno=approval.productno  INNER JOIN (SELECT proposal.*, customer_deposit_balance.deposit_balance FROM proposal INNER JOIN customer_deposit_balance ON proposal.company_registration_number=customer_deposit_balance.company_registration_number) proposal_deposit ON order_data.oppty_num=proposal_deposit.oppty_num AND order_data.recipient=proposal_deposit.recipient AND order_data.productno=proposal_deposit.productno INNER JOIN delivery ON order_data.order_num=delivery.order_num;')
+    all_data = OrderData.objects.raw('SELECT * FROM order_data INNER JOIN approval ON order_data.oppty_num=approval.oppty_num AND order_data.quote_num=approval.quote_num AND order_data.recipient=approval.recipient AND order_data.productno=approval.productno  INNER JOIN (SELECT proposal.*, customer_deposit_balance.deposit_balance FROM proposal INNER JOIN customer_deposit_balance ON proposal.company_registration_number=customer_deposit_balance.company_registration_number) proposal_deposit ON order_data.oppty_num=proposal_deposit.oppty_num AND order_data.recipient=proposal_deposit.recipient AND order_data.productno=proposal_deposit.productno INNER JOIN delivery ON order_data.order_num=delivery.order_num;')
     try:
         if isScheduled_delivery_dateRight != 0:
             # data = data.filter(scheduled_delivery_date=scheduled_delivery_date)
             result_data = []
             for i in data :
                 print(i.scheduled_delivery_date)
-                if i.scheduled_delivery_date.strftime('%Y-%m-%d') == scheduled_delivery_date:
-                    result_data.append(i)
-                    print(i.deposit_balance)
+                if i.scheduled_delivery_date != None :
+                    if i.scheduled_delivery_date.strftime('%Y-%m-%d') == scheduled_delivery_date:
+                        result_data.append(i)
+                        print(i.deposit_balance)
+                        print("같음")
+                    else :
+                        print("다름")
             print(result_data)
             return render(request, 'myApp/delivery.html', {"select_scheduled_delivery_date" : scheduled_delivery_date, "data" : result_data, "all_data" : all_data })  
         else:

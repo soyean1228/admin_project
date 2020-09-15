@@ -327,10 +327,10 @@
                         document.write("<input id= "+ productno +" name = " + productno + " type='text' value={{list.productno|default_if_none:'' }}> ");  
                         document.write("</div>");
                         document.write('<div class="cell" data-title="buy_place">');
-                        document.write("<input id= "+ buy_place +" name = " + buy_place + " type='text' value={{list.buy_place|default_if_none:'' }}> ");  
+                        document.write("<input id= "+ buy_place +" name = " + buy_place + " type='text' value='{{list.buy_place|default_if_none:'' }}'> ");  
                         document.write("</div>");
                         document.write('<div class="cell" data-title="approval_quantity">');
-                        document.write("<input id= "+ approval_quantity +" name = " + approval_quantity + " type='text' value={{list.approval_quantity|default_if_none:'' }}> ");
+                        document.write("<input id= "+ approval_quantity +" name = " + approval_quantity + " type='number' value={{list.approval_quantity|default_if_none:'' }}> ");
                         document.write("</div>");
                         document.write('<div class="cell" data-title="order_quantity">');
                         document.write("<input id= "+ order_quantity +" name = " + order_quantity + " type='number' value={{list.order_quantity|default_if_none:'' }}> ");
@@ -354,16 +354,16 @@
                         document.write("<input id= "+ scheduled_delivery_date +" name = " + scheduled_delivery_date + " type='date' value='{{list.scheduled_delivery_date|default_if_none:'' | date:'Y-m-d'}}'/>");    
                         document.write("</div>");
                         document.write('<div class="cell" data-title="recipient">');
-                        document.write("<input id= "+ recipient +" name = " + recipient + " type='text' value={{list.recipient|default_if_none:'' }}> "); 
+                        document.write("<input id= "+ recipient +" name = " + recipient + " type='text' value='{{list.recipient|default_if_none:'' }}'> "); 
                         document.write("</div>");
                         document.write('<div class="cell" data-title="recipient_phone1">');
-                        document.write("<input id= "+ recipient_phone1 +" name = " + recipient_phone1 + " type='text' value={{list.recipient_phone1|default_if_none:'' }}> "); 
+                        document.write("<input id= "+ recipient_phone1 +" name = " + recipient_phone1 + " type='text' value='{{list.recipient_phone1|default_if_none:'' }}'> "); 
                         document.write("</div>");
                         document.write('<div class="cell" data-title="recipient_phone2">');
-                        document.write("<input id= "+ recipient_phone2 +" name = " + recipient_phone2 + " type='text' value={{list.recipient_phone2|default_if_none:'' }}> "); 
+                        document.write("<input id= "+ recipient_phone2 +" name = " + recipient_phone2 + " type='text' value='{{list.recipient_phone2|default_if_none:'' }}'> "); 
                         document.write("</div>");
                         document.write('<div class="cell" data-title="delivery_address">');
-                        document.write("<input id= "+ delivery_address +" name = " + delivery_address + " type='text' value={{list.delivery_address|default_if_none:'' }}> "); 
+                        document.write("<input id= "+ delivery_address +" name = " + delivery_address + " type='text' value='{{list.delivery_address|default_if_none:'' }}'> "); 
                         document.write("</div>");
                         document.write('<div class="cell" data-title="order_balance">');
                         document.write("<input id= "+ order_balance +" name = " + order_balance + " type='number' value={{list.order_balance|default_if_none:'' }}> "); 
@@ -424,7 +424,7 @@
                       <th>인수자 전화번호1</th>
                       <th>인수자 전화번호2</th>
                       <th>배송주소</th>
-                      <th>주문잔량</th>
+                      <!-- <th>주문잔량</th> -->
                     </tr>
                   </thead>
                   <tfoot>
@@ -446,7 +446,7 @@
                       <th>인수자 전화번호1</th>
                       <th>인수자 전화번호2</th>
                       <th>배송주소</th>
-                      <th>주문잔량</th>
+                      <!-- <th>주문잔량</th> -->
                     </tr>
                   </tfoot>
                   <tbody>
@@ -470,7 +470,7 @@
                         <td>{{list.recipient_phone1|default_if_none:"" }}</td>
                         <td>{{list.recipient_phone2|default_if_none:"" }}</td>
                         <td>{{list.delivery_address|default_if_none:"" }}</td>
-                        <td>{{list.order_balance|default_if_none:"" }}</td>
+                        <!-- <td>{{list.order_balance|default_if_none:"" }}</td> -->
                       </tr>
                     {% endfor %}
                   </tbody>

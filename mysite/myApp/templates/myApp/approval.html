@@ -74,15 +74,18 @@
                             var approval_quantity = 'approval_quantity' + f; var approval_unit = 'approval_unit' + f; 
                             var delivery_request_date = 'delivery_request_date' + f; var approval_balance = 'approval_balance' + f;
                             var proposal_data_length = 'proposal_data_length'; var recipient = 'recipient' + f;
+                            var decision_price = 'decision_price' + f; var proposal_balance = 'proposal_balance'+ f;
 
                             document.write('{% for list in proposal_data %}');
                             f = f+1;  quote_num = 'quote_num' + f; productno = 'productno' + f; 
                             buy_place = 'buy_place' + f; decision_quantity = 'decision_quantity' + f; 
                             approval_quantity = 'approval_quantity' + f; approval_unit = 'approval_unit' + f; 
                             delivery_request_date = 'delivery_request_date' + f; approval_balance = 'approval_balance' + f;
-                            recipient = 'recipient'+f ; 
+                            recipient = 'recipient'+f ; decision_price = 'decision_price' + f; proposal_balance = 'proposal_balance'+ f;
 
                             document.write('<div class="row">'); 
+                            document.write("<input id= "+ decision_price +" name = " + decision_price + " type='hidden' value={{list.decision_price|default_if_none:'' }}> ");    
+                            document.write("<input id= "+ proposal_balance +" name = " + proposal_balance + " type='hidden' value={{list.proposal_balance|default_if_none:'' }}> ");    
                             document.write('<div class="cell" data-title="quote_num">');
                             document.write("<input id= "+ quote_num +" name = " + quote_num + " type='number' > ");  
                             document.write("</div>");
@@ -193,7 +196,7 @@
                             승인잔량
                           </div>
                           <div class="cell">
-                            총승인액
+                            동일 견적번호 총승인액
                           </div>
                         </div>
                         <script>
@@ -204,7 +207,8 @@
                           var modify_select_data_length = 'modify_select_data_length'; var recipient = 'modify_recipient' + f;
                           var approval_balance = 'modify_approval_balance'+f; var total_approval_balance = 'modify_total_approval_balance'+f; 
                           var approval_price = 'modify_approval_price'+f;  var oppty_num= 'modify_oppty_num'+f
-                          var decision_quantity= 'modify_decision_quantity'+f
+                          var decision_quantity= 'modify_decision_quantity'+f; var decision_price= 'modify_decision_price'+f; 
+                          var proposal_balance = 'modify_proposal_balance'+f;
 
                           document.write('{% for list in modify_select_data %}');
                           f = f+1;  quote_num = 'modify_quote_num' + f; productno = 'modify_productno' + f; 
@@ -213,11 +217,14 @@
                           delivery_request_date = 'modify_delivery_request_date' + f; approval_balance = 'modify_approval_balance' + f;
                           recipient = 'modify_recipient'+f ; approval_balance = 'modify_approval_balance'+f; total_approval_balance = 'modify_total_approval_balance'+f; 
                           approval_price = 'modify_approval_price'+f; oppty_num= 'modify_oppty_num'+f
-                          decision_quantity= 'modify_decision_quantity'+f
+                          decision_quantity= 'modify_decision_quantity'+f; decision_price= 'modify_decision_price'+f
+                          proposal_balance = 'modify_proposal_balance'+f;
 
                           document.write('<div class="row">');
+                          document.write("<input id= "+ decision_price +" name = " + decision_price + " type='hidden' value={{list.decision_price|default_if_none:'' }}> ");    
                           document.write("<input id= "+ oppty_num +" name = " + oppty_num + " type='hidden' value={{list.oppty_num|default_if_none:'' }}> ");    
                           document.write("<input id= "+ decision_quantity +" name = " + decision_quantity + " type='hidden' value={{list.decision_quantity|default_if_none:'' }}> ");    
+                          document.write("<input id= "+ proposal_balance +" name = " + proposal_balance + " type='hidden' value={{list.proposal_balance|default_if_none:'' }}> ");    
                           document.write('<div class="cell" data-title="quote_num">');
                           document.write("<input id= "+ quote_num +" name = " + quote_num + " type='number' value={{list.quote_num|default_if_none:'' }}> ");    
                           document.write("</div>");
@@ -296,7 +303,7 @@
                       <th>승인액</th>
                       <th>납품요청일</th>
                       <th>승인잔량</th>
-                      <th>총 승인액</th>
+                      <th>동일 견적번호 총승인액</th>
                       <th>인수자</th>
                     </tr>
                   </thead>
@@ -312,7 +319,7 @@
                       <th>승인액</th>
                       <th>납품요청일</th>
                       <th>승인잔량</th>
-                      <th>총 승인액</th>
+                      <th>동일 견적번호 총승인액</th>
                       <th>인수자</th>
                     </tr>
                   </tfoot>

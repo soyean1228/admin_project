@@ -113,7 +113,7 @@
                             
                             document.write('<div class="row">');
                             document.write('<div class="cell" data-title="customer_name">');
-                            document.write("<input id= "+ customer_name +" name = " + customer_name + " type='text'  value={{list.customer_name|default_if_none:'' }}> ");   
+                            document.write("<input id= "+ customer_name +" name = " + customer_name + " type='text'  value='{{list.customer_name|default_if_none:'' }}'> ");   
                             document.write("</div>");
                             document.write('<div class="cell" data-title="order_date">');
                             document.write("<input id= "+ order_date +" name = " + order_date + " type='date'  value={{list.order_date|default_if_none:'' | date:'Y-m-d'}}>");    
