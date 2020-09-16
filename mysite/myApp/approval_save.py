@@ -169,10 +169,14 @@ def modify(request):
 def modify_save(request):
     print("modify_save")
 
-    deleted_data = modify(request)
-    previous_data = modify(request) # 수정 작업 전 데이터
+    # 수정 작업 전 데이터
+    previous_data_origin = Approval.objects.all()
+    previous_data = []
+    for i in previous_data_origin :
+        previous_data.append(i)
 
     # 수정 전 해당 데이터 모두 삭제
+    deleted_data = modify(request)
     approval_data = Approval.objects.raw('SELECT approval. *, proposal.proposal_balance, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ;')        
     for i in approval_data:
         for j in deleted_data:
@@ -184,80 +188,9 @@ def modify_save(request):
                 i.delete()
                 
     isSuccess = "수정에 실패했습니다"   
-
-    modify_select_data_length = request.POST.get('modify_select_data_length','')
-
-    # 수정 전 validation 확인 
-    isFail = False
-    for i in range(0, int(modify_select_data_length) + 1):
-        productno = None; approval_quantity = None; 
-        approval_price = None; quote_num = None; approval_balance = None; 
-        decision_quantity = None; approval_unit = None; buy_place = None; 
-        delivery_request_date = None; total_approval_balance = None
-        recipient = None; oppty_num = None; quote_num = None; 
-        decision_price = None; proposal_balance=None; 
-
-        quote_num = request.POST.get('modify_quote_num' + str(i),'')
-        oppty_num = request.POST.get('modify_oppty_num' + str(i),'')
-        productno = request.POST.get('modify_productno' + str(i),'')
-        recipient = request.POST.get('modify_recipient' + str(i),'')
-
-        approval_unit = request.POST.get('modify_approval_unit' + str(i),0)
-        if approval_unit == '' : 
-            approval_unit = 0
-
-        decision_price = request.POST.get('modify_decision_price' + str(i),0)
-        if decision_price == '' : 
-            decision_price = 0
-
-        if quote_num != '' and productno != '' and oppty_num != '' and recipient != '':
-            data_count = Approval.objects.filter(quote_num=quote_num, productno=productno,recipient=recipient, oppty_num=oppty_num).count()
-            approval_quantity = request.POST.get('modify_approval_quantity' + str(i),0)
-            if approval_quantity == '' : 
-                approval_quantity = 0
-            approval_balance = approval_quantity
-            proposal_balance = request.POST.get('modify_proposal_balance' + str(i),0)
-            approval_price = int(approval_quantity) * int(approval_unit)
-
-            # proposal의 proposal_balance > validation 체크
-            proposal_data = Proposal.objects.filter(oppty_num=oppty_num,productno=productno,recipient=recipient)
-            proposal_balance_result = proposal_data.first().proposal_balance - int(approval_quantity)
-            print(proposal_balance_result)
-            if int(proposal_balance_result) < 0 :
-                isSuccess = "승인수량은 품의수량보다 작아야 합니다"
-                isFail = True
-
-            approval_data = Approval.objects.filter(oppty_num=oppty_num, productno=productno, recipient=recipient)
-            if approval_data != None:
-                approval_price_sum = 0    
-                for a in approval_data:
-                    approval_price_sum = approval_price_sum + a.approval_price
-                approval_price = int(approval_quantity) * int(approval_unit)
-                approval_price_sum = approval_price_sum + approval_price
-                print(approval_price_sum)
-                print(decision_price)
-                if int(approval_price_sum) > int(decision_price) :
-                    isSuccess = "승인액은 품의액보다 작아야 합니다"
-                    isFail = True
-            else:
-                approval_price = int(approval_quantity) * int(approval_unit)
-                print(approval_price)
-                print(decision_price)
-                if int(approval_price) > int(decision_price) :
-                    isSuccess = "승인액은 품의액보다 작아야 합니다"
-                    isFail = True
     
-    if isFail == True :
-        #previous_data 복원
-        for i in previous_data:
-            Approval.objects.create(quote_num=i.quote_num, oppty_num=i.oppty_num, productno=i.productno, recipient=i.recipient, approval_quantity=i.approval_quantity, approval_unit=i.approval_unit,
-                                    approval_price=i.approval_price, approval_balance=i.approval_balance, total_approval_balance=i.total_approval_balance )
-            # proposal의 proposal_balance 구현
-            proposal_data = Proposal.objects.filter(oppty_num=i.oppty_num,productno=i.productno,recipient=i.recipient)
-            proposal_balance_result = proposal_data.first().proposal_balance - int(i.approval_quantity)
-            proposal_data.update(proposal_balance=proposal_balance_result)
-        return isSuccess
-
+    # 수정
+    modify_select_data_length = request.POST.get('modify_select_data_length','')
     for i in range(0, int(modify_select_data_length) + 1):
         productno = None; approval_quantity = None; 
         approval_price = None; quote_num = None; approval_balance = None; 
@@ -327,7 +260,118 @@ def modify_save(request):
                                     approval_price=approval_price, approval_balance=approval_balance, total_approval_balance=total_approval_balance )
         
             isSuccess = "수정되었습니다"  
-        else :
-            isSuccess = "수정에 실패했습니다"
+
+    # 수정 후 validation 체크 
+    ## proposal 데이터에서 -1이 있으면 fail ( 승인 수량 조건 만족 validation )
+    isFail = False 
+    proposal_data = Proposal.objects.all()
+    for i in proposal_data :
+        if int(i.proposal_balance) < 0 :
+            isSuccess = "승인수량은 품의수량보다 작아야 합니다"
+            isFail = True
+            break
+        approval_data = Approval.objects.filter(oppty_num=i.oppty_num, productno=i.productno, recipient=i.recipient)
+        if approval_data != None:
+            approval_price_sum = 0    
+            for a in approval_data:
+                approval_price_sum = approval_price_sum + a.approval_price
+            if int(approval_price_sum) > int(i.decision_price) :
+                isSuccess = "승인액은 품의액보다 작아야 합니다"
+                isFail = True
+                break
+    
+    #수정 실패하면 previous_data 복원
+    if isFail == True :
+        queryset = Approval.objects.all()
+        queryset.delete() # 일괄 delete 요청 
+        print("복원")
+        print(previous_data)
+        for i in previous_data:
+            Approval.objects.create(quote_num=i.quote_num, oppty_num=i.oppty_num, productno=i.productno, recipient=i.recipient, approval_quantity=i.approval_quantity, approval_unit=i.approval_unit,
+                                    approval_price=i.approval_price, approval_balance=i.approval_balance, total_approval_balance=i.total_approval_balance )
+        # proposal의 proposal_balance 다시 계산
+        proposal_data = Proposal.objects.all()
+        for i in proposal_data :
+            approval_data = Approval.objects.filter(oppty_num=i.oppty_num, productno=i.productno, recipient=i.recipient)
+            if approval_data != None:
+                approval_quantity_sum = 0
+                for j in approval_data:
+                    approval_quantity_sum = approval_quantity_sum + j.approval_quantity
+                update_data = Proposal.objects.filter(oppty_num=i.oppty_num, productno=i.productno, recipient=i.recipient)
+                proposal_balance = update_data.first().decision_quantity - approval_quantity_sum
+                update_data.update(proposal_balance=proposal_balance)
+
+
+    # isFail = False
+    # for i in range(0, int(modify_select_data_length) + 1):
+    #     productno = None; approval_quantity = None; 
+    #     approval_price = None; quote_num = None; approval_balance = None; 
+    #     decision_quantity = None; approval_unit = None; buy_place = None; 
+    #     delivery_request_date = None; total_approval_balance = None
+    #     recipient = None; oppty_num = None; quote_num = None; 
+    #     decision_price = None; proposal_balance=None; 
+
+    #     quote_num = request.POST.get('modify_quote_num' + str(i),'')
+    #     oppty_num = request.POST.get('modify_oppty_num' + str(i),'')
+    #     productno = request.POST.get('modify_productno' + str(i),'')
+    #     recipient = request.POST.get('modify_recipient' + str(i),'')
+
+    #     approval_unit = request.POST.get('modify_approval_unit' + str(i),0)
+    #     if approval_unit == '' : 
+    #         approval_unit = 0
+
+    #     decision_price = request.POST.get('modify_decision_price' + str(i),0)
+    #     if decision_price == '' : 
+    #         decision_price = 0
+
+    #     if quote_num != '' and productno != '' and oppty_num != '' and recipient != '':
+    #         data_count = Approval.objects.filter(quote_num=quote_num, productno=productno,recipient=recipient, oppty_num=oppty_num).count()
+    #         approval_quantity = request.POST.get('modify_approval_quantity' + str(i),0)
+    #         if approval_quantity == '' : 
+    #             approval_quantity = 0
+    #         approval_balance = approval_quantity
+    #         proposal_balance = request.POST.get('modify_proposal_balance' + str(i),0)
+    #         approval_price = int(approval_quantity) * int(approval_unit)
+
+    #         # proposal의 proposal_balance > validation 체크
+    #         proposal_data = Proposal.objects.filter(oppty_num=oppty_num,productno=productno,recipient=recipient)
+    #         proposal_balance_result = proposal_data.first().proposal_balance - int(approval_quantity)
+    #         print(proposal_balance_result)
+    #         if int(proposal_balance_result) < 0 :
+    #             isSuccess = "승인수량은 품의수량보다 작아야 합니다"
+    #             isFail = True
+
+    #         approval_data = Approval.objects.filter(oppty_num=oppty_num, productno=productno, recipient=recipient)
+    #         if approval_data != None:
+    #             approval_price_sum = 0    
+    #             for a in approval_data:
+    #                 approval_price_sum = approval_price_sum + a.approval_price
+    #             approval_price = int(approval_quantity) * int(approval_unit)
+    #             approval_price_sum = approval_price_sum + approval_price
+    #             print(approval_price_sum)
+    #             print(decision_price)
+    #             if int(approval_price_sum) > int(decision_price) :
+    #                 isSuccess = "승인액은 품의액보다 작아야 합니다"
+    #                 isFail = True
+    #         else:
+    #             approval_price = int(approval_quantity) * int(approval_unit)
+    #             print(approval_price)
+    #             print(decision_price)
+    #             if int(approval_price) > int(decision_price) :
+    #                 isSuccess = "승인액은 품의액보다 작아야 합니다"
+    #                 isFail = True
+    
+    # if isFail == True :
+    #     #previous_data 복원
+    #     for i in previous_data:
+    #         Approval.objects.create(quote_num=i.quote_num, oppty_num=i.oppty_num, productno=i.productno, recipient=i.recipient, approval_quantity=i.approval_quantity, approval_unit=i.approval_unit,
+    #                                 approval_price=i.approval_price, approval_balance=i.approval_balance, total_approval_balance=i.total_approval_balance )
+    #         # proposal의 proposal_balance 구현
+    #         proposal_data = Proposal.objects.filter(oppty_num=i.oppty_num,productno=i.productno,recipient=i.recipient)
+    #         proposal_balance_result = proposal_data.first().proposal_balance - int(i.approval_quantity)
+    #         proposal_data.update(proposal_balance=proposal_balance_result)
+    #     return isSuccess
+
+    
 
     return isSuccess

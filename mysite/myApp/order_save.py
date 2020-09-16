@@ -203,7 +203,7 @@ def modify_save(request):
     for i in previous_data_origin :
         previous_data.append(i)
 
-    # 수정 (일단 다 삭제)
+    # 수정 전 해당 데이터 모두 삭제
     deleted_data = modify(request)
     order_data = OrderData.objects.raw('SELECT * FROM ( SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ) temp right JOIN order_data ON temp.productno=order_data.productno AND temp.oppty_num=order_data.oppty_num AND temp.recipient=order_data.recipient AND temp.quote_num=order_data.quote_num;')
     for i in order_data:
@@ -220,7 +220,6 @@ def modify_save(request):
     # 수정
     modify_select_data_length = request.POST.get('modify_select_data_length',0)
     for i in range(0, int(modify_select_data_length) + 1):
-
         order_date = None;  order_num = None; assignment = None; quote_num = None; 
         productno = None; buy_place = None; approval_quantity = None; order_quantity = None; 
         approval_unit = None;  approval_price = None; sales_unit = None; sales_price = None; 
