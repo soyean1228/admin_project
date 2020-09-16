@@ -12,8 +12,33 @@ def save(request):
     oppty_num = request.POST.get('oppty_num',0)
     quote_num = request.POST.get('select_quote_num',0)
     approval_data_length = request.POST.get('approval_data_length',0)
-    for i in range(0, int(approval_data_length) + 1):
 
+    #validation 체크
+    for i in range(0, int(approval_data_length) + 1):
+        order_date = None;  order_num = None; assignment = None; 
+        productno = None; buy_place = None; approval_quantity = None; order_quantity = None; 
+        approval_unit = None;  approval_price = None; sales_unit = None; sales_price = None; 
+        delivery_request_date = None; scheduled_delivery_date = None; recipient = None
+        order_balance = None; 
+
+        productno = request.POST.get('productno' + str(i),0)
+        if productno == '' : 
+            productno = None
+        recipient = request.POST.get('recipient' + str(i),0)
+        if recipient == '' : 
+            recipient = None
+        order_quantity = request.POST.get('order_quantity' + str(i),0)
+        if order_quantity == '' : 
+            order_quantity = None
+        order_num = request.POST.get('order_num' + str(i),0)
+        if order_num != '' :
+            # approval의 approval_balance 구현
+            approval_data = Approval.objects.filter(quote_num=quote_num, productno=productno, recipient=recipient, oppty_num=oppty_num)
+            approval_balance = approval_data.first().approval_balance
+            if int(order_quantity) > int(approval_balance) :
+                return "주문수량은 승인수량보다 작아야 합니다"
+
+    for i in range(0, int(approval_data_length) + 1):
         order_date = None;  order_num = None; assignment = None; 
         productno = None; buy_place = None; approval_quantity = None; order_quantity = None; 
         approval_unit = None;  approval_price = None; sales_unit = None; sales_price = None; 
@@ -50,21 +75,18 @@ def save(request):
             data_count = OrderData.objects.filter(quote_num=quote_num, productno=productno, recipient=recipient, oppty_num=oppty_num, order_num=order_num).count()
 
             if data_count != 0 :
-                data = OrderData.objects.get(quote_num=quote_num, productno=productno, recipient=recipient, oppty_num=oppty_num, order_num=order_num)
-                data.delete()
-            else : 
+                print("동일한 데이터 존재")
+                data = OrderData.objects.filter(quote_num=quote_num, productno=productno, recipient=recipient, oppty_num=oppty_num, order_num=order_num)
                 # approval의 approval_balance 구현
                 approval_data = Approval.objects.filter(quote_num=quote_num, productno=productno, recipient=recipient, oppty_num=oppty_num)
-                approval_balance = approval_data.first().approval_balance
-
-                print(order_quantity)
-                print(approval_balance)
-
-                if int(order_quantity) > int(approval_balance) :
-                    return "주문수량은 승인수량보다 작아야 합니다"
-                
-                approval_balance = approval_data.first().approval_balance - int(order_quantity)
+                approval_balance = approval_data.first().approval_balance + int(data.first().order_quantity)
                 approval_data.update(approval_balance=approval_balance)
+                data.delete()
+
+            # approval의 approval_balance 구현
+            approval_data = Approval.objects.filter(quote_num=quote_num, productno=productno, recipient=recipient, oppty_num=oppty_num)
+            approval_balance = approval_data.first().approval_balance - int(order_quantity)
+            approval_data.update(approval_balance=approval_balance)
 
             OrderData.objects.create(quote_num=quote_num, oppty_num=oppty_num, productno=productno, recipient=recipient, order_num=order_num,order_date=order_date,assignment=assignment,
                                     order_quantity=order_quantity, scheduled_delivery_date=scheduled_delivery_date, order_balance=order_balance )
@@ -160,19 +182,27 @@ def modify(request):
 def modify_save(request):
     print("modify_save")
 
+    # 수정 작업 전 데이터
+    previous_data_origin = OrderData.objects.all()
+    previous_data = []
+    for i in previous_data_origin :
+        previous_data.append(i)
+
     # 수정 (일단 다 삭제)
-    # deleted_data = modify(request)
-    # order_data = OrderData.objects.raw('SELECT * FROM ( SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ) temp right JOIN order_data ON temp.productno=order_data.productno AND temp.oppty_num=order_data.oppty_num AND temp.recipient=order_data.recipient AND temp.quote_num=order_data.quote_num;')
-    # for i in order_data:
-    #     for j in deleted_data:
-    #         if i == j : 
-    #             print("동일")
-    #             i.delete()
-    #         else: 
-    #             print("다름")
+    deleted_data = modify(request)
+    order_data = OrderData.objects.raw('SELECT * FROM ( SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ) temp right JOIN order_data ON temp.productno=order_data.productno AND temp.oppty_num=order_data.oppty_num AND temp.recipient=order_data.recipient AND temp.quote_num=order_data.quote_num;')
+    for i in order_data:
+        for j in deleted_data:
+            if i == j : 
+                # approval의 approval_balance 구현
+                approval_data = Approval.objects.filter(quote_num=i.quote_num, productno=i.productno, recipient=i.recipient, oppty_num=i.oppty_num)
+                approval_balance_result = approval_data.first().approval_balance + int(i.order_quantity)
+                approval_data.update(approval_balance=approval_balance_result)
+                i.delete()
 
-    isSuccess = "저장에 실패했습니다"   
+    isSuccess = "저장에 실패했습니다"  
 
+    # 수정
     modify_select_data_length = request.POST.get('modify_select_data_length',0)
     for i in range(0, int(modify_select_data_length) + 1):
 
@@ -200,8 +230,6 @@ def modify_save(request):
         approval_quantity = request.POST.get('modify_approval_quantity' + str(i),0)
         if approval_quantity != '' :
             approval_quantity = None
-            # if int(order_quantity) > int(approval_quantity) :
-            #     return "주문수량은 승인수량보다 작아야 합니다"
         scheduled_delivery_date = request.POST.get('modify_scheduled_delivery_date' + str(i),0)
         if scheduled_delivery_date == '' : 
             scheduled_delivery_date = None
@@ -210,7 +238,6 @@ def modify_save(request):
 
         if order_num != '' and quote_num != '':
             data_count = OrderData.objects.filter(quote_num=quote_num, productno=productno, recipient=recipient, oppty_num=oppty_num, order_num=order_num).count()
-            print(data_count)
             if data_count != 0 :
                 print("삭제")
                 data = OrderData.objects.get(quote_num=quote_num, productno=productno, recipient=recipient, oppty_num=oppty_num, order_num=order_num)
@@ -218,20 +245,42 @@ def modify_save(request):
             else:
                 # approval의 approval_balance 구현
                 approval_data = Approval.objects.filter(quote_num=quote_num, productno=productno, recipient=recipient, oppty_num=oppty_num)
-                approval_balance = approval_data.first().approval_balance
-
-                print(order_quantity)
-                print(approval_balance)
-
-                if int(order_quantity) > int(approval_balance) :
-                    return "주문수량은 승인수량보다 작아야 합니다"
-                
-                approval_balance = approval_data.first().approval_balance - int(order_quantity)
-                approval_data.update(approval_balance=approval_balance)
+                approval_balance_result = approval_data.first().approval_balance - int(order_quantity)
+                approval_data.update(approval_balance=approval_balance_result)
 
                 OrderData.objects.create(quote_num=quote_num, oppty_num=oppty_num, productno=productno, recipient=recipient, order_num=order_num,order_date=order_date,assignment=assignment,
                                         order_quantity=order_quantity, scheduled_delivery_date=scheduled_delivery_date, order_balance=order_balance )
                 
         isSuccess = "저장되었습니다"  
     
+    # 수정 후 validation 체크 
+    ## approval의 데이터에서 -1이 있으면 fail
+    isFail = False 
+    approval_data = Approval.objects.all()
+    for i in approval_data :
+        if int(i.approval_balance) < 0 :
+            isSuccess = "주문수량은 승인수량보다 작아야 합니다"
+            isFail = True
+
+    #수정 실패하면 previous_data 복원
+    if isFail == True :
+        queryset = OrderData.objects.all()
+        queryset.delete() # 일괄 delete 요청 
+        print("복원")
+        print(previous_data)
+        for i in previous_data:
+            OrderData.objects.create(quote_num=i.quote_num, oppty_num=i.oppty_num, productno=i.productno, recipient=i.recipient, order_num=i.order_num,order_date=i.order_date,assignment=i.assignment,
+                                        order_quantity=i.order_quantity, scheduled_delivery_date=i.scheduled_delivery_date, order_balance=i.order_balance )
+        # approval의 approval_balance 다시 계산
+        approval_data = Approval.objects.all()
+        for i in approval_data:
+            order_data = OrderData.objects.filter(oppty_num=i.oppty_num, productno=i.productno, recipient=i.recipient, quote_num=i.quote_num)
+            if order_data != None:
+                order_quantity_sum = 0
+                for j in order_data:
+                    order_quantity_sum = order_quantity_sum + j.order_quantity
+                update_data = Approval.objects.filter(oppty_num=i.oppty_num,productno=i.productno,recipient=i.recipient, quote_num=i.quote_num)
+                approval_balance = update_data.first().approval_quantity - order_quantity_sum
+                update_data.update(approval_balance=approval_balance)
+
     return isSuccess

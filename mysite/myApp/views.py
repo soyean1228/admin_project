@@ -616,7 +616,6 @@ def get_approval_data_from_select_quote_num(request):
         select_quote_num = request.POST.get('select_quote_num',None)
         
         optty_num = request.POST.get('optty_num',None)
-        print(optty_num)
 
         order_data = OrderData.objects.raw('SELECT * FROM ( SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ) temp inner JOIN order_data ON temp.productno=order_data.productno AND temp.oppty_num=order_data.oppty_num AND temp.recipient=order_data.recipient AND temp.quote_num=order_data.quote_num;')
         isQuoteNumRight = Approval.objects.filter(quote_num=select_quote_num).count()
@@ -626,10 +625,7 @@ def get_approval_data_from_select_quote_num(request):
             raw_data = Approval.objects.raw('SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ')
             approval_data = []
             for i in raw_data : 
-                print(type(i.quote_num))
-                print(type(select_quote_num))
                 if i.quote_num == int(select_quote_num) : 
-                    print("D")
                     approval_data.append(i)
             return render(request, 'myApp/order.html', {"select_quote_num" : select_quote_num, "approval_data" : approval_data, "order_data" : order_data })  
         else:
