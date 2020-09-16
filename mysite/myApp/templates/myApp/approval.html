@@ -27,11 +27,11 @@
 
                 <div class="container-search" style="overflow: auto;">
                   <div data-title="select_customer_name" style="display:inline-block; margin-right: 40px;">
-                    <label>업체명</label><input id= "select_customer_name" name = "select_customer_name" type='text' class="form-control form-control-sm" value= {{select_customer_name|default_if_none:"" }} >
+                    <label>업체명</label><input id= "select_customer_name" name = "select_customer_name" type='text' class="form-control form-control-sm" value= '{{select_customer_name|default_if_none:"" }}' >
                   </div>
 
                   <div data-title="select_oppty_num" style="display:inline-block;">
-                    <label>OPPTY번호</label><input id= "select_oppty_num" name = "select_oppty_num" type='text' class="form-control form-control-sm" value= {{select_oppty_num|default_if_none:'' }} >
+                    <label>OPPTY번호</label><input id= "select_oppty_num" name = "select_oppty_num" type='text' class="form-control form-control-sm" value= "{{select_oppty_num|default_if_none:'' }}" >
                   </div>
                   <p></p>
                   <input type="button" class = 'sub' value="조회" style="margin-top: 10px;" onclick='mySubmit(1)'/>
@@ -90,10 +90,10 @@
                             document.write("<input id= "+ quote_num +" name = " + quote_num + " type='number' > ");  
                             document.write("</div>");
                             document.write('<div class="cell" data-title="productno">');
-                            document.write("<input id= "+ productno +" name = " + productno + " type='text' value={{list.productno|default_if_none:'' }}> ");    
+                            document.write("<input id= "+ productno +" name = " + productno + " type='text' value='{{list.productno|default_if_none:'' }}'> ");    
                             document.write("</div>");
                             document.write('<div class="cell" data-title="buy_place">');
-                            document.write("<input id= "+ buy_place +" name = " + buy_place + " type='text' value={{list.buy_place|default_if_none:'' }}> ");   
+                            document.write("<input id= "+ buy_place +" name = " + buy_place + " type='text' value='{{list.buy_place|default_if_none:'' }}'> ");   
                             document.write("</div>");
                             document.write('<div class="cell" data-title="decision_quantity">');
                             document.write("<input id= "+ decision_quantity +" name = " + decision_quantity + " type='number' value={{list.decision_quantity|default_if_none:'' }}> ");  
@@ -108,7 +108,7 @@
                             document.write("<input id= "+ delivery_request_date +" name = " + delivery_request_date + " type='date'  value='{{list.delivery_request_date|default_if_none:'' | date:'Y-m-d'}}'/>");    
                             document.write("</div>");
                             document.write('<div class="cell" data-title="recipient">');
-                            document.write("<input id= "+ recipient +" name = " + recipient + " type='text' value={{list.recipient|default_if_none:'' }}> ");  
+                            document.write("<input id= "+ recipient +" name = " + recipient + " type='text' value='{{list.recipient|default_if_none:'' }}'> ");  
                             document.write("</div>");
                             document.write("</div>");
                             document.write('{% endfor %}');
@@ -145,15 +145,15 @@
                 </div>
 
                 <div data-title="modify_select_oppty_num" style="display:inline-block; margin-right: 20px;">
-                  <label>OPPTY번호</label><input id= "modify_select_oppty_num" name = "modify_select_oppty_num" type='text' class="form-control form-control-sm" value= {{modify_select_oppty_num|default_if_none:'' }} >
+                  <label>OPPTY번호</label><input id= "modify_select_oppty_num" name = "modify_select_oppty_num" type='text' class="form-control form-control-sm" value= "{{modify_select_oppty_num|default_if_none:'' }}" >
                 </div>
 
                 <div data-title="modify_select_product_no" style="display:inline-block; margin-right: 20px;">
-                  <label>ProductNo</label><input id= "modify_select_product_no" name = "modify_select_product_no" type='text' class="form-control form-control-sm" value= {{modify_select_product_no|default_if_none:'' }} >
+                  <label>ProductNo</label><input id= "modify_select_product_no" name = "modify_select_product_no" type='text' class="form-control form-control-sm" value= "{{modify_select_product_no|default_if_none:'' }}">
                 </div>
 
                 <div data-title="modify_select_recipient" style="display:inline-block; margin-right: 20px;">
-                  <label>인수자</label><input id= "modify_select_recipient" name = "modify_select_recipient" type='text' class="form-control form-control-sm" value= {{modify_select_recipient|default_if_none:'' }} >
+                  <label>인수자</label><input id= "modify_select_recipient" name = "modify_select_recipient" type='text' class="form-control form-control-sm" value= "{{modify_select_recipient|default_if_none:'' }}" >
                 </div>
                 <p></p>
                 <input type="button" class = 'sub' value="조회" style="margin-top: 10px;" onclick='mySubmit(3)'/>
@@ -229,10 +229,10 @@
                           document.write("<input id= "+ quote_num +" name = " + quote_num + " type='number' value={{list.quote_num|default_if_none:'' }}> ");    
                           document.write("</div>");
                           document.write('<div class="cell" data-title="productno">');
-                          document.write("<input id= "+ productno +" name = " + productno + " type='text' value={{list.productno|default_if_none:'' }}> ");    
+                          document.write("<input id= "+ productno +" name = " + productno + " type='text' value='{{list.productno|default_if_none:'' }}'> ");    
                           document.write("</div>");
                           document.write('<div class="cell" data-title="buy_place">');
-                          document.write("<input id= "+ buy_place +" name = " + buy_place + " type='text' value={{list.buy_place|default_if_none:'' }}> ");   
+                          document.write("<input id= "+ buy_place +" name = " + buy_place + " type='text' value='{{list.buy_place|default_if_none:'' }}'> ");   
                           document.write("</div>");
                           document.write('<div class="cell" data-title="decision_quantity">');
                           document.write("<input id= "+ decision_quantity +" name = " + decision_quantity + " type='number' value={{list.decision_quantity|default_if_none:'' }}> ");  
@@ -250,7 +250,7 @@
                           document.write("<input id= "+ delivery_request_date +" name = " + delivery_request_date + " type='date' value='{{list.delivery_request_date|default_if_none:'' | date:'Y-m-d'}}'/>");    
                           document.write("</div>");
                           document.write('<div class="cell" data-title="recipient">');
-                          document.write("<input id= "+ recipient +" name = " + recipient + " type='text' value={{list.recipient|default_if_none:'' }}> ");  
+                          document.write("<input id= "+ recipient +" name = " + recipient + " type='text' value='{{list.recipient|default_if_none:'' }}'> ");  
                           document.write("</div>");
                           document.write('<div class="cell" data-title="approval_balance">');
                           document.write("<input id= "+ approval_balance +" name = " + approval_balance + " type='number' value={{list.approval_balance|default_if_none:'' }}> ");  

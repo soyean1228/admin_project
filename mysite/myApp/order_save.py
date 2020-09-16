@@ -161,15 +161,15 @@ def modify_save(request):
     print("modify_save")
 
     # 수정 (일단 다 삭제)
-    deleted_data = modify(request)
-    order_data = OrderData.objects.raw('SELECT * FROM ( SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ) temp right JOIN order_data ON temp.productno=order_data.productno AND temp.oppty_num=order_data.oppty_num AND temp.recipient=order_data.recipient AND temp.quote_num=order_data.quote_num;')
-    for i in order_data:
-        for j in deleted_data:
-            if i == j : 
-                print("동일")
-                i.delete()
-            else: 
-                print("다름")
+    # deleted_data = modify(request)
+    # order_data = OrderData.objects.raw('SELECT * FROM ( SELECT approval. *,  proposal.sales_unit, proposal.sales_price, proposal.delivery_address, proposal.recipient_phone1, proposal.recipient_phone2, proposal.buy_place, proposal.decision_quantity,  proposal.delivery_request_date  FROM  approval INNER JOIN proposal ON approval.oppty_num = proposal.oppty_num AND approval.productno = proposal.productno AND approval.recipient = proposal.recipient ) temp right JOIN order_data ON temp.productno=order_data.productno AND temp.oppty_num=order_data.oppty_num AND temp.recipient=order_data.recipient AND temp.quote_num=order_data.quote_num;')
+    # for i in order_data:
+    #     for j in deleted_data:
+    #         if i == j : 
+    #             print("동일")
+    #             i.delete()
+    #         else: 
+    #             print("다름")
 
     isSuccess = "저장에 실패했습니다"   
 
