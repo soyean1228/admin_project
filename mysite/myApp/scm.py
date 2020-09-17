@@ -1,5 +1,6 @@
 from .models import Approval
 from .models import OrderData
+from .models import Proposal
 from .models import Deposit
 from .models import Delivery
 from .models import Scm
@@ -57,7 +58,58 @@ def select(request):
         scm.demand = i.demand
         scm.approval_quantity = i.approval_quantity
         scm.order_quantity = i.order_quantity
-        scm.save()
+        scm.save()  
+
+    #scm에 없는 잔량이 남은 proposal도 조회 시 노출되어야 함 
+    rawdata = Proposal.objects.raw('select * from proposal where proposal_balance != 0')
+    for i in rawdata :
+        #scm에 있는지 체크 
+        data_count = Approval.objects.filter(oppty_num=i.oppty_num,productno=i.productno,recipient=i.recipient).count()
+        print(data_count)
+        if data_count != 0 :
+            scm = Scm()
+            scm.scm_num = Scm.get_num(scm) + 1 
+            scm.customer_name = i.customer_name
+            scm.oppty_num = i.oppty_num
+            scm.quote_num = None
+            scm.order_date = None
+            scm.order_num = None
+            scm.recipient = i.recipient
+            scm.delivery_address = i.delivery_address
+            scm.recipient_phone1 = i.recipient_phone1
+            scm.recipient_phone2 = i.recipient_phone2
+            scm.productno = i.productno
+            scm.buy_place = i.buy_place
+            scm.decision_quantity = i.decision_quantity
+            scm.decision_unit = i.decision_unit
+            scm.decision_price = i.decision_price
+            scm.approval_unit = None
+            scm.approval_price = None
+            scm.sales_unit = i.sales_unit
+            scm.sales_price = i.sales_price
+            scm.assignment = None
+            scm.delivery_request_date = i.delivery_request_date
+            scm.scheduled_delivery_date = None
+            scm.delivery_date = None
+            scm.in_date = None
+            scm.in_amount = None
+            scm.billing_place = i.billing_place
+            scm.billing_date = None
+            scm.billing_amount = None
+            scm.contact_conclusion_date = i.contact_conclusion_date
+            scm.samsung_code = i.samsung_code
+            scm.samsung_sales_manager = i.samsung_sales_manager
+            scm.team = i.team
+            scm.sales_manager = i.sales_manager
+            scm.broker = i.broker
+            scm.scm_manager = i.scm_manager
+            scm.company_registration_number = i.company_registration_number
+            scm.payment_method = i.payment_method
+            scm.sales_type = i.sales_type
+            scm.demand = i.demand
+            scm.approval_quantity = None
+            scm.order_quantity = None
+            scm.save()  
 
     data = Scm.objects.all()
     for i in data:
@@ -66,7 +118,7 @@ def select(request):
         elif i.quote_num:
             i.decision_quantity = i.approval_quantity
         i.save()
-    
+
     return data
 
 def find(request):
